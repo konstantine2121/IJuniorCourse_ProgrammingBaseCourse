@@ -15,8 +15,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //var lesson3 = new SurveyTask();
             //lesson3.Run();
 
-            var lesson4 = new ImagesInRow();
-            lesson4.Run();                        
+            //var lesson4 = new ImagesInRow();
+            //lesson4.Run();
+
+            var lesson5 = new ValuesSwapper();
+            lesson5.Run();
         }
     }
 }

@@ -48,6 +48,7 @@
     <Compile Include="ProgrammingBase\ImagesInRow.cs" />
     <Compile Include="ProgrammingBase\IntegerDivisionTask.cs" />
     <Compile Include="ProgrammingBase\SurveyTask.cs" />
+    <Compile Include="ProgrammingBase\ValuesSwapper.cs" />
     <Compile Include="ProgrammingBase\Variables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
