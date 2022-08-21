@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonInterfaces\IRunnable.cs" />
+    <Compile Include="InputMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgrammingBase\BuySomeCrystals.cs" />
     <Compile Include="ProgrammingBase\ImagesInRow.cs" />
