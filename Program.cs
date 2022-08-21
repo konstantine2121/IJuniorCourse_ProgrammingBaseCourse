@@ -12,8 +12,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //var lesson2 = new IntegerDivisionTask();
             //lesson2.Run();
 
-            var lesson3 = new SurveyTask();
-            lesson3.Run();
+            //var lesson3 = new SurveyTask();
+            //lesson3.Run();
+
+            var lesson4 = new ImagesInRow();
+            lesson4.Run();                        
         }
     }
 }
