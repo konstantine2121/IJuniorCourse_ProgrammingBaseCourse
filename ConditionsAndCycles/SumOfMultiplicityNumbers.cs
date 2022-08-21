@@ -10,8 +10,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
     /// </summary>
     class SumOfMultiplicityNumbers : IRunnable
     {
-        const int Divider3 = 3;
-        const int Divider5 = 5;
+        const int Divider1 = 3;
+        const int Divider2 = 5;
 
         public void Run()
         {
@@ -32,12 +32,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             }
 
             Console.WriteLine("number = " + number);
-            Console.WriteLine("Сумма чисел кратных 3 или 5 =  " + summ);
+            Console.WriteLine("Сумма чисел кратных {0} или {1} =  {2}", Divider1, Divider2, summ);
         }
 
         private bool CheckNumberMultiplicity(int value)
         {
-            if (value % Divider3 == 0 || value % Divider5 == 0)
+            if (value % Divider1 == 0 || value % Divider2 == 0)
             {
                 return true;
             }
