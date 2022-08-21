@@ -12,27 +12,27 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase
     {
         public void Run()
         {
-            const string questionName = "Как вас зовут?";
-            const string questionOld = "Сколько вам лет?";
-            const string questionZodaik = "Какой ваш знак зодиака?";
-            const string questionWork = "Где вы работаете?";
+            const string QuestionName = "Как вас зовут?";
+            const string QuestionOld = "Сколько вам лет?";
+            const string QuestionZodaik = "Какой ваш знак зодиака?";
+            const string QuestionWork = "Где вы работаете?";
 
             string name = string.Empty;
             string old = string.Empty;
             string work = string.Empty;
             string zodiak = string.Empty;
 
-            name = AskAQuestion(questionName);
-            old = AskAQuestion(questionOld);
-            work= AskAQuestion(questionWork);
-            zodiak = AskAQuestion(questionZodaik);
+            name = GetAnswer(QuestionName);
+            old = GetAnswer(QuestionOld);
+            work= GetAnswer(QuestionWork);
+            zodiak = GetAnswer(QuestionZodaik);
 
             string formattedInfo = $"Вас зовут {name}, вам {old} год, вы {zodiak} и работаете на {work}.";
 
             Console.WriteLine(formattedInfo);
         }
 
-        private string AskAQuestion(string question)
+        private string GetAnswer(string question)
         {
             string answer = string.Empty;
             while (string.IsNullOrEmpty(answer))

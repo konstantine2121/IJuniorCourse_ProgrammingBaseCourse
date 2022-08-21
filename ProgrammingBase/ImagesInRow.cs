@@ -12,14 +12,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase
     {
         public void Run()
         {
-            const int imagesInRow = 3;
-            const int totalImages = 52;
+            const int ImagesInRow = 3;
+            const int TotalImages = 52;
 
-            int fullFilledRows = totalImages / imagesInRow;
-            int restImages = totalImages % imagesInRow;
+            int fullFilledRows = TotalImages / ImagesInRow;
+            int restImages = TotalImages % ImagesInRow;
 
-            Console.WriteLine($"Возможное количество картинок в одной строке: {imagesInRow}.");
-            Console.WriteLine($"Всего картинок: {totalImages}.");
+            Console.WriteLine($"Возможное количество картинок в одной строке: {ImagesInRow}.");
+            Console.WriteLine($"Всего картинок: {TotalImages}.");
             Console.WriteLine();
             Console.WriteLine($"Полностью заполненых строк с картинками: {fullFilledRows}.");
             Console.WriteLine($"Картинок в последней строке: {restImages}");
