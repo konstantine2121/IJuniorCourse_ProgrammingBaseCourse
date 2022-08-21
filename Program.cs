@@ -1,25 +1,43 @@
-﻿using IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase;
+﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
+using IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase;
+using System;
+using System.Collections.Generic;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
     class Program
     {
-        static void Main(string[] args)
+        private static Dictionary<int, IRunnable> programmingBaseTasks =
+        new Dictionary<int, IRunnable>(){
+            {1, new Variables()},
+            {2, new IntegerDivisionTask()},
+            {3, new SurveyTask()},
+            {4, new ImagesInRow()},
+            {5, new ValuesSwapper()},
+        };
+
+        private static void Main(string[] args)
         {
-            //var lesson1 =  new Variables();
-            //lesson1.Run();
+            RunTask(5);
+        }
 
-            //var lesson2 = new IntegerDivisionTask();
-            //lesson2.Run();
+        private static void RunTask(int taskNumber)
+        {
+            ConsoleColor foregroundColor = Console.ForegroundColor;
+            if (programmingBaseTasks.ContainsKey(taskNumber))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Выполнение задачи под номером {taskNumber}.");
+                Console.ForegroundColor = ConsoleColor.White;
+                programmingBaseTasks[taskNumber].Run();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Задача с указанным номером '{taskNumber}' не найдена.");
+            }
 
-            //var lesson3 = new SurveyTask();
-            //lesson3.Run();
-
-            //var lesson4 = new ImagesInRow();
-            //lesson4.Run();
-
-            var lesson5 = new ValuesSwapper();
-            lesson5.Run();
+            Console.ForegroundColor = foregroundColor;
         }
     }
 }

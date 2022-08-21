@@ -18,6 +18,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase
             int fullFilledRows = totalImages / imagesInRow;
             int restImages = totalImages % imagesInRow;
 
+            Console.WriteLine($"Возможное количество картинок в одной строке: {imagesInRow}.");
+            Console.WriteLine($"Всего картинок: {totalImages}.");
+            Console.WriteLine();
             Console.WriteLine($"Полностью заполненых строк с картинками: {fullFilledRows}.");
             Console.WriteLine($"Картинок в последней строке: {restImages}");
         }
