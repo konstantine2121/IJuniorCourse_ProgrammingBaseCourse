@@ -24,25 +24,26 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase
         public void Run()
         {
             const int TimeForOneGranny = 10;
+            const int MinutesInHours = 60;
             const string QuestionQuequeLength = "Введите кол-во старушек: ";
 
             int quequeLength = ReadIntValue(QuestionQuequeLength);
 
-            int timeInMinutes = quequeLength * TimeForOneGranny;
+            int totalTimeInMinutes = quequeLength * TimeForOneGranny;
 
-            int hours = timeInMinutes / 60;
-            int minutesRest = timeInMinutes % 60;
+            int hoursToWait = totalTimeInMinutes / MinutesInHours;
+            int minutesInLastHourToWait = totalTimeInMinutes % MinutesInHours;
 
             var resultBuilder = new StringBuilder();
 
             resultBuilder.Append("Вы должны отстоять в очереди ");
             
-            if (hours > 0)
+            if (hoursToWait > 0)
             {
-                resultBuilder.Append($"{hours} часа(ов) и ");
+                resultBuilder.Append($"{hoursToWait} часа(ов) и ");
             }
 
-            resultBuilder.AppendLine($"{minutesRest} минут.");
+            resultBuilder.AppendLine($"{minutesInLastHourToWait} минут.");
 
             Console.WriteLine(resultBuilder.ToString());
         }
