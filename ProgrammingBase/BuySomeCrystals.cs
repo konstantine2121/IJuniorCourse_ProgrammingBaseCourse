@@ -43,26 +43,25 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase
         private int ReadIntValue(string message)
         {
             int result = 0;
-            while (true)
+            bool parsed = false;
+
+            while (parsed == false)
             {
                 Console.Write(message);
                 var input = Console.ReadLine();
-                var parsed = int.TryParse(input,out result);
-                if (!parsed)
+                parsed = int.TryParse(input,out result);
+
+                if (parsed == false)
                 {
-                    Console.WriteLine("Не получилось распознать значение. Попробуйте еще раз.");
-                    continue;
+                    Console.WriteLine("Не получилось распознать значение. Попробуйте еще раз.");                 
                 }
                 else
                 {
                     if (result < 0)
                     {
-                        Console.WriteLine("Значение не может быть отрицательным. Попробуйте еще раз.");
-                        continue;
+                        Console.WriteLine("Значение не может быть отрицательным. Попробуйте еще раз.");                        
                     }
                 }
-
-                break;
             }
 
             return result;
