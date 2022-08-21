@@ -31,12 +31,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             
             StringBuilder stringBuilder = new StringBuilder();
 
-            int currentValue = 0;
-
-            for (int i=0; currentValue <= EndValue ; i++)
-            {
-                currentValue = StartValue + DeltaIncrement * i;
-                stringBuilder.Append(currentValue + " ");
+            for (int i = StartValue; i <= EndValue; i += DeltaIncrement)
+            {   
+                stringBuilder.Append(i + " ");
             }
 
             stringBuilder.Remove(stringBuilder.Length - 1, 1);
