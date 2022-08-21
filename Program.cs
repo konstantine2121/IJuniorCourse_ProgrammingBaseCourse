@@ -22,13 +22,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static Dictionary<int, IRunnable> conditionsAndCyclesTasks =
             new Dictionary<int, IRunnable>(){
                 {1, new CycledMessageTask()},
-                {2, new ExitViaConditionTask()}                
+                {2, new ExitViaConditionTask() },
+                {3, new SequencePrinter() },
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(2, conditionsAndCyclesTasks); 
+            RunTask(3, conditionsAndCyclesTasks); 
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
