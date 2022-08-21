@@ -16,7 +16,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         /// </summary>
         /// <param name="message">Информационное сообщение, отображаемое перед вводом данных.</param>
         /// <returns>Положительное значение числа.</returns>
-        public static int ReadPosistiveInteger(string message)
+        public static int ReadPositiveInteger(string message)
         {
             int result = 0;
             bool parsed = false;
