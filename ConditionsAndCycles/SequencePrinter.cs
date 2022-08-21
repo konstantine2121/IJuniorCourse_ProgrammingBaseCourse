@@ -27,7 +27,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             const int StartValue = 5;
             const int DeltaIncrement = 7;
-            const int SequenceLength = 14;
+            
+            var elements = Sequence.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            int SequenceLength = elements.Length;
 
             StringBuilder stringBuilder = new StringBuilder();
 
