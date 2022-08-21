@@ -33,7 +33,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             int currentValue = 0;
 
-            for (int i=0; currentValue != EndValue ; i++)
+            for (int i=0; currentValue <= EndValue ; i++)
             {
                 currentValue = StartValue + DeltaIncrement * i;
                 stringBuilder.Append(currentValue + " ");
