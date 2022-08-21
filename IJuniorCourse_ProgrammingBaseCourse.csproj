@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CommonInterfaces\IRunnable.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgrammingBase\IntegerDivisionTask.cs" />
     <Compile Include="ProgrammingBase\Variables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,6 +8,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         {
             var lesson1 =  new Variables();
             lesson1.Run();
+
+            var lesson2 = new IntegerDivisionTask();
+            lesson2.Run();
         }
     }
 }
