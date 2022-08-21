@@ -1,6 +1,6 @@
 ﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 using IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase;
-using IJuniorCourse_ProgrammingBaseCourse.СonditionsAndCycles;
+using IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles;
 using System;
 using System.Collections.Generic;
 

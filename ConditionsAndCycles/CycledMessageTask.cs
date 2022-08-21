@@ -1,7 +1,7 @@
 ﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 using System;
 
-namespace IJuniorCourse_ProgrammingBaseCourse.СonditionsAndCycles
+namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 {
     /// <summary>
     ///Задача<br/>
