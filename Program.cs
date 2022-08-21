@@ -24,12 +24,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {1, new CycledMessageTask()},
                 {2, new ExitViaConditionTask() },
                 {3, new SequencePrinter() },
+                {4, new SumOfMultiplicityNumbers() },
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(3, conditionsAndCyclesTasks); 
+            RunTask(4, conditionsAndCyclesTasks); 
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
