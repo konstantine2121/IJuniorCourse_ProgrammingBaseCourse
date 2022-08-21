@@ -14,12 +14,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             {3, new SurveyTask()},
             {4, new ImagesInRow()},
             {5, new ValuesSwapper()},
-            {6, new BuySomeCrystals() }
+            {6, new BuySomeCrystals() },
+            {7, new UselessTimeInQuequeCounter() }
         };
 
         private static void Main(string[] args)
         {
-            RunTask(6);
+            RunTask(7);
         }
 
         private static void RunTask(int taskNumber)
