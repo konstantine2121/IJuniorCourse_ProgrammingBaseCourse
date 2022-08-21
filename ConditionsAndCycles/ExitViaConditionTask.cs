@@ -16,23 +16,25 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         public void Run()
         {
             const string InfoMessage = "Введите какой нибудь текст(exit для выхода):\n";
-            const string ExitFlag = "exit";
-            const int MaximumCycles = int.MaxValue / 32;//32 взято из потолка, это НЕ магическое число)
-
+            const string ExitCommand = "exit";
+            
             string input = string.Empty;
 
-            for (int i=0;i< MaximumCycles; i++)
+            bool stopped = false;
+
+            while (stopped == false)
             {
                 input = ConsoleInputMethods.ReadString(InfoMessage);
                 Console.WriteLine("Вы ввели: "+ input);
 
-                if (input.Equals(ExitFlag))
+                if (input.Equals(ExitCommand))
                 {
-                    Console.WriteLine("Выход из программы.");
-                    Console.ReadKey();
-                    break;
+                    stopped = true;
                 }
             }
+
+            Console.WriteLine("Выход из программы.");
+            Console.ReadKey();
         }
     }
 }
