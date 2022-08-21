@@ -23,19 +23,19 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 Начальное значение последовательности  = 5,
 Всего 14 элементов в последовательности.
 ";
-            const string Sequence = "5 12 19 26 33 40 47 54 61 68 75 82 89 96";
+            //const string Sequence = "5 12 19 26 33 40 47 54 61 68 75 82 89 96";
 
             const int StartValue = 5;
+            const int EndValue = 96;
             const int DeltaIncrement = 7;
             
-            var elements = Sequence.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            int SequenceLength = elements.Length;
-
             StringBuilder stringBuilder = new StringBuilder();
 
-            for (int i=0;i<SequenceLength; i++)
+            int currentValue = 0;
+
+            for (int i=0; currentValue != EndValue ; i++)
             {
-                int currentValue = StartValue + DeltaIncrement * i;
+                currentValue = StartValue + DeltaIncrement * i;
                 stringBuilder.Append(currentValue + " ");
             }
 
