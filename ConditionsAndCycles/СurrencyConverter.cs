@@ -1,6 +1,7 @@
 ﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 {
@@ -21,9 +22,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         private enum Currency
         {
             InvalidValue = -1,
-            Euro = 0,
-            Dollar = 1,
-            Ruble = 2
+            Euros = 0,
+            Dollars = 1,
+            Rubles = 2
         }
 
         private enum ConvertionResult
@@ -36,25 +37,31 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         #endregion Enums
 
-        #region ConvertionCost Containers
+        #region Private Classes
 
-        private class ConvertionCostRecord
+        private class ExchangeRateRecord
         {
             public Currency FistCurrency { get; private set; }
 
             public Currency SecondCurrency { get; private set; }
-            public double FirstToSecondConvertionCost { get; private set; }
 
-            public double SecondToFirstConvertionCost { get; private set; }
+            public double SecondToFirst { get; private set; }
 
-            public ConvertionCostRecord(Currency fistCurrency, Currency secondCurrency, double firstToSecondConvertionCost)
+            public double FirstToSecond { get; private set; }
+
+            public ExchangeRateRecord(Currency fistCurrency, Currency secondCurrency, double firstToSecondExchangeRate)
             {
+                if (fistCurrency == Currency.InvalidValue || secondCurrency == Currency.InvalidValue)
+                {
+                    throw new ArgumentException("Ошибка при определении типа валюты.");
+                }
+
                 if (fistCurrency == secondCurrency)
                 {
                     throw new InvalidOperationException("Значения типов валют должны быть различны.");
                 }
 
-                if (firstToSecondConvertionCost == 0)
+                if (firstToSecondExchangeRate == 0)
                 {
                     throw new ArgumentException("Стоимость конвертирования валют не может быть равна 0.");
                 }
@@ -62,26 +69,49 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 FistCurrency = fistCurrency;
                 SecondCurrency = secondCurrency;
 
-                FirstToSecondConvertionCost = firstToSecondConvertionCost;
-                SecondToFirstConvertionCost = 1 / firstToSecondConvertionCost;
+                SecondToFirst = firstToSecondExchangeRate;
+                FirstToSecond = 1 / firstToSecondExchangeRate;
             }
 
-            //public void PrintInfo()
+            public void PrintInfo()
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine("Первая валюта: "+FistCurrency.ToString());
+                stringBuilder.AppendLine("Вторая валюта: " + SecondCurrency.ToString());
+                stringBuilder.AppendLine("Стоимость второй валюты за первую: " + FirstToSecond);
+                stringBuilder.AppendLine("Стоимость первой валюты за вторую: " + SecondToFirst);
+
+                Console.WriteLine(stringBuilder.ToString());
+            }
         }
 
-        private class ConvertionCostRecordsContainer
+        private class ExchangeRecordsContainer
         {
-            const int CostDefaultValue = 1;
+            const int ExchangeRateDefaultValue = 1;
 
-            private readonly List<ConvertionCostRecord> _records = new List<ConvertionCostRecord>();
+            private readonly List<ExchangeRateRecord> _records = new List<ExchangeRateRecord>();
 
-            public bool TryGetConvertionCost(Currency fistCurrency, Currency secondCurrency, out double cost)
+            public bool TryGetExchangeRate(Currency fistCurrency, Currency secondCurrency, out double rate)
             {
-                cost = CostDefaultValue;
+                foreach (var record in _records)
+                {
+                    if (record.FistCurrency == fistCurrency && record.SecondCurrency == secondCurrency)
+                    {
+                        rate = record.SecondToFirst;
+                        return true;
+                    }
+                    else if (record.FistCurrency == secondCurrency && record.SecondCurrency == fistCurrency)
+                    {
+                        rate = record.FirstToSecond;
+                        return true;
+                    }
+                }
+
+                rate = ExchangeRateDefaultValue;
                 return false;
             }
 
-            public void AddRecord(ConvertionCostRecord record)
+            public void AddRecord(ExchangeRateRecord record)
             {
                 if (ContainsRecord(record) == false)
                 {
@@ -89,11 +119,23 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 }
                 else
                 {
-
+                    Console.WriteLine("При добавлении в списки обменна валют следующая запись была проигнорирована.");
+                    record.PrintInfo();
                 }
             }
 
-            private bool ContainsRecord(ConvertionCostRecord record)
+            public void PrintInfo()
+            {
+                Console.WriteLine("Вывод записей о курсе валют.");
+                
+                for(int i = 0; i < _records.Count; i++)
+                {
+                    Console.WriteLine("Запись №'{0}' из '{1}'" , i+1, _records.Count);
+                    _records[i].PrintInfo();
+                }
+            }
+
+            private bool ContainsRecord(ExchangeRateRecord record)
             {
                 return ContainsRecord(record.FistCurrency, record.SecondCurrency);
             }
@@ -113,146 +155,206 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             }
         }
 
-        #endregion ConvertionCost Containers
+        #endregion Private Classes
 
-        private double _euroToDollarCost = 1.01;
-        private double _euroToRubbleCost = 59;
-        private double _rubleToDollarCost = 1 / 56;
+        private const string ExitCommand = "exit";
 
-        //private Dictionary<ConvertionType, double> _dictionaryConversionCosts;
+        private double _euroToDollarRate = 1.1;
+        private double _euroToRubbleRate = 59;
+        private double _rubleToDollarRate = 1 / 56d;
 
         private bool _exitSignal = false;
-        private const string ExitCommand = "exit";
+
+        private readonly ExchangeRecordsContainer _exchangeRecordsContainer = new ExchangeRecordsContainer();
+
+        private readonly Dictionary<Currency, double> _wallet = new Dictionary<Currency, double>();
 
         public void Run()
         {
             _exitSignal = false;
 
+            InitialiseMoneyBalance();
+            InitializeExchangeRateRecords();
+            
             string QuestionCurrencyToBuy = string.Format(
                 "Введите валюту, которую желаете купить ( Евро = {0}, Доллар = {1}, Рубль = {2}).\nДля выхода наберите '{3}'.",
-                Currency.Euro, Currency.Dollar, Currency.Ruble, ExitCommand);
+                (int)Currency.Euros, (int)Currency.Dollars, (int)Currency.Rubles, ExitCommand);
 
             string QuestionCurrencyToSell = string.Format(
                 "Введите валюту, которую желаете продать ( Евро = {0}, Доллар = {1}, Рубль = {2}).\nДля выхода наберите '{3}'.",
-                Currency.Euro, Currency.Dollar, Currency.Ruble, ExitCommand);
+                (int)Currency.Euros, (int)Currency.Dollars, (int)Currency.Rubles, ExitCommand);
 
             while (_exitSignal == false)
             {
-                var сurrencyToBuy = GetСurrency(QuestionCurrencyToBuy);
+                var currencyToBuy = GetСurrency(QuestionCurrencyToBuy);
 
                 if (_exitSignal == true)
                 {
                     break;
                 }
 
-                var сurrencyToSell = GetСurrency(QuestionCurrencyToSell);
+                var currencyToSell = GetСurrency(QuestionCurrencyToSell);
 
                 if (_exitSignal == true)
                 {
                     break;
                 }
 
+                var amountOfCurrency = GetAmountOfMoney("Введите количество валюты, которые вы хотите купить.");
+
+                if (_exitSignal == true)
+                {
+                    break;
+                }
+
+                double rate = 0;
+
+                var rateRecordFounded = _exchangeRecordsContainer.TryGetExchangeRate(currencyToBuy, currencyToSell, out rate);
+
+                if (rateRecordFounded)
+                {
+                    var totalSummNeeded = amountOfCurrency * rate;
+
+                    if (_wallet[currencyToSell] >= totalSummNeeded)
+                    {
+                        _wallet[currencyToSell] -= totalSummNeeded;
+                        _wallet[currencyToBuy] += amountOfCurrency;
+
+                        ConsoleOutputMethods.Info("Сделка прошла успешно!");
+                        PrintMoneyBalance();
+                    }
+                    else
+                    {
+                        ConsoleOutputMethods.Warning("Недостаточно денег на счету!");
+                        ConsoleOutputMethods.Warning("Требуется валюты: "+totalSummNeeded);
+                        PrintMoneyBalance();
+                    }
+                }
+                else
+                {
+                    ConsoleOutputMethods.Warning("Обменный курс не найден. Сделка невозможна.");
+                }
             }
 
-            //InitializeConversionCostsContainer();
+            Console.WriteLine("Выход из программы.\nНажмите любую кнопку.");
+            Console.ReadKey();
         }
 
-        //private void InitializeConversionCostsContainer()
-        //{
-        //    //Делаем допущение, что котировки не "плавают" относительно друг-друга, а их обратное преобразование прямо противоположно.
-        //    _dictionaryConversionCosts = new Dictionary<ConvertionType, double>(){
-        //        { ConvertionType.EuroToDollar, _euroToDollarCost},
-        //        { ConvertionType.EuroToRubble, _euroToRubbleCost},
-        //        { ConvertionType.DollarToEuro, 1 / _euroToDollarCost},
-        //        { ConvertionType.DollarToRuble, 1 / _rubleToDollarCost},
-        //        { ConvertionType.RubleToEuro, 1 / _euroToRubbleCost},
-        //        { ConvertionType.RubleToDollar, _rubleToDollarCost},
-        //        { ConvertionType.SameCurrency, 1}
-        //    };
-        //}
+        private void InitializeExchangeRateRecords()
+        {
+            _exchangeRecordsContainer.AddRecord(new ExchangeRateRecord(Currency.Dollars, Currency.Euros, _euroToDollarRate));
+            _exchangeRecordsContainer.AddRecord(new ExchangeRateRecord(Currency.Euros, Currency.Rubles, _euroToRubbleRate));
+            _exchangeRecordsContainer.AddRecord(new ExchangeRateRecord(Currency.Rubles, Currency.Dollars, _rubleToDollarRate));
+
+            ConsoleOutputMethods.Info("Курсы обмена валют установленны.");
+            _exchangeRecordsContainer.PrintInfo();
+            Console.WriteLine();
+        }
+
+        private void InitialiseMoneyBalance()
+        {
+            _wallet.Add(Currency.Dollars, 100);
+            _wallet.Add(Currency.Euros, 150);
+            _wallet.Add(Currency.Rubles, 200);
+            
+            PrintMoneyBalance();
+        }
+
+        private void PrintMoneyBalance()
+        {
+            ConsoleOutputMethods.Info("Баланс денег:");
+            foreach (var key in _wallet.Keys)
+            {
+                Console.WriteLine("{0}: {1:0.00}", key, _wallet[key]);
+            }
+            
+            Console.WriteLine();
+        }
 
         private Currency GetСurrency(string message)
         {
             var result = Currency.InvalidValue;
-            var parsed = false;
+            var enumParsed = false;
 
-            while (_exitSignal == false && parsed == false)
+            while (_exitSignal == false && enumParsed == false)
             {
-                Console.WriteLine(message);
+                ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
                 var input = Console.ReadLine();
 
                 if (string.IsNullOrEmpty(input))
                 {
-                    Console.WriteLine("Введена пустая строка. Повторите ввод данных.");
+                    ConsoleOutputMethods.Warning("Введена пустая строка. Повторите ввод данных.");
                     continue;
                 }
 
                 if (input.Equals(ExitCommand))
                 {
                     _exitSignal = true;
-                    Console.WriteLine("Введена команда выхода.");
+                    ConsoleOutputMethods.Info("Введена команда выхода.");
                     break;
                 }
 
-                parsed = Enum.TryParse(input, out result);
+                var intParsed = Enum.TryParse(input, out result);
 
-                if (parsed == false)
+                if (intParsed == false)
                 {
-                    Console.WriteLine("Введенная строка имеет неверный формат. Повторите ввод данных.");
+                    ConsoleOutputMethods.Warning("Введенная строка имеет неверный формат. Повторите ввод данных.");
+                }
+                else
+                {
+                    switch (result)
+                    {
+                        case Currency.Euros:
+                        case Currency.Dollars:
+                        case Currency.Rubles:
+                            Console.WriteLine("[{0}]", result);
+                            enumParsed = true;
+                            break;
+
+                        default:
+                            result = Currency.InvalidValue;
+                            ConsoleOutputMethods.Warning("Указано неверное значение. Повторите ввод данных.");
+                            break;
+                    }
                 }
             }
 
             return result;
         }
 
-        // private ConvertionType GetConversionType(Currency currencyToSell, Currency currencyToBuy)
-        // {
-        //     if (currencyToSell == Currency.InvalidValue || currencyToBuy == Currency.InvalidValue)
-        //     {
-        //         return ConvertionType.InvalidOperation;
-        //     }
-        // 
-        //     if (currencyToSell - currencyToBuy == 0)
-        //     {
-        //         return ConvertionType.SameCurrency;
-        //     }
-        // 
-        //     switch (currencyToSell)
-        //     {
-        //         case Currency.Euro:
-        //             if (currencyToBuy == Currency.Dollar)
-        //             {
-        //                 return ConvertionType.EuroToDollar;
-        //             }
-        //             if (currencyToBuy == Currency.Ruble)
-        //             {
-        //                 return ConvertionType.EuroToRubble;
-        //             }
-        //             break;
-        //         case Currency.Dollar:
-        //             if (currencyToBuy == Currency.Euro)
-        //             {
-        //                 return ConvertionType.DollarToEuro;
-        //             }
-        //             if (currencyToBuy == Currency.Ruble)
-        //             {
-        //                 return ConvertionType.DollarToRuble;
-        //             }
-        //             break;
-        //         case Currency.Ruble:
-        //             if (currencyToBuy == Currency.Euro)
-        //             {
-        //                 return ConvertionType.RubleToEuro;
-        //             }
-        //             if (currencyToBuy == Currency.Dollar)
-        //             {
-        //                 return ConvertionType.RubleToDollar;
-        //             }
-        //             break;
-        //     }
-        // 
-        //     return ConvertionType.InvalidOperation;
-        // }
+        private double GetAmountOfMoney(string message)
+        {
+            double result = 0;
+            var parsed = false;
+
+            while (_exitSignal == false && parsed == false)
+            {
+                ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
+                var input = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    ConsoleOutputMethods.Warning("Введена пустая строка. Повторите ввод данных.");
+                    continue;
+                }
+
+                if (input.Equals(ExitCommand))
+                {
+                    _exitSignal = true;
+                    ConsoleOutputMethods.Info("Введена команда выхода.");
+                    break;
+                }
+
+                parsed = double.TryParse(input, out result);
+
+                if (parsed == false)
+                {
+                    ConsoleOutputMethods.Warning("Введенная строка имеет неверный формат. Повторите ввод данных.");
+                }
+            }
+
+            return result;
+        }
     }
 }
 

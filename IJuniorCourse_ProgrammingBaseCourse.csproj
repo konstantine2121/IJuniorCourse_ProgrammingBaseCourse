@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleOutputMethods.cs" />
     <Compile Include="CommonInterfaces\IRunnable.cs" />
     <Compile Include="ConditionsAndCycles\ExitViaConditionTask.cs" />
     <Compile Include="ConditionsAndCycles\SequencePrinter.cs" />
