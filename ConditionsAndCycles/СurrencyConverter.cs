@@ -123,6 +123,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                     record.PrintInfo();
                 }
             }
+            public void Clear()
+            {
+                _records.Clear();
+            }
 
             public void PrintInfo()
             {
@@ -242,6 +246,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         private void InitializeExchangeRateRecords()
         {
+            _exchangeRecordsContainer.Clear();
+
             _exchangeRecordsContainer.AddRecord(new ExchangeRateRecord(Currency.Dollars, Currency.Euros, _euroToDollarRate));
             _exchangeRecordsContainer.AddRecord(new ExchangeRateRecord(Currency.Euros, Currency.Rubles, _euroToRubbleRate));
             _exchangeRecordsContainer.AddRecord(new ExchangeRateRecord(Currency.Rubles, Currency.Dollars, _rubleToDollarRate));
@@ -253,6 +259,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         private void InitialiseMoneyBalance()
         {
+            _wallet.Clear();
+
             _wallet.Add(Currency.Dollars, 100);
             _wallet.Add(Currency.Euros, 150);
             _wallet.Add(Currency.Rubles, 200);
