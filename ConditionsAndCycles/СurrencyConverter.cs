@@ -16,6 +16,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
     /// </summary>
     class СurrencyConverter : IRunnable
     {
+        #region Enums
+
         private enum Currency
         {
             InvalidValue = -1,
@@ -24,23 +26,100 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             Ruble = 2
         }
 
-        private enum ConvertionType
+        private enum ConvertionResult
         {
+            RecordNotFoundExeption = -2,
             InvalidOperation = -1,
-            EuroToDollar,
-            EuroToRubble,
-            DollarToEuro,
-            DollarToRuble,
-            RubleToEuro,
-            RubleToDollar,
-            SameCurrency
+            SameCurrency = 0,
+            Success = 1
         }
+
+        #endregion Enums
+
+        #region ConvertionCost Containers
+
+        private class ConvertionCostRecord
+        {
+            public Currency FistCurrency { get; private set; }
+
+            public Currency SecondCurrency { get; private set; }
+            public double FirstToSecondConvertionCost { get; private set; }
+
+            public double SecondToFirstConvertionCost { get; private set; }
+
+            public ConvertionCostRecord(Currency fistCurrency, Currency secondCurrency, double firstToSecondConvertionCost)
+            {
+                if (fistCurrency == secondCurrency)
+                {
+                    throw new InvalidOperationException("Значения типов валют должны быть различны.");
+                }
+
+                if (firstToSecondConvertionCost == 0)
+                {
+                    throw new ArgumentException("Стоимость конвертирования валют не может быть равна 0.");
+                }
+
+                FistCurrency = fistCurrency;
+                SecondCurrency = secondCurrency;
+
+                FirstToSecondConvertionCost = firstToSecondConvertionCost;
+                SecondToFirstConvertionCost = 1 / firstToSecondConvertionCost;
+            }
+
+            //public void PrintInfo()
+        }
+
+        private class ConvertionCostRecordsContainer
+        {
+            const int CostDefaultValue = 1;
+
+            private readonly List<ConvertionCostRecord> _records = new List<ConvertionCostRecord>();
+
+            public bool TryGetConvertionCost(Currency fistCurrency, Currency secondCurrency, out double cost)
+            {
+                cost = CostDefaultValue;
+                return false;
+            }
+
+            public void AddRecord(ConvertionCostRecord record)
+            {
+                if (ContainsRecord(record) == false)
+                {
+                    _records.Add(record);
+                }
+                else
+                {
+
+                }
+            }
+
+            private bool ContainsRecord(ConvertionCostRecord record)
+            {
+                return ContainsRecord(record.FistCurrency, record.SecondCurrency);
+            }
+
+            private bool ContainsRecord(Currency fistCurrency, Currency secondCurrency)
+            {
+                foreach (var record in _records)
+                {
+                    if ((record.FistCurrency == fistCurrency && record.SecondCurrency == secondCurrency) ||
+                        (record.FistCurrency == secondCurrency && record.SecondCurrency == fistCurrency))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        #endregion ConvertionCost Containers
 
         private double _euroToDollarCost = 1.01;
         private double _euroToRubbleCost = 59;
         private double _rubleToDollarCost = 1 / 56;
 
-        private Dictionary<ConvertionType, double> _dictionaryConversionCosts;
+        //private Dictionary<ConvertionType, double> _dictionaryConversionCosts;
 
         private bool _exitSignal = false;
         private const string ExitCommand = "exit";
@@ -60,7 +139,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             while (_exitSignal == false)
             {
                 var сurrencyToBuy = GetСurrency(QuestionCurrencyToBuy);
-                
+
                 if (_exitSignal == true)
                 {
                     break;
@@ -75,22 +154,22 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             }
 
-            InitializeConversionCostsContainer();
+            //InitializeConversionCostsContainer();
         }
 
-        private void InitializeConversionCostsContainer()
-        {
-            //Делаем допущение, что котировки не "плавают" относительно друг-друга, а их обратное преобразование прямо противоположно.
-            _dictionaryConversionCosts = new Dictionary<ConvertionType, double>(){
-                { ConvertionType.EuroToDollar, _euroToDollarCost},
-                { ConvertionType.EuroToRubble, _euroToRubbleCost},
-                { ConvertionType.DollarToEuro, 1 / _euroToDollarCost},
-                { ConvertionType.DollarToRuble, 1 / _rubleToDollarCost},
-                { ConvertionType.RubleToEuro, 1 / _euroToRubbleCost},
-                { ConvertionType.RubleToDollar, _rubleToDollarCost},
-                { ConvertionType.SameCurrency, 1}
-            };
-        }
+        //private void InitializeConversionCostsContainer()
+        //{
+        //    //Делаем допущение, что котировки не "плавают" относительно друг-друга, а их обратное преобразование прямо противоположно.
+        //    _dictionaryConversionCosts = new Dictionary<ConvertionType, double>(){
+        //        { ConvertionType.EuroToDollar, _euroToDollarCost},
+        //        { ConvertionType.EuroToRubble, _euroToRubbleCost},
+        //        { ConvertionType.DollarToEuro, 1 / _euroToDollarCost},
+        //        { ConvertionType.DollarToRuble, 1 / _rubleToDollarCost},
+        //        { ConvertionType.RubleToEuro, 1 / _euroToRubbleCost},
+        //        { ConvertionType.RubleToDollar, _rubleToDollarCost},
+        //        { ConvertionType.SameCurrency, 1}
+        //    };
+        //}
 
         private Currency GetСurrency(string message)
         {
@@ -111,7 +190,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 if (input.Equals(ExitCommand))
                 {
                     _exitSignal = true;
-                    Console.WriteLine("Введена команда выхода.");                    
+                    Console.WriteLine("Введена команда выхода.");
                     break;
                 }
 
@@ -126,53 +205,54 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             return result;
         }
 
-        private ConvertionType GetConversionType(Currency currencyToSell, Currency currencyToBuy)
-        {
-            if (currencyToSell == Currency.InvalidValue || currencyToBuy == Currency.InvalidValue)
-            {
-                return ConvertionType.InvalidOperation;
-            }
-
-            if (currencyToSell - currencyToBuy == 0)
-            {
-                return ConvertionType.SameCurrency;
-            }
-
-            switch (currencyToSell)
-            {
-                case Currency.Euro:
-                    if (currencyToBuy == Currency.Dollar)
-                    {
-                        return ConvertionType.EuroToDollar;
-                    }
-                    if (currencyToBuy == Currency.Ruble)
-                    {
-                        return ConvertionType.EuroToRubble;
-                    }
-                    break;
-                case Currency.Dollar:
-                    if (currencyToBuy == Currency.Euro)
-                    {
-                        return ConvertionType.DollarToEuro;
-                    }
-                    if (currencyToBuy == Currency.Ruble)
-                    {
-                        return ConvertionType.DollarToRuble;
-                    }
-                    break;
-                case Currency.Ruble:
-                    if (currencyToBuy == Currency.Euro)
-                    {
-                        return ConvertionType.RubleToEuro;
-                    }
-                    if (currencyToBuy == Currency.Dollar)
-                    {
-                        return ConvertionType.RubleToDollar;
-                    }
-                    break;
-            }
-
-            return ConvertionType.InvalidOperation;
-        }
+        // private ConvertionType GetConversionType(Currency currencyToSell, Currency currencyToBuy)
+        // {
+        //     if (currencyToSell == Currency.InvalidValue || currencyToBuy == Currency.InvalidValue)
+        //     {
+        //         return ConvertionType.InvalidOperation;
+        //     }
+        // 
+        //     if (currencyToSell - currencyToBuy == 0)
+        //     {
+        //         return ConvertionType.SameCurrency;
+        //     }
+        // 
+        //     switch (currencyToSell)
+        //     {
+        //         case Currency.Euro:
+        //             if (currencyToBuy == Currency.Dollar)
+        //             {
+        //                 return ConvertionType.EuroToDollar;
+        //             }
+        //             if (currencyToBuy == Currency.Ruble)
+        //             {
+        //                 return ConvertionType.EuroToRubble;
+        //             }
+        //             break;
+        //         case Currency.Dollar:
+        //             if (currencyToBuy == Currency.Euro)
+        //             {
+        //                 return ConvertionType.DollarToEuro;
+        //             }
+        //             if (currencyToBuy == Currency.Ruble)
+        //             {
+        //                 return ConvertionType.DollarToRuble;
+        //             }
+        //             break;
+        //         case Currency.Ruble:
+        //             if (currencyToBuy == Currency.Euro)
+        //             {
+        //                 return ConvertionType.RubleToEuro;
+        //             }
+        //             if (currencyToBuy == Currency.Dollar)
+        //             {
+        //                 return ConvertionType.RubleToDollar;
+        //             }
+        //             break;
+        //     }
+        // 
+        //     return ConvertionType.InvalidOperation;
+        // }
     }
 }
+

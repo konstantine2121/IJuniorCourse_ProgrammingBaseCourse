@@ -47,6 +47,7 @@
     <Compile Include="ConditionsAndCycles\ExitViaConditionTask.cs" />
     <Compile Include="ConditionsAndCycles\SequencePrinter.cs" />
     <Compile Include="ConditionsAndCycles\SumOfMultiplicityNumbers.cs" />
+    <Compile Include="ConditionsAndCycles\СurrencyConverter.cs" />
     <Compile Include="ConsoleInputMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgrammingBase\BuySomeCrystals.cs" />
