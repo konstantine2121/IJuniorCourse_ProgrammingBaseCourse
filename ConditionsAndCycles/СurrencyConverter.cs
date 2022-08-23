@@ -18,6 +18,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
     /// </summary>
     class СurrencyConverter : IRunnable
     {
+        private const string ExitCommand = "exit";
+
+        private double _euroToDollarRate = 1.1;
+        private double _euroToRubbleRate = 59;
+        private double _rubleToDollarRate = 1 / 56d;
+
+        private bool _exitSignal = false;
+
+        private readonly ExchangeRecordsContainer _exchangeRecordsContainer = new ExchangeRecordsContainer();
+
+        private readonly Dictionary<Currency, double> _wallet = new Dictionary<Currency, double>();
+
         #region Enums
 
         private enum Currency
@@ -37,142 +49,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         }
 
         #endregion Enums
-
-        #region Private Classes
-
-        private class ExchangeRateRecord
-        {
-            public Currency FistCurrency { get; private set; }
-
-            public Currency SecondCurrency { get; private set; }
-
-            public double SecondToFirst { get; private set; }
-
-            public double FirstToSecond { get; private set; }
-
-            public ExchangeRateRecord(Currency fistCurrency, Currency secondCurrency, double firstToSecondExchangeRate)
-            {
-                if (fistCurrency == Currency.InvalidValue || secondCurrency == Currency.InvalidValue)
-                {
-                    throw new ArgumentException("Ошибка при определении типа валюты.");
-                }
-
-                if (fistCurrency == secondCurrency)
-                {
-                    throw new InvalidOperationException("Значения типов валют должны быть различны.");
-                }
-
-                if (firstToSecondExchangeRate == 0)
-                {
-                    throw new ArgumentException("Стоимость конвертирования валют не может быть равна 0.");
-                }
-
-                FistCurrency = fistCurrency;
-                SecondCurrency = secondCurrency;
-
-                SecondToFirst = firstToSecondExchangeRate;
-                FirstToSecond = 1 / firstToSecondExchangeRate;
-            }
-
-            public void PrintInfo()
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("Первая валюта: "+FistCurrency.ToString());
-                stringBuilder.AppendLine("Вторая валюта: " + SecondCurrency.ToString());
-                stringBuilder.AppendLine("Стоимость второй валюты за первую: " + FirstToSecond);
-                stringBuilder.AppendLine("Стоимость первой валюты за вторую: " + SecondToFirst);
-
-                Console.WriteLine(stringBuilder.ToString());
-            }
-        }
-
-        private class ExchangeRecordsContainer
-        {
-            public const int ExchangeRateDefaultValue = 1;
-
-            private readonly List<ExchangeRateRecord> _records = new List<ExchangeRateRecord>();
-
-            public bool TryGetExchangeRate(Currency currencyToBuy, Currency currencyToSell, out double rate)
-            {
-                foreach (var record in _records)
-                {
-                    if (record.FistCurrency == currencyToBuy && record.SecondCurrency == currencyToSell)
-                    {
-                        rate = record.SecondToFirst;
-                        return true;
-                    }
-                    else if (record.FistCurrency == currencyToSell && record.SecondCurrency == currencyToBuy)
-                    {
-                        rate = record.FirstToSecond;
-                        return true;
-                    }
-                }
-
-                rate = ExchangeRateDefaultValue;
-                return false;
-            }
-
-            public void AddRecord(ExchangeRateRecord record)
-            {
-                if (ContainsRecord(record) == false)
-                {
-                    _records.Add(record);
-                }
-                else
-                {
-                    Console.WriteLine("При добавлении в списки обменна валют следующая запись была проигнорирована.");
-                    record.PrintInfo();
-                }
-            }
-            public void Clear()
-            {
-                _records.Clear();
-            }
-
-            public void PrintInfo()
-            {
-                Console.WriteLine("Вывод записей о курсе валют.");
-                
-                for(int i = 0; i < _records.Count; i++)
-                {
-                    Console.WriteLine("Запись №'{0}' из '{1}'" , i+1, _records.Count);
-                    _records[i].PrintInfo();
-                }
-            }
-
-            private bool ContainsRecord(ExchangeRateRecord record)
-            {
-                return ContainsRecord(record.FistCurrency, record.SecondCurrency);
-            }
-
-            private bool ContainsRecord(Currency fistCurrency, Currency secondCurrency)
-            {
-                foreach (var record in _records)
-                {
-                    if ((record.FistCurrency == fistCurrency && record.SecondCurrency == secondCurrency) ||
-                        (record.FistCurrency == secondCurrency && record.SecondCurrency == fistCurrency))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
-        #endregion Private Classes
-
-        private const string ExitCommand = "exit";
-
-        private double _euroToDollarRate = 1.1;
-        private double _euroToRubbleRate = 59;
-        private double _rubleToDollarRate = 1 / 56d;
-
-        private bool _exitSignal = false;
-
-        private readonly ExchangeRecordsContainer _exchangeRecordsContainer = new ExchangeRecordsContainer();
-
-        private readonly Dictionary<Currency, double> _wallet = new Dictionary<Currency, double>();
 
         public void Run()
         {
@@ -388,6 +264,130 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             return result;
         }
+
+        #region Private Classes
+
+        private class ExchangeRateRecord
+        {
+            public ExchangeRateRecord(Currency fistCurrency, Currency secondCurrency, double firstToSecondExchangeRate)
+            {
+                if (fistCurrency == Currency.InvalidValue || secondCurrency == Currency.InvalidValue)
+                {
+                    throw new ArgumentException("Ошибка при определении типа валюты.");
+                }
+
+                if (fistCurrency == secondCurrency)
+                {
+                    throw new InvalidOperationException("Значения типов валют должны быть различны.");
+                }
+
+                if (firstToSecondExchangeRate == 0)
+                {
+                    throw new ArgumentException("Стоимость конвертирования валют не может быть равна 0.");
+                }
+
+                FistCurrency = fistCurrency;
+                SecondCurrency = secondCurrency;
+
+                SecondToFirst = firstToSecondExchangeRate;
+                FirstToSecond = 1 / firstToSecondExchangeRate;
+            }
+
+            public Currency FistCurrency { get; private set; }
+
+            public Currency SecondCurrency { get; private set; }
+
+            public double SecondToFirst { get; private set; }
+
+            public double FirstToSecond { get; private set; }
+
+            public void PrintInfo()
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine("Первая валюта: " + FistCurrency.ToString());
+                stringBuilder.AppendLine("Вторая валюта: " + SecondCurrency.ToString());
+                stringBuilder.AppendLine("Стоимость второй валюты за первую: " + FirstToSecond);
+                stringBuilder.AppendLine("Стоимость первой валюты за вторую: " + SecondToFirst);
+
+                Console.WriteLine(stringBuilder.ToString());
+            }
+        }
+
+        private class ExchangeRecordsContainer
+        {
+            public const int ExchangeRateDefaultValue = 1;
+
+            private readonly List<ExchangeRateRecord> _records = new List<ExchangeRateRecord>();
+
+            public bool TryGetExchangeRate(Currency currencyToBuy, Currency currencyToSell, out double rate)
+            {
+                foreach (var record in _records)
+                {
+                    if (record.FistCurrency == currencyToBuy && record.SecondCurrency == currencyToSell)
+                    {
+                        rate = record.SecondToFirst;
+                        return true;
+                    }
+                    else if (record.FistCurrency == currencyToSell && record.SecondCurrency == currencyToBuy)
+                    {
+                        rate = record.FirstToSecond;
+                        return true;
+                    }
+                }
+
+                rate = ExchangeRateDefaultValue;
+                return false;
+            }
+
+            public void AddRecord(ExchangeRateRecord record)
+            {
+                if (ContainsRecord(record) == false)
+                {
+                    _records.Add(record);
+                }
+                else
+                {
+                    Console.WriteLine("При добавлении в списки обменна валют следующая запись была проигнорирована.");
+                    record.PrintInfo();
+                }
+            }
+            public void Clear()
+            {
+                _records.Clear();
+            }
+
+            public void PrintInfo()
+            {
+                Console.WriteLine("Вывод записей о курсе валют.");
+
+                for (int i = 0; i < _records.Count; i++)
+                {
+                    Console.WriteLine("Запись №'{0}' из '{1}'", i + 1, _records.Count);
+                    _records[i].PrintInfo();
+                }
+            }
+
+            private bool ContainsRecord(ExchangeRateRecord record)
+            {
+                return ContainsRecord(record.FistCurrency, record.SecondCurrency);
+            }
+
+            private bool ContainsRecord(Currency fistCurrency, Currency secondCurrency)
+            {
+                foreach (var record in _records)
+                {
+                    if ((record.FistCurrency == fistCurrency && record.SecondCurrency == secondCurrency) ||
+                        (record.FistCurrency == secondCurrency && record.SecondCurrency == fistCurrency))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        #endregion Private Classes
     }
 }
 
