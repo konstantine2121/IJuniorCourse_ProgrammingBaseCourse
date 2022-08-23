@@ -92,16 +92,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             private readonly List<ExchangeRateRecord> _records = new List<ExchangeRateRecord>();
 
-            public bool TryGetExchangeRate(Currency fistCurrency, Currency secondCurrency, out double rate)
+            public bool TryGetExchangeRate(Currency currencyToBuy, Currency currencyToSell, out double rate)
             {
                 foreach (var record in _records)
                 {
-                    if (record.FistCurrency == fistCurrency && record.SecondCurrency == secondCurrency)
+                    if (record.FistCurrency == currencyToBuy && record.SecondCurrency == currencyToSell)
                     {
                         rate = record.SecondToFirst;
                         return true;
                     }
-                    else if (record.FistCurrency == secondCurrency && record.SecondCurrency == fistCurrency)
+                    else if (record.FistCurrency == currencyToSell && record.SecondCurrency == currencyToBuy)
                     {
                         rate = record.FirstToSecond;
                         return true;
