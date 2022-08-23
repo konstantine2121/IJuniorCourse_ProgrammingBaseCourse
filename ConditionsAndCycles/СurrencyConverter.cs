@@ -88,7 +88,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         private class ExchangeRecordsContainer
         {
-            const int ExchangeRateDefaultValue = 1;
+            public const int ExchangeRateDefaultValue = 1;
 
             private readonly List<ExchangeRateRecord> _records = new List<ExchangeRateRecord>();
 
@@ -183,24 +183,24 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             const string ExitCommandInfo = "Для выхода наберите '" + ExitCommand + "'";
 
-            string QuestionCurrencyToBuy = string.Format(
+            string questionCurrencyToBuy = string.Format(
                 "Введите валюту, которую желаете купить ( {0}. ).\n{1}.",
                 GetCurrencyTypesInfo(), ExitCommandInfo);
 
-            string QuestionCurrencyToSell = string.Format(
+            string questionCurrencyToSell = string.Format(
                 "Введите валюту, которую желаете продать ( {0}. ).\n{1}.",
                 GetCurrencyTypesInfo(), ExitCommandInfo);
 
             while (_exitSignal == false)
             {
-                var currencyToBuy = GetСurrency(QuestionCurrencyToBuy);
+                var currencyToBuy = GetСurrency(questionCurrencyToBuy);
 
                 if (_exitSignal == true)
                 {
                     break;
                 }
 
-                var currencyToSell = GetСurrency(QuestionCurrencyToSell);
+                var currencyToSell = GetСurrency(questionCurrencyToSell);
 
                 if (_exitSignal == true)
                 {
