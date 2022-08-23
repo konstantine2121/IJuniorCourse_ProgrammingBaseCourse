@@ -26,9 +26,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         private double _euroToDollarRate = 1.1;
         private double _euroToRubbleRate = 59;
         private double _rubleToDollarRate = 1 / 56d;
-
-        private bool _exitRequested = false;
-                
+        
         #region Enums
 
         private enum Currency
@@ -51,8 +49,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         public void Run()
         {
-            _exitRequested = false;
-
             InitialiseMoneyBalance();
             InitializeExchangeRateRecords();
 
@@ -66,55 +62,57 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 "Введите валюту, которую желаете продать ( {0}. ).\n{1}.",
                 GetCurrencyTypesInfo(), ExitCommandInfo);
 
-            while (_exitRequested == false)
+            var condition = false;
+
+            while (condition == false)
             {
-                var currencyToBuy = GetСurrency(questionCurrencyToBuy);
-
-                if (_exitRequested == true)
+                try
                 {
-                    break;
-                }
+                    var currencyToBuy = GetСurrency(questionCurrencyToBuy);
 
-                var currencyToSell = GetСurrency(questionCurrencyToSell);
+                    var currencyToSell = GetСurrency(questionCurrencyToSell);
 
-                if (_exitRequested == true)
-                {
-                    break;
-                }
+                    var amountOfCurrency = GetAmountOfMoney("Введите количество валюты, которые вы хотите купить.");
 
-                var amountOfCurrency = GetAmountOfMoney("Введите количество валюты, которые вы хотите купить.");
+                    double rate = 0;
 
-                if (_exitRequested == true)
-                {
-                    break;
-                }
+                    var rateRecordFounded = _exchangeRecordsContainer.TryGetExchangeRate(currencyToBuy, currencyToSell, out rate);
 
-                double rate = 0;
-
-                var rateRecordFounded = _exchangeRecordsContainer.TryGetExchangeRate(currencyToBuy, currencyToSell, out rate);
-
-                if (rateRecordFounded)
-                {
-                    var totalSummNeeded = amountOfCurrency * rate;
-
-                    if (_wallet[currencyToSell] >= totalSummNeeded)
+                    if (rateRecordFounded)
                     {
-                        _wallet[currencyToSell] -= totalSummNeeded;
-                        _wallet[currencyToBuy] += amountOfCurrency;
+                        var totalSummNeeded = amountOfCurrency * rate;
 
-                        ConsoleOutputMethods.Info("Сделка прошла успешно!");
-                        PrintMoneyBalance();
+                        if (_wallet[currencyToSell] >= totalSummNeeded)
+                        {
+                            _wallet[currencyToSell] -= totalSummNeeded;
+                            _wallet[currencyToBuy] += amountOfCurrency;
+
+                            ConsoleOutputMethods.Info("Сделка прошла успешно!");
+                            PrintMoneyBalance();
+                        }
+                        else
+                        {
+                            ConsoleOutputMethods.Warning("Недостаточно денег на счету!");
+                            ConsoleOutputMethods.Warning("Требуется валюты: " + totalSummNeeded);
+                            PrintMoneyBalance();
+                        }
                     }
                     else
                     {
-                        ConsoleOutputMethods.Warning("Недостаточно денег на счету!");
-                        ConsoleOutputMethods.Warning("Требуется валюты: "+totalSummNeeded);
-                        PrintMoneyBalance();
+                        ConsoleOutputMethods.Warning("Обменный курс не найден. Сделка невозможна.");
                     }
                 }
-                else
+                catch (ExitException ex)
                 {
-                    ConsoleOutputMethods.Warning("Обменный курс не найден. Сделка невозможна.");
+                    ConsoleOutputMethods.Info("Введена команда выхода.");
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Неизвестная ошибка.\n"+ ex.Message);
+                    Console.WriteLine("Аварийное завершение программы");
+                    Console.ReadKey();
+                    return;
                 }
             }
 
@@ -185,7 +183,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             var result = Currency.InvalidValue;
             var enumParsed = false;
 
-            while (_exitRequested == false && enumParsed == false)
+            while (enumParsed == false)
             {
                 ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
                 var input = Console.ReadLine();
@@ -198,9 +196,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 if (input.Equals(ExitCommand))
                 {
-                    _exitRequested = true;
-                    ConsoleOutputMethods.Info("Введена команда выхода.");
-                    break;
+                    throw new ExitException();
                 }
 
                 var intParsed = Enum.TryParse(input, out result);
@@ -235,7 +231,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             double result = 0;
             var parsed = false;
 
-            while (_exitRequested == false && parsed == false)
+            while (parsed == false)
             {
                 ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
                 var input = Console.ReadLine();
@@ -248,9 +244,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 if (input.Equals(ExitCommand))
                 {
-                    _exitRequested = true;
-                    ConsoleOutputMethods.Info("Введена команда выхода.");
-                    break;
+                    throw new ExitException();
                 }
 
                 parsed = double.TryParse(input, out result);
@@ -265,6 +259,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         }
 
         #region Private Classes
+
+        private class ExitException : Exception
+        {
+            public ExitException() : base() { }
+            public ExitException(string message) : base(message) { }
+            public ExitException(string message, Exception inner) : base(message, inner) { }
+        }
 
         private class ExchangeRateRecord
         {
