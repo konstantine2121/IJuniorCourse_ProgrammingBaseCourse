@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 {
@@ -179,14 +180,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             InitialiseMoneyBalance();
             InitializeExchangeRateRecords();
-            
+
+            const string ExitCommandInfo = "Для выхода наберите '" + ExitCommand + "'";
+
             string QuestionCurrencyToBuy = string.Format(
-                "Введите валюту, которую желаете купить ( Евро = {0}, Доллар = {1}, Рубль = {2}).\nДля выхода наберите '{3}'.",
-                (int)Currency.Euros, (int)Currency.Dollars, (int)Currency.Rubles, ExitCommand);
+                "Введите валюту, которую желаете купить ( {0}. ).\n{1}.",
+                GetCurrencyTypesInfo(), ExitCommandInfo);
 
             string QuestionCurrencyToSell = string.Format(
-                "Введите валюту, которую желаете продать ( Евро = {0}, Доллар = {1}, Рубль = {2}).\nДля выхода наберите '{3}'.",
-                (int)Currency.Euros, (int)Currency.Dollars, (int)Currency.Rubles, ExitCommand);
+                "Введите валюту, которую желаете продать ( {0}. ).\n{1}.",
+                GetCurrencyTypesInfo(), ExitCommandInfo);
 
             while (_exitSignal == false)
             {
@@ -279,6 +282,29 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             Console.WriteLine();
         }
 
+        private string GetCurrencyTypesInfo()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            string separator = ", ";
+
+            var allowedCurrencyTypes = Enum.GetValues(typeof(Currency)).Cast<Currency>()
+                        .Where(value => value != Currency.InvalidValue);
+
+
+            foreach(var currencyType in allowedCurrencyTypes)
+            {
+                stringBuilder.AppendFormat("{0} - {1}"+separator, currencyType, (int)currencyType);
+            }
+
+            if (stringBuilder.Length > separator.Length)
+            {
+                stringBuilder.Remove(stringBuilder.Length-separator.Length,separator.Length);
+            }
+
+            return stringBuilder.ToString();
+        }
+
         private Currency GetСurrency(string message)
         {
             var result = Currency.InvalidValue;
@@ -310,19 +336,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 }
                 else
                 {
-                    switch (result)
+                    var allowedValues = Enum.GetValues(typeof(Currency)).Cast<Currency>()
+                        .Where(value => value != Currency.InvalidValue);
+                    
+                    if (allowedValues.Contains(result))
                     {
-                        case Currency.Euros:
-                        case Currency.Dollars:
-                        case Currency.Rubles:
-                            Console.WriteLine("[{0}]", result);
-                            enumParsed = true;
-                            break;
-
-                        default:
-                            result = Currency.InvalidValue;
-                            ConsoleOutputMethods.Warning("Указано неверное значение. Повторите ввод данных.");
-                            break;
+                        Console.WriteLine("[{0}]", result);
+                        enumParsed = true;
+                    }
+                    else
+                    {
+                        result = Currency.InvalidValue;
+                        ConsoleOutputMethods.Warning("Указано неверное значение. Повторите ввод данных.");
                     }
                 }
             }
