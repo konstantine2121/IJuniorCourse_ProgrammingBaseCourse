@@ -26,9 +26,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         private double _euroToDollarRate = 1.1;
         private double _euroToRubbleRate = 59;
         private double _rubleToDollarRate = 1 / 56d;
-
-        private bool _exitRequested = false;
-                
+        
         #region Enums
 
         private enum Currency
@@ -51,7 +49,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         public void Run()
         {
-            _exitRequested = false;
+            var innerExitRequested = false;
 
             InitialiseMoneyBalance();
             InitializeExchangeRateRecords();
@@ -66,25 +64,25 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 "Введите валюту, которую желаете продать ( {0}. ).\n{1}.",
                 GetCurrencyTypesInfo(), ExitCommandInfo);
 
-            while (_exitRequested == false)
+            while (innerExitRequested == false)
             {
-                var currencyToBuy = GetСurrency(questionCurrencyToBuy);
+                var currencyToBuy = GetСurrency(questionCurrencyToBuy, ref innerExitRequested);
 
-                if (_exitRequested == true)
+                if (innerExitRequested == true)
                 {
                     break;
                 }
 
-                var currencyToSell = GetСurrency(questionCurrencyToSell);
+                var currencyToSell = GetСurrency(questionCurrencyToSell, ref innerExitRequested);
 
-                if (_exitRequested == true)
+                if (innerExitRequested == true)
                 {
                     break;
                 }
 
-                var amountOfCurrency = GetAmountOfMoney("Введите количество валюты, которые вы хотите купить.");
+                var amountOfCurrency = GetAmountOfMoney("Введите количество валюты, которые вы хотите купить.", ref innerExitRequested);
 
-                if (_exitRequested == true)
+                if (innerExitRequested == true)
                 {
                     break;
                 }
@@ -180,12 +178,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             return stringBuilder.ToString();
         }
 
-        private Currency GetСurrency(string message)
+        private Currency GetСurrency(string message, ref bool innerExitRequested)
         {
             var result = Currency.InvalidValue;
             var enumParsed = false;
-
-            while (_exitRequested == false && enumParsed == false)
+            
+            while (innerExitRequested == false && enumParsed == false)
             {
                 ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
                 var input = Console.ReadLine();
@@ -198,7 +196,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 if (input.Equals(ExitCommand))
                 {
-                    _exitRequested = true;
+                    innerExitRequested = true;
                     ConsoleOutputMethods.Info("Введена команда выхода.");
                     break;
                 }
@@ -230,12 +228,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             return result;
         }
 
-        private double GetAmountOfMoney(string message)
+        private double GetAmountOfMoney(string message, ref bool innerExitRequested)
         {
             double result = 0;
             var parsed = false;
 
-            while (_exitRequested == false && parsed == false)
+            while (innerExitRequested == false && parsed == false)
             {
                 ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
                 var input = Console.ReadLine();
@@ -248,7 +246,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 if (input.Equals(ExitCommand))
                 {
-                    _exitRequested = true;
+                    innerExitRequested = true;
                     ConsoleOutputMethods.Info("Введена команда выхода.");
                     break;
                 }
