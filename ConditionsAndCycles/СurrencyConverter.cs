@@ -20,16 +20,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
     {
         private const string ExitCommand = "exit";
 
+        private readonly ExchangeRecordsContainer _exchangeRecordsContainer = new ExchangeRecordsContainer();
+        private readonly Dictionary<Currency, double> _wallet = new Dictionary<Currency, double>();
+
         private double _euroToDollarRate = 1.1;
         private double _euroToRubbleRate = 59;
         private double _rubleToDollarRate = 1 / 56d;
 
-        private bool _exitSignal = false;
-
-        private readonly ExchangeRecordsContainer _exchangeRecordsContainer = new ExchangeRecordsContainer();
-
-        private readonly Dictionary<Currency, double> _wallet = new Dictionary<Currency, double>();
-
+        private bool _exitRequested = false;
+                
         #region Enums
 
         private enum Currency
@@ -52,7 +51,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         public void Run()
         {
-            _exitSignal = false;
+            _exitRequested = false;
 
             InitialiseMoneyBalance();
             InitializeExchangeRateRecords();
@@ -67,25 +66,25 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 "Введите валюту, которую желаете продать ( {0}. ).\n{1}.",
                 GetCurrencyTypesInfo(), ExitCommandInfo);
 
-            while (_exitSignal == false)
+            while (_exitRequested == false)
             {
                 var currencyToBuy = GetСurrency(questionCurrencyToBuy);
 
-                if (_exitSignal == true)
+                if (_exitRequested == true)
                 {
                     break;
                 }
 
                 var currencyToSell = GetСurrency(questionCurrencyToSell);
 
-                if (_exitSignal == true)
+                if (_exitRequested == true)
                 {
                     break;
                 }
 
                 var amountOfCurrency = GetAmountOfMoney("Введите количество валюты, которые вы хотите купить.");
 
-                if (_exitSignal == true)
+                if (_exitRequested == true)
                 {
                     break;
                 }
@@ -186,7 +185,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             var result = Currency.InvalidValue;
             var enumParsed = false;
 
-            while (_exitSignal == false && enumParsed == false)
+            while (_exitRequested == false && enumParsed == false)
             {
                 ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
                 var input = Console.ReadLine();
@@ -199,7 +198,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 if (input.Equals(ExitCommand))
                 {
-                    _exitSignal = true;
+                    _exitRequested = true;
                     ConsoleOutputMethods.Info("Введена команда выхода.");
                     break;
                 }
@@ -236,7 +235,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             double result = 0;
             var parsed = false;
 
-            while (_exitSignal == false && parsed == false)
+            while (_exitRequested == false && parsed == false)
             {
                 ConsoleOutputMethods.WriteLine(message, ConsoleColor.Green);
                 var input = Console.ReadLine();
@@ -249,7 +248,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 if (input.Equals(ExitCommand))
                 {
-                    _exitSignal = true;
+                    _exitRequested = true;
                     ConsoleOutputMethods.Info("Введена команда выхода.");
                     break;
                 }
