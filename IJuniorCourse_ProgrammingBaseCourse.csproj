@@ -41,6 +41,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConditionsAndCycles\ConsoleCommanderTask.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="ConditionsAndCycles\NameInFrameTask.cs" />
     <Compile Include="ConditionsAndCycles\PasswordCheckTask.cs" />
     <Compile Include="ConditionsAndCycles\StringCheckTask.cs" />
+    <Compile Include="ConditionsAndCycles\WizardBossFightTask.cs" />
     <Compile Include="ConsoleOutputMethods.cs" />
     <Compile Include="CommonInterfaces\IRunnable.cs" />
     <Compile Include="ConditionsAndCycles\ExitViaConditionTask.cs" />

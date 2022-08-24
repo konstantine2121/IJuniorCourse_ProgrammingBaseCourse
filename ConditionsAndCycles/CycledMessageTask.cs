@@ -11,7 +11,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
     /// </summary>
     class CycledMessageTask :IRunnable
     {
-       public void Run()
+        #region IRunnable Implementation
+
+        public void Run()
         {
             const string QuestionMessage = "Укажите сообщение для вывода:\n";
             const string QuestionNumber = "Укажите количество повторов: ";
@@ -26,5 +28,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 Console.WriteLine(message);
             }
         }
+
+        #endregion IRunnable Implementation
     }
 }
