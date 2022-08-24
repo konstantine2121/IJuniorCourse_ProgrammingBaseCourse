@@ -29,13 +29,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse
 
                 if (parsed == false)
                 {
-                    Console.WriteLine("Не получилось распознать значение. Попробуйте еще раз.");
+                    ConsoleOutputMethods.Warning("Не получилось распознать значение. Попробуйте еще раз.");
                 }
                 else
                 {
                     if (result < 0)
                     {
-                        Console.WriteLine("Значение не может быть отрицательным. Попробуйте еще раз.");
+                        parsed = false;
+                        ConsoleOutputMethods.Warning("Значение не может быть отрицательным. Попробуйте еще раз.");                        
                     }
                 }
             }
@@ -61,7 +62,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
 
                 if (parsed == false)
                 {
-                    Console.WriteLine("Не получилось распознать значение. Попробуйте еще раз.");
+                    ConsoleOutputMethods.Warning("Не получилось распознать значение. Попробуйте еще раз.");
                 }
             }
 
@@ -83,7 +84,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
 
                 if (string.IsNullOrEmpty(input))
                 {
-                    Console.WriteLine("Введена пустая строка. Попробуйте еще раз.");
+                    ConsoleOutputMethods.Warning("Введена пустая строка. Попробуйте еще раз.");
                 }
             }
 

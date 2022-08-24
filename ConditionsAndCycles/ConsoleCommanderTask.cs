@@ -26,17 +26,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
     /// </summary>
     class ConsoleCommanderTask : IRunnable
     {
-        private enum CommandType
-        {
-            EmptyCommand = -2,
-            InvalidCommand = -1,
-            Exit,
-            SetName,
-            ChangeConsoleColor,
-            SetPassword,
-            WriteName,
-            Help
-        }
+
 
         const string ExitCommand = "q";
         const string SetNameCommand = "n";
@@ -44,6 +34,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         const string SetPasswordCommand = "pwd";
         const string WriteNameCommand = "who";
         const string HelpCommand = "h";
+        const string ShowInfoCommand = "info";
 
         const string HelpText = @"
 q - выход из консоли
@@ -56,21 +47,39 @@ pwd - ввести пароль
 
 who - активные пользователи
 
+info - вывести приватную информацию
+
 h - вывод текущей справки
 ";
 
-        private bool _exitSignal = false;
-
         private string _name = "Bob";
         private string _password = string.Empty;
-        private ConsoleColor _consoleColor = ConsoleColor.White;
+
+        private enum CommandType
+        {
+            EmptyCommand = -2,
+            InvalidCommand = -1,
+            Exit,
+            SetName,
+            ChangeConsoleColor,
+            SetPassword,
+            WriteName,
+            ShowInfo,
+            Help
+        }
+
+        #region IRunnable Implementation
 
         public void Run()
         {
             InitStartValues();
             PrintHelp();
 
-            while (_exitSignal == false)
+            CheckPasswordSetted();
+
+            bool exitSignal = false;
+
+            while (exitSignal == false)
             {
                 PrintShellBegin();
 
@@ -86,19 +95,22 @@ h - вывод текущей справки
                 switch (commandType)
                 {
                     case CommandType.Exit:
-                        _exitSignal = true;
+                        exitSignal = true;
                         break;
                     case CommandType.SetName:
-
+                        RunSetNameCommand();
                         break;
                     case CommandType.ChangeConsoleColor:
-
+                        RunChangeConsoleColorCommand();
                         break;
                     case CommandType.SetPassword:
-
+                        RunSetPasswordCommand();
                         break;
                     case CommandType.WriteName:
-
+                        RunWriteNameCommand();
+                        break;
+                    case CommandType.ShowInfo:
+                        RunShowInfoCommand();
                         break;
                     case CommandType.Help:
                         PrintHelp();
@@ -114,23 +126,42 @@ h - вывод текущей справки
             Console.ReadKey();
         }
 
-        private void InitStartValues()
+        #endregion IRunnable Implementation
+
+        private bool PasswordSetted
         {
-            _exitSignal = false;
-            _name = "Bob";
-            _password = string.Empty;
-            _consoleColor = ConsoleColor.White;
+            get { return string.IsNullOrEmpty(_password) == false; }
         }
 
-        private void PrintShellBegin()
+        private void CheckPasswordSetted()
         {
-            Console.Write("~$ ");
+            if (PasswordSetted)
+            {
+                ConsoleOutputMethods.Info("Наличие пароля в системе подтверждено.");
+            }
+            else
+            {
+                ConsoleOutputMethods.Warning("Пароль не найден. Необходимо его задать.");
+                _password = ConsoleInputMethods.ReadString("Введите пароль:");
+                ConsoleOutputMethods.Info("Пароль успешно сменен.");
+            }
+        }
+
+        private void InitStartValues()
+        {            
+            _name = "Bob";
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         private void PrintHelp()
         {
             ConsoleOutputMethods.Info("Список доступных комманд");
             Console.WriteLine(HelpText);
+        }
+
+        private void PrintShellBegin()
+        {
+            Console.Write("~$ ");
         }
 
         private CommandType GetCommandType(string commandText)
@@ -157,6 +188,9 @@ h - вывод текущей справки
                 case WriteNameCommand:
                     return CommandType.WriteName;
 
+                case ShowInfoCommand:
+                    return CommandType.ShowInfo;
+
                 case HelpCommand:
                     return CommandType.Help;
             };
@@ -164,6 +198,107 @@ h - вывод текущей справки
             return CommandType.InvalidCommand;
         }
 
+        private void RunSetNameCommand()
+        {
+            var emptyValue = true;
 
+            while (emptyValue == true)
+            {
+                Console.WriteLine("Введите имя:");
+                var input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input) == false)
+                {
+                    emptyValue = false;
+                    _name = input;
+                }
+                else
+                {
+                    ConsoleOutputMethods.Warning("Имя не может быть пустым!");
+                }
+            }
+        }
+
+        private void RunChangeConsoleColorCommand()
+        {
+            ConsoleOutputMethods.Info("Выберете цвет из списка предложенных.");
+            PrintColorsInfo();
+
+            var input = ConsoleInputMethods.ReadPositiveInteger("Введите цвет: ");
+
+            if (GetAllowedConsoleColors().Contains((ConsoleColor)input))
+            {
+                Console.ForegroundColor = (ConsoleColor)input;
+            }
+            else
+            {
+                ConsoleOutputMethods.Warning("Указан неверный цвет!");
+            }
+        }
+
+        private void PrintColorsInfo()
+        {
+            var foregroundColor = Console.ForegroundColor;
+
+            var colors = GetAllowedConsoleColors();
+
+            var colorValuesInRow = 4;
+
+            Console.WriteLine();
+
+            for (int i = 0; i < colors.Count; i += colorValuesInRow)
+            {
+                for (int j = i; j < Math.Min(colors.Count, i + colorValuesInRow); j++)
+                {
+                    var color = colors[j];
+                    var value = string.Format("{0,-12}{1,4}\t", color, (int)color);
+                    
+                    Console.ForegroundColor = color;
+                    Console.Write(value);
+                }
+                Console.WriteLine();
+            }
+
+            Console.ForegroundColor = foregroundColor;
+        }
+
+        private List<ConsoleColor> GetAllowedConsoleColors()
+        {
+            return Enum.GetValues(typeof(ConsoleColor)).Cast<ConsoleColor>()
+                .Where(color => color != ConsoleColor.Black).ToList();
+        }
+
+        private void RunSetPasswordCommand()
+        {
+            var input = ConsoleInputMethods.ReadString("Введите старый пароль:");
+
+            if (input.Equals(_password))
+            {
+                _password = ConsoleInputMethods.ReadString("Введите новый пароль:");                
+                ConsoleOutputMethods.Info("Пароль успешно сменен.");
+            }
+            else
+            {
+                ConsoleOutputMethods.Warning("Указан неверный пароль!");
+            }
+        }
+
+        private void RunWriteNameCommand()
+        {
+            Console.WriteLine("Имя пользователя: " + _name);
+        }
+        
+        private void RunShowInfoCommand()
+        {
+            var input = ConsoleInputMethods.ReadString("Введите пароль:");
+
+            if (input.Equals(_password))
+            {                
+                ConsoleOutputMethods.Info("Здесь могла быть Ваша реклама!");
+            }
+            else
+            {
+                ConsoleOutputMethods.Warning("Доступ запрещен.");
+            }
+        }
     }
 }
