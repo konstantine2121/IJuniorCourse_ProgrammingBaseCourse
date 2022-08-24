@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ConditionsAndCycles\ConsoleCommanderTask.cs" />
     <Compile Include="ConditionsAndCycles\CountingNaturalNumbersTask.cs" />
+    <Compile Include="ConditionsAndCycles\ExponentCounterTask.cs" />
     <Compile Include="ConditionsAndCycles\NameInFrameTask.cs" />
     <Compile Include="ConditionsAndCycles\PasswordCheckTask.cs" />
     <Compile Include="ConsoleOutputMethods.cs" />

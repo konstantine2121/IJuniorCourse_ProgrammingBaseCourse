@@ -29,13 +29,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {6, new ConsoleCommanderTask() },
                 {7, new NameInFrameTask() },
                 {8, new PasswordCheckTask() },
-                {9, new CountingNaturalNumbersTask() }
+                {9, new CountingNaturalNumbersTask() },
+                {10, new ExponentCounterTask() }
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(9, conditionsAndCyclesTasks);
+            RunTask(10, conditionsAndCyclesTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
