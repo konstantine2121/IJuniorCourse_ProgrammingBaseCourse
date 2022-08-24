@@ -48,6 +48,7 @@
     <Compile Include="ConditionsAndCycles\ExponentCounterTask.cs" />
     <Compile Include="ConditionsAndCycles\NameInFrameTask.cs" />
     <Compile Include="ConditionsAndCycles\PasswordCheckTask.cs" />
+    <Compile Include="ConditionsAndCycles\StringCheckTask.cs" />
     <Compile Include="ConsoleOutputMethods.cs" />
     <Compile Include="CommonInterfaces\IRunnable.cs" />
     <Compile Include="ConditionsAndCycles\ExitViaConditionTask.cs" />
