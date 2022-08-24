@@ -7,6 +7,31 @@ using System.Threading.Tasks;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 {
+    /// <summary>
+    ///Задача<br/>
+    ///<br/>
+    ///Вывести имя в прямоугольник из символа, который введет сам пользователь.<br/>
+    ///<br/>
+    ///Вы запрашиваете имя, после запрашиваете символ, а после отрисовываете в консоль его имя в прямоугольнике из его символов.<br/>
+    ///<br/>
+    ///Пример:<br/>
+    ///<br/>
+    ///Alexey<br/>
+    ///<br/>
+    ///%<br/>
+    ///<br/>
+    ///%%%%%%<br/>
+    ///% Alexey %<br/>
+    ///%%%%%%<br/>
+    ///<br/>
+    ///Примечание:<br/>
+    ///<br/>
+    ///Длину строки можно всегда узнать через свойство Length<br/>
+    ///<br/>
+    ///string someString = “Hello”;<br/>
+    ///<br/>
+    ///Console.WriteLine(someString.Length); //5<br/>
+    /// </summary>
     class NameInFrameTask :IRunnable
     {
 
