@@ -82,7 +82,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             if (_player.Dead && _boss.Dead)
             {
-                ConsoleOutputMethods.Warning("На этом поле бой нету победителей!");
+                ConsoleOutputMethods.Warning("На этом поле боя нету победителей!");
             }
             else if (_player.Dead)
             {
