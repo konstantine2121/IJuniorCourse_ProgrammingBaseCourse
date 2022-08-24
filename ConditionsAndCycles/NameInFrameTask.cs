@@ -51,8 +51,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             char spaceChar = ' ';
             int spaceWidth = 1;
+
+            int numberOfVerticalFrameSections = 2;
             
-            int borderLength = frameWidth * 2 + spaceWidth * 2 + name.Length;            
+            int borderLength = frameWidth * numberOfVerticalFrameSections + spaceWidth * numberOfVerticalFrameSections + name.Length;            
 
             StringBuilder stringBuilder = new StringBuilder();
 

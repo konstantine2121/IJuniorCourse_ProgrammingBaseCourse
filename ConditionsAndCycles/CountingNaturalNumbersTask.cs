@@ -21,33 +21,34 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         public void Run()
         {
-            int n = GetNValue();
-            int result = CountNaturalNumbers(n);
+            int number = GetNumberValue();
+            int result = CountNaturalNumbers(number);
 
             Console.WriteLine("Количество трехзначных натуральных чисел, которые кратны N = "+ result);
         }
 
         #endregion IRunnable Implementation
 
-        private int GetNValue()
+        private int GetNumberValue()
         {
             int result = -1;
 
-            int min = 1;
-            int max = 27;
+            int minNumberBorder = 1;
+            int maxNumberBorder = 27;
 
             bool inputComplete = false;
 
             while (inputComplete == false)
             {
                 result = ConsoleInputMethods.ReadPositiveInteger("Введите число N: ");
-                if (min <= result && result <= max)
+
+                if (minNumberBorder <= result && result <= maxNumberBorder)
                 {
                     inputComplete = true;
                 }
                 else
                 {
-                    ConsoleOutputMethods.Warning(string.Format("Число должно попадать в диапазон ({0} <= N <= {1})", min, max));
+                    ConsoleOutputMethods.Warning(string.Format("Число должно попадать в диапазон ({0} <= N <= {1})", minNumberBorder, maxNumberBorder));
                 }
             }
 
@@ -58,12 +59,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         {
             int result = 0;
 
-            int min = 100;
-            int max = 1000-1;
+            int minRange = 100;
+            int maxRange = 1000-1;
 
-            for (int i = n; i < max; i+=n)
+            for (int i = n; i < maxRange; i+=n)
             {
-                if (min <= i && i <= max)
+                if (minRange <= i)
                 {
                     result++;
                 }
