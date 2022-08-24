@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arrays\CountRowSumAndColumnMultiplicationTask.cs" />
+    <Compile Include="Arrays\FindingMaxValueInMatrixTask.cs" />
     <Compile Include="ConditionsAndCycles\ConsoleCommanderTask.cs" />
     <Compile Include="ConditionsAndCycles\CountingNaturalNumbersTask.cs" />
     <Compile Include="ConditionsAndCycles\ExponentCounterTask.cs" />

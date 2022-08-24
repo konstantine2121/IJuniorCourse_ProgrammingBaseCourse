@@ -20,11 +20,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {7, new UselessTimeInQuequeCounter() }
             };
 
-        private static Dictionary<int, IRunnable> arraysTasks =
-            new Dictionary<int, IRunnable>(){
-                {1, new CountRowSumAndColumnMultiplicationTask()}               
-            };
-
         private static Dictionary<int, IRunnable> conditionsAndCyclesTasks =
             new Dictionary<int, IRunnable>(){
                 {1, new CycledMessageTask()},
@@ -41,11 +36,17 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {12, new WizardBossFightTask() }
             };
 
+        private static Dictionary<int, IRunnable> arraysTasks =
+            new Dictionary<int, IRunnable>(){
+                {1, new CountRowSumAndColumnMultiplicationTask()},
+                {2, new FindingMaxValueInMatrixTask()}
+            };
+
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
-            RunTask(1, arraysTasks);
+            RunTask(2, arraysTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
