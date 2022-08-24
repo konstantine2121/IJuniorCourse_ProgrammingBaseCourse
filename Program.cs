@@ -27,13 +27,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {4, new SumOfMultiplicityNumbers() },
                 {5, new СurrencyConverter() },
                 {6, new ConsoleCommanderTask() },
-                {7, new NameInFrameTask() }
+                {7, new NameInFrameTask() },
+                {8, new PasswordCheckTask() }
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(7, conditionsAndCyclesTasks);
+            RunTask(8, conditionsAndCyclesTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
