@@ -3,6 +3,7 @@ using IJuniorCourse_ProgrammingBaseCourse.ProgrammingBase;
 using IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles;
 using System;
 using System.Collections.Generic;
+using IJuniorCourse_ProgrammingBaseCourse.Arrays;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
@@ -17,6 +18,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {5, new ValuesSwapper()},
                 {6, new BuySomeCrystals() },
                 {7, new UselessTimeInQuequeCounter() }
+            };
+
+        private static Dictionary<int, IRunnable> arraysTasks =
+            new Dictionary<int, IRunnable>(){
+                {1, new CountRowSumAndColumnMultiplicationTask()}               
             };
 
         private static Dictionary<int, IRunnable> conditionsAndCyclesTasks =
@@ -38,7 +44,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(12, conditionsAndCyclesTasks);
+            //RunTask(12, conditionsAndCyclesTasks);            
+            RunTask(1, arraysTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
