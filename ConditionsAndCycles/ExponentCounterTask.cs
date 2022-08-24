@@ -17,19 +17,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         public void Run()
         {
-            const int TwoToPowerOfZero = 1;
+            const int PowerValue = 2;
             const int MaxRandomValue = 1000;
 
             Random random = new Random();
 
             int powerCounter = 0;
-            int currentValue = TwoToPowerOfZero;
-            int shiftValue = 1;
+            int currentValue = (int) Math.Round(Math.Pow(PowerValue, 0));
             int randomValue = random.Next(MaxRandomValue);
 
             while (currentValue <= randomValue)
             {
-                currentValue <<= shiftValue;
+                currentValue *= PowerValue;
                 powerCounter++;
             }
 
