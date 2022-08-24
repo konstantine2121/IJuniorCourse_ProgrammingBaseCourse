@@ -39,14 +39,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static Dictionary<int, IRunnable> arraysTasks =
             new Dictionary<int, IRunnable>(){
                 {1, new CountRowSumAndColumnMultiplicationTask()},
-                {2, new FindingMaxValueInMatrixTask()}
+                {2, new FindingMaxValueInMatrixTask()},
+                {3, new FindingLocalExtremumsTask() }
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
-            RunTask(2, arraysTasks);
+            RunTask(3, arraysTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
