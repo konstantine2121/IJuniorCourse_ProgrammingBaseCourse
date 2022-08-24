@@ -44,9 +44,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             var outOfBound = false;
 
-            foreach (var ch in input)
+            foreach (var character in input)
             {
-                if (ch == LeftBracketChar)
+                if (character == LeftBracketChar)
                 {
                     currentDepth++;
                 }
