@@ -47,6 +47,7 @@
     <Compile Include="Arrays\CountRowSumAndColumnMultiplicationTask.cs" />
     <Compile Include="Arrays\FindingLocalExtremumsTask.cs" />
     <Compile Include="Arrays\FindingMaxValueInMatrixTask.cs" />
+    <Compile Include="Arrays\SummConsoleInputTask.cs" />
     <Compile Include="ConditionsAndCycles\ConsoleCommanderTask.cs" />
     <Compile Include="ConditionsAndCycles\CountingNaturalNumbersTask.cs" />
     <Compile Include="ConditionsAndCycles\ExponentCounterTask.cs" />
