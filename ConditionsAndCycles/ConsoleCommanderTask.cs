@@ -26,17 +26,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
     /// </summary>
     class ConsoleCommanderTask : IRunnable
     {
-
-
-        const string ExitCommand = "q";
-        const string SetNameCommand = "n";
-        const string ChangeConsoleColorCommand = "color";
-        const string SetPasswordCommand = "pwd";
-        const string WriteNameCommand = "who";
-        const string HelpCommand = "h";
-        const string ShowInfoCommand = "info";
-
-        const string HelpText = @"
+        private const string ExitCommand = "q";
+        private const string SetNameCommand = "n";
+        private const string ChangeConsoleColorCommand = "color";
+        private const string SetPasswordCommand = "pwd";
+        private const string WriteNameCommand = "who";
+        private const string HelpCommand = "h";
+        private const string ShowInfoCommand = "info";
+        
+        private const string HelpText = @"
 q - выход из консоли
 
 n - ввести имя пользователя
@@ -75,7 +73,7 @@ h - вывод текущей справки
             InitStartValues();
             PrintHelp();
 
-            CheckPasswordSetted();
+            InitializePassword();
 
             bool exitSignal = false;
 
@@ -133,7 +131,7 @@ h - вывод текущей справки
             get { return string.IsNullOrEmpty(_password) == false; }
         }
 
-        private void CheckPasswordSetted()
+        private void InitializePassword()
         {
             if (PasswordSetted)
             {
@@ -206,6 +204,7 @@ h - вывод текущей справки
             {
                 Console.WriteLine("Введите имя:");
                 var input = Console.ReadLine();
+
                 if (string.IsNullOrEmpty(input) == false)
                 {
                     emptyValue = false;
@@ -255,6 +254,7 @@ h - вывод текущей справки
                     Console.ForegroundColor = color;
                     Console.Write(value);
                 }
+
                 Console.WriteLine();
             }
 
