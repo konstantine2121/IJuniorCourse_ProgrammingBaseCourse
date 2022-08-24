@@ -26,13 +26,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {3, new SequencePrinter() },
                 {4, new SumOfMultiplicityNumbers() },
                 {5, new СurrencyConverter() },
-                {6, new ConsoleCommanderTask() }
+                {6, new ConsoleCommanderTask() },
+                {7, new NameInFrameTask() }
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(6, conditionsAndCyclesTasks);
+            RunTask(7, conditionsAndCyclesTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
