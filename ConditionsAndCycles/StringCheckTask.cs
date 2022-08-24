@@ -33,7 +33,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             var input = ConsoleInputMethods.ReadString("Введите строку состоящую из одних скобок: ");
 
-            var correctString = input.All(ch => ch == LeftBracketChar || ch == RightBracketChar);
+            var correctString = input.All(character => character == LeftBracketChar || character == RightBracketChar);
 
             if (correctString == false)
             {
