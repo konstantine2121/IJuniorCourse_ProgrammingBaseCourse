@@ -23,14 +23,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
             InitArrayWithRandomValues(array);
             ConsoleOutputMethods.Info("Исходный массив.");
             PrintArray(array);
-            PerformBubbleSort(array);
+            PerformBubbleSorting(array);
             ConsoleOutputMethods.Info("Отсортированный массив.");
             PrintArray(array);
         }
 
         #endregion IRunnable Implementation
 
-        private void PerformBubbleSort(int[] array)
+        private void PerformBubbleSorting(int[] array)
         {
             int temp = 0;
             int lastIndex = array.Length - 1;
