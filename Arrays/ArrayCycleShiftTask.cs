@@ -23,11 +23,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
         public void Run()
         {
-            int arrayLength = 5;
-            //int[] array = new int[arrayLength];
-            int[] array = {0, 1,2,3,4,5,6,7,8,9};
+            int arrayLength = 4;
 
-            int shift = 4;
+            int shift = 2;
+
+            int[] array = new int [arrayLength];
+
+            InitArrayWithIncreasingValues(array);
 
             ConsoleOutputMethods.Info("Исходный массив.");
             PrintArray(array);
@@ -41,21 +43,50 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
         #endregion IRunnable Implementation
 
-        private void ShiftArrayToLeft(int[] array,int shift)
+        private void ShiftArrayToLeft(int[] array, int shift)
         {
-            int temp = 0;
-            int nextIndex = 0;
+            if (array == null || array.Length == 0)
+            {
+                return;
+            }
+
+            int temp = array[0];
+            int startIndex = 0;
+            //int nextIndex = 0;
+
+            int checkDivider = -1;
+            bool forcedShiftCheck = array.Length % shift == 0;
+
+            if (forcedShiftCheck)
+            {
+                checkDivider = array.Length / shift;
+            }
 
             for (int i = 0; i < array.Length; i++)
             {
-                nextIndex = GetNextIndexToLeft(i, shift, array.Length);
+                int valueToInsert = temp;
+                int nextIndex = GetNextIndexToLeft(startIndex, shift, array.Length);
+
                 temp = array[nextIndex];
-                array[nextIndex] = array[i];
+                array[nextIndex] = valueToInsert;
 
+                if (forcedShiftCheck == false)
+                {
+                    startIndex = nextIndex;
+                }
+                else
+                {
+                    if ((i + 1) % checkDivider == 0) //Избежать петлю
+                    {
+                        startIndex = nextIndex + 1;
+                        temp = array[startIndex];
+                    }
+                    else
+                    {
+                        startIndex = nextIndex;
+                    }
+                }
             }
-
-            //array[GetNextIndexToLeft(0, shift, array.Length)] = temp;
-            
         }
 
         private int GetNextIndexToLeft(int currentIndex, int shift, int arrayLength)
@@ -98,6 +129,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
             for (int i = 0; i < array.Length; i++)
             {
                 array[i] = random.Next(maxExclusiveValue);
+            }
+        }
+
+        private void InitArrayWithIncreasingValues(int[] array)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = i;
             }
         }
     }
