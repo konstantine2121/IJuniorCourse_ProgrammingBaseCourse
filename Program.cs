@@ -52,7 +52,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         {
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
-            RunTask(8, arraysTasks);
+            RunTask(5, arraysTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

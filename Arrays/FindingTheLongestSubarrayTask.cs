@@ -22,22 +22,21 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
         public void Run()
         {
             int arrayLength = 30;
+            
             int[] array = new int[arrayLength];
-
+            
             InitArrayWithRandomValues(array);
+
             PrintArray(array);
 
             int maxSubbarrayNumber = -1;
             int maxSubbarrayLength = 0;
 
-            int previousNumber = -1;
-            int currentSubarrayLengthCounter = 0;
+            int currentSubarrayLengthCounter = 1;
 
-            for (int i = 0; i < array.Length; i++)
-            {
-                int current = array[i];
-
-                if (current == previousNumber)
+            for (int i = 1; i < array.Length; i++)
+            {   
+                if (array[i] == array[i - 1])
                 {
                    currentSubarrayLengthCounter++;
                 }
@@ -49,10 +48,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
                 if (currentSubarrayLengthCounter > maxSubbarrayLength)
                 {
                     maxSubbarrayLength = currentSubarrayLengthCounter;
-                    maxSubbarrayNumber = current;
+                    maxSubbarrayNumber = array[i];
                 }
-
-                previousNumber = current;
             }
 
             Console.WriteLine($"\nЧисло {maxSubbarrayNumber} повторяется большее число раз подряд. Количество повторений {maxSubbarrayLength}");
