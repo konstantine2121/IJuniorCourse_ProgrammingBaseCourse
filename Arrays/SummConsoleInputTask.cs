@@ -28,33 +28,36 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
         public void Run()
         {            
             const string ExitCommand = "exit";
-            const string SummCommand = "summ";
+            const string SumCommand = "sum";
 
-            const string InfoMessage = "Введите число или '"+SummCommand+"' для подсчета. ('"+ExitCommand+"' для выхода.):\n";
+            const string InfoMessage = "Введите число или '"+SumCommand+"' для подсчета. ('"+ExitCommand+"' для выхода.):\n";
 
             bool exitCalled = false;
-            bool summCalled = false;
 
             int arrayStartLength = 0;
 
             int[] array = new int[arrayStartLength];
 
-            while (exitCalled == false && summCalled == false)
+            while (exitCalled == false)
             {
                 var input = ConsoleInputMethods.ReadString(InfoMessage);
 
-                int value = -1;
-                if (int.TryParse(input, out value))
+                if (int.TryParse(input, out int value))
                 {
-                    array = ResizeArray(array);
+                    array = EnlargeArray(array);
                     array[array.Length - 1] = value;                    
                 }
                 else
                 {
                     switch (input)
                     {
-                        case SummCommand:
-                            summCalled = true;
+                        case SumCommand:                                                            
+                                Console.Write("\nИтоговый массив:");
+                                PrintArray(array);
+                                Console.WriteLine();
+
+                                var sum = GetArraySumm(array);
+                                ConsoleOutputMethods.Info("Сумма элементов массива = " + sum);
                             break;
 
                         case ExitCommand:
@@ -64,37 +67,17 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
                         default:
                             ConsoleOutputMethods.Warning("Команда не найдена.");
                             break;
-
                     }
                 }
             }
 
-            if (exitCalled)
-            {
-                ConsoleOutputMethods.Warning("Аварийное завершение работы.");
-                Console.ReadKey();
-                return;
-            }
-
-            if (summCalled)
-            {
-                Console.WriteLine();
-                
-                Console.Write("Итоговый массив:");
-                PrintArray(array);
-                
-                Console.WriteLine();
-
-                var summ = GetArraySumm(array);
-                ConsoleOutputMethods.Info("Сумма элементов массива = "+ summ);
-            }
-
+            Console.WriteLine("Завершение работы.");
             Console.ReadKey();
         }
 
         #endregion IRunnable Implementation
 
-        private int [] ResizeArray(int [] array)
+        private int [] EnlargeArray(int [] array)
         {
             int[] result = new int[array.Length + 1];
 
