@@ -42,14 +42,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {2, new FindingMaxValueInMatrixTask()},
                 {3, new FindingLocalExtremumsTask() },
                 {4, new SummConsoleInputTask() },
-                {5, new FindingTheLongestSubarrayTask() }
+                {5, new FindingTheLongestSubarrayTask() },
+                {6, new BubbleSortingTask() }
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
-            RunTask(5, arraysTasks);
+            RunTask(6, arraysTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
