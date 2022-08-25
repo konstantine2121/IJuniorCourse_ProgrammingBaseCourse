@@ -23,9 +23,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
         public void Run()
         {
-            int arrayLength = 4;
+            int arrayLength =7;
 
-            int shift = 2;
+            int shift = 6;
 
             int[] array = new int [arrayLength];
 
@@ -52,7 +52,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
             int temp = array[0];
             int startIndex = 0;
-            //int nextIndex = 0;
 
             int checkDivider = -1;
             bool forcedShiftCheck = array.Length % shift == 0;
@@ -79,6 +78,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
                     if ((i + 1) % checkDivider == 0) //Избежать петлю
                     {
                         startIndex = nextIndex + 1;
+
+                        if (startIndex >=array.Length)
+                        {
+                            startIndex = 0;
+                        }
+
                         temp = array[startIndex];
                     }
                     else
