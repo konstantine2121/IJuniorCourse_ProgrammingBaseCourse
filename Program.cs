@@ -41,14 +41,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {1, new CountRowSumAndColumnMultiplicationTask()},
                 {2, new FindingMaxValueInMatrixTask()},
                 {3, new FindingLocalExtremumsTask() },
-                {4, new SummConsoleInputTask() }
+                {4, new SummConsoleInputTask() },
+                {5, new FindingTheLongestSubarrayTask() }
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(12, conditionsAndCyclesTasks);            
-            //RunTask(4, arraysTasks);
+            //RunTask(12, conditionsAndCyclesTasks);            
+            RunTask(5, arraysTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
