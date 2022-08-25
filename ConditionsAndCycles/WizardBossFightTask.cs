@@ -196,8 +196,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 _healthBar.foregroundColor = ConsoleColor.Green;
                 _damageBar.foregroundColor = ConsoleColor.Red;
 
-                InitAbilities();
                 InitStartValues();
+                InitAbilities();
             }
 
             public bool Attacking
@@ -243,6 +243,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                         {
                             abilities[AbilityType.DemonCall].Status = AbilityStatus.Active;
                             abilities[AbilityType.DemonAttack].Status = AbilityStatus.Available;
+
+                            health -= damagePerHit;
                         }
                         break;
 
@@ -252,8 +254,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                         {
                             abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
                             abilities[AbilityType.DemonAttack].Status = AbilityStatus.Active;
-
-                            health -= damagePerHit;
                         }
                         break;
 
@@ -317,7 +317,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             private void InitStartValues()
             {
-                health = 500;
+                health = 600;
                 damagePerHit = 100;
             }
 
