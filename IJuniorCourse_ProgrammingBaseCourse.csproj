@@ -49,6 +49,7 @@
     <Compile Include="Arrays\FindingLocalExtremumsTask.cs" />
     <Compile Include="Arrays\FindingMaxValueInMatrixTask.cs" />
     <Compile Include="Arrays\FindingTheLongestSubarrayTask.cs" />
+    <Compile Include="Arrays\StringSplitTask.cs" />
     <Compile Include="Arrays\SummConsoleInputTask.cs" />
     <Compile Include="ConditionsAndCycles\ConsoleCommanderTask.cs" />
     <Compile Include="ConditionsAndCycles\CountingNaturalNumbersTask.cs" />
