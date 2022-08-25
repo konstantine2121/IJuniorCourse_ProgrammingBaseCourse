@@ -47,8 +47,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            //RunTask(12, conditionsAndCyclesTasks);            
-            RunTask(4, arraysTasks);
+            RunTask(12, conditionsAndCyclesTasks);            
+            //RunTask(4, arraysTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

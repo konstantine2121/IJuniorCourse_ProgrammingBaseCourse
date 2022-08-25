@@ -168,6 +168,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         {
             public const int MaxHealth = 700;
 
+            public const int HealedHPValue = 250;
+
             public readonly Dictionary<AbilityType, Ability> abilities = new Dictionary<AbilityType, Ability>();
             
 
@@ -250,6 +252,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                         {
                             abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
                             abilities[AbilityType.DemonAttack].Status = AbilityStatus.Active;
+
+                            health -= damagePerHit;
                         }
                         break;
 
@@ -257,14 +261,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                         abilities[AbilityType.DemonCall].Status = AbilityStatus.Unavailable;
                         abilities[AbilityType.DemonAttack].Status = AbilityStatus.Unavailable;
                         Invincible = true;
-                        health += 250;
+                        health += HealedHPValue;
                         if (health > MaxHealth)
                         {
                             health = MaxHealth;
                         }
-                        break;
-
-                    default:
                         break;
                 }
             }
@@ -288,7 +289,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 var dimensionalRift = new Ability();
 
                 demonCall.Name = "Рашамон";
-                demonCall.Info = "Призывает демона (Отнимает 100 хп игроку)";                
+                demonCall.Info = "Призывает демона (Отнимает "+ damagePerHit + " хп игроку)";                
                 demonCall.statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
                 demonCall.statusBar.text = demonCall.Name + ": " + demonCall.Info;
                 demonCall.Status = AbilityStatus.Available;
@@ -296,7 +297,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 verticalOffset++;
 
                 demonAttack.Name = "Хуганзакура";
-                demonAttack.Info = "Демон наносит 100 ед. урона врагу и испаряется.";                
+                demonAttack.Info = "Демон наносит "+ damagePerHit + " ед. урона врагу и испаряется.";                
                 demonAttack.statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
                 demonAttack.statusBar.text = demonAttack.Name + ": " + demonAttack.Info;
                 demonAttack.Status = AbilityStatus.Unavailable;
@@ -304,7 +305,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 verticalOffset++;
 
                 dimensionalRift.Name = "Разлом";
-                dimensionalRift.Info = "Позволяет скрыться в разломе и восстановить 250 хп.";                
+                dimensionalRift.Info = "Позволяет скрыться в разломе и восстановить "+ HealedHPValue + " хп.";
                 dimensionalRift.statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
                 dimensionalRift.statusBar.text = dimensionalRift.Name + ": " + dimensionalRift.Info;
                 dimensionalRift.Status = AbilityStatus.Available;
