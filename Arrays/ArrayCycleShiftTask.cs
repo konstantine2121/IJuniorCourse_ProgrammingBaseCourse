@@ -23,9 +23,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
         public void Run()
         {
-            int arrayLength =7;
+            int arrayLength =66;
 
-            int shift = 6;
+            int shift = 100;
 
             int[] array = new int [arrayLength];
 
@@ -51,46 +51,30 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
             }
 
             int temp = array[0];
+            int currentIndex = 0;
             int startIndex = 0;
-
-            int checkDivider = -1;
-            bool forcedShiftCheck = array.Length % shift == 0;
-
-            if (forcedShiftCheck)
-            {
-                checkDivider = array.Length / shift;
-            }
 
             for (int i = 0; i < array.Length; i++)
             {
+                if (i !=0 && currentIndex == startIndex)
+                {
+                    currentIndex++;
+                    if (currentIndex >= array.Length)
+                    {
+                        currentIndex = 0;
+                    }
+                    startIndex = currentIndex;
+
+                    temp = array[currentIndex];
+                }
+
                 int valueToInsert = temp;
-                int nextIndex = GetNextIndexToLeft(startIndex, shift, array.Length);
+                int nextIndex = GetNextIndexToLeft(currentIndex, shift, array.Length);
 
                 temp = array[nextIndex];
                 array[nextIndex] = valueToInsert;
-
-                if (forcedShiftCheck == false)
-                {
-                    startIndex = nextIndex;
-                }
-                else
-                {
-                    if ((i + 1) % checkDivider == 0) //Избежать петлю
-                    {
-                        startIndex = nextIndex + 1;
-
-                        if (startIndex >=array.Length)
-                        {
-                            startIndex = 0;
-                        }
-
-                        temp = array[startIndex];
-                    }
-                    else
-                    {
-                        startIndex = nextIndex;
-                    }
-                }
+                currentIndex = nextIndex;
+                
             }
         }
 
