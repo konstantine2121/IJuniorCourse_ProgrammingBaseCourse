@@ -99,7 +99,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
             for (int i = 0; i < array.Length; i++)
             {
-                if (i % numberInRow == 0)
+                if (i != 0 && i % numberInRow == 0)
                 {
                     Console.WriteLine();
                 }
