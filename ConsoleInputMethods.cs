@@ -77,6 +77,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         public static string ReadString(string message)
         {
             string input = string.Empty;
+
             while (string.IsNullOrEmpty(input))
             {
                 Console.Write(message);
