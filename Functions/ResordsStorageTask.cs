@@ -30,6 +30,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
     /// </summary>
     class ResordsStorageTask : IRunnable
     {
+        private string PrintTemplate = "{0,3}  {1}  -  {2}";
 
         private string[] _names;
         private string[] _posts;
@@ -146,11 +147,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
                 return;
             }
 
-            string template = "{0,3} ФИО: {1}\t\tДолжность: {2}";
-
             for (int i = 0; i < _names.Length && i < _posts.Length; i++)
             {
-                Console.WriteLine(template, i, _names[i], _posts[i]);
+                Console.WriteLine(PrintTemplate, i, _names[i], _posts[i]);
             }
 
             Console.WriteLine();
@@ -178,7 +177,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
         private void RunFindCommand() 
         {
-            string template = "{0,3} ФИО: {1}\t\tДолжность: {2}";
             int arrayLength = Math.Min(_names.Length, _posts.Length);
 
             if (arrayLength == 0)
@@ -193,7 +191,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             {
                 if (_names[i].ToLower().Contains(name.ToLower()))
                 {
-                    Console.WriteLine(template, i, _names[i], _posts[i]);
+                    Console.WriteLine(PrintTemplate, i, _names[i], _posts[i]);
                 }
             }
 
