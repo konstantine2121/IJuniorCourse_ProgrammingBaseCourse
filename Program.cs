@@ -55,7 +55,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static Dictionary<int, IRunnable> functionsTasks =
             new Dictionary<int, IRunnable>()
             {
-                {1, new ResordsStorageTask()}
+                {1, new ResordsStorageTask()},
+                {2, new DrawHealthbarTask()}
             };
 
         private static void Main(string[] args)
@@ -63,7 +64,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
             //RunTask(8, arraysTasks);
-            RunTask(1, functionsTasks);
+            RunTask(2, functionsTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
