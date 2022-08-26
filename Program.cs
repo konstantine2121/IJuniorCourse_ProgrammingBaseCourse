@@ -46,7 +46,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {1, new CountRowSumAndColumnMultiplicationTask()},
                 {2, new FindingMaxValueInMatrixTask()},
                 {3, new FindingLocalExtremumsTask() },
-                {4, new SummConsoleInputTask() },
+                {4, new Arrays.SummConsoleInputTask() },
                 {5, new FindingTheLongestSubarrayTask() },
                 {6, new BubbleSortingTask() },
                 {7, new StringSplitTask() },
@@ -67,7 +67,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             new Dictionary<int, IRunnable>()
             {
                 {1, new ExplanatoryDictionaryTask()},
-                {2, new QueueTask()}
+                {2, new QueueTask()},
+                {3, new Collections.SummConsoleInputTask()}
             };
 
         private static void Main(string[] args)
@@ -76,7 +77,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(12, conditionsAndCyclesTasks);            
             //RunTask(8, arraysTasks);
             //RunTask(5, functionsTasks);
-            RunTask(2, collectionsTasks);
+            RunTask(3, collectionsTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
