@@ -69,7 +69,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {1, new ExplanatoryDictionaryTask()},
                 {2, new QueueTask()},
                 {3, new Collections.SummConsoleInputTask()},
-                {4, new Collections.ResordsStorageTask()}
+                {4, new Collections.ResordsStorageTask()},
+                {5, new CombineStringArraysTask()}
             };
 
         private static void Main(string[] args)
@@ -78,7 +79,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(12, conditionsAndCyclesTasks);            
             //RunTask(8, arraysTasks);
             //RunTask(5, functionsTasks);
-            RunTask(4, collectionsTasks);
+            RunTask(5, collectionsTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
