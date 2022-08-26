@@ -59,6 +59,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
                 if (i !=0 && currentIndex == startIndex)
                 {
                     currentIndex++;
+
                     if (currentIndex >= array.Length)
                     {
                         currentIndex = 0;
