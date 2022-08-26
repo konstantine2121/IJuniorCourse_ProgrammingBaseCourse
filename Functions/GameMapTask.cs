@@ -77,20 +77,23 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
             while (onExit == false)
             {
-                var input = Console.ReadKey();
-                var isWall = CheckWall(input.Key, out Point nextPlayerLocation);
-
-                if (isWall == false)
+                if (Console.KeyAvailable)
                 {
-                    _playerLocation = nextPlayerLocation;
-                }
+                    var input = Console.ReadKey(true);
+                    var isWall = CheckWall(input.Key, out Point nextPlayerLocation);
 
-                if (_playerLocation == _exitLocation)
-                {
-                    onExit = true;
-                }
+                    if (isWall == false)
+                    {
+                        CleanPlayer();
+                        _playerLocation = nextPlayerLocation;
+                    }
 
-                DrawScene();
+                    if (_playerLocation == _exitLocation)
+                    {
+                        onExit = true;
+                    }
+                    DrawPlayer();
+                }
             }
 
             Console.SetCursorPosition(0, _map.Length + 2);
@@ -147,8 +150,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
             Console.SetCursorPosition(_playerLocation.x, _playerLocation.y);
             Console.Write(Player);
+            Console.SetCursorPosition(_playerLocation.x, _playerLocation.y);
 
             RestoreColors();
+        }
+
+        private void CleanPlayer()
+        {
+            Console.SetCursorPosition(_playerLocation.x, _playerLocation.y);
+            Console.Write(EmptyField);
         }
 
         private void SaveColors()
