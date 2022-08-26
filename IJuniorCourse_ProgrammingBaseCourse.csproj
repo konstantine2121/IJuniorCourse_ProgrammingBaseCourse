@@ -70,6 +70,7 @@
     <Compile Include="Functions\GameMapTask.cs" />
     <Compile Include="Functions\ParsingIntegerTask.cs" />
     <Compile Include="Functions\ResordsStorageTask.cs" />
+    <Compile Include="Functions\ShuffleTask.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgrammingBase\BuySomeCrystals.cs" />
     <Compile Include="ProgrammingBase\ImagesInRow.cs" />

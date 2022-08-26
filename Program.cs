@@ -58,7 +58,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {1, new ResordsStorageTask()},
                 {2, new DrawHealthbarTask()},
                 {3, new ParsingIntegerTask()},
-                {4, new GameMapTask()}
+                {4, new GameMapTask()},
+                {5, new ShuffleTask()}
             };
 
         private static void Main(string[] args)
@@ -66,7 +67,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
             //RunTask(8, arraysTasks);
-            RunTask(4, functionsTasks);
+            RunTask(5, functionsTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
