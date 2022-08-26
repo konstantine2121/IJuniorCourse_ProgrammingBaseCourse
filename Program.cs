@@ -4,13 +4,15 @@ using IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles;
 using System;
 using System.Collections.Generic;
 using IJuniorCourse_ProgrammingBaseCourse.Arrays;
+using IJuniorCourse_ProgrammingBaseCourse.Functions;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
     class Program
     {
         private static Dictionary<int, IRunnable> programmingBaseTasks =
-            new Dictionary<int, IRunnable>(){
+            new Dictionary<int, IRunnable>()
+            {
                 {1, new Variables()},
                 {2, new IntegerDivisionTask()},
                 {3, new SurveyTask()},
@@ -21,7 +23,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             };
 
         private static Dictionary<int, IRunnable> conditionsAndCyclesTasks =
-            new Dictionary<int, IRunnable>(){
+            new Dictionary<int, IRunnable>()
+            {
                 {1, new CycledMessageTask()},
                 {2, new ExitViaConditionTask() },
                 {3, new SequencePrinter() },
@@ -37,7 +40,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             };
 
         private static Dictionary<int, IRunnable> arraysTasks =
-            new Dictionary<int, IRunnable>(){
+            new Dictionary<int, IRunnable>()
+            {
                 {1, new CountRowSumAndColumnMultiplicationTask()},
                 {2, new FindingMaxValueInMatrixTask()},
                 {3, new FindingLocalExtremumsTask() },
@@ -48,11 +52,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {8, new ArrayCycleShiftTask() }
             };
 
+        private static Dictionary<int, IRunnable> functionsTasks =
+            new Dictionary<int, IRunnable>()
+            {
+                {1, new ResordsStorageTask()}
+            };
+
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
-            RunTask(8, arraysTasks);
+            //RunTask(8, arraysTasks);
+            RunTask(1, functionsTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

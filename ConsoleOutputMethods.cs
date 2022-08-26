@@ -18,18 +18,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse
 
         public static void Info(string message, ConsoleColor foregroundColor = ConsoleColor.Green)
         {
-            ConsoleColor color = Console.ForegroundColor;
-            Console.ForegroundColor = foregroundColor;
-            Console.WriteLine(message);
-            Console.ForegroundColor = color;
+            WriteLine(message, foregroundColor);
         }
 
         public static void Warning(string message, ConsoleColor foregroundColor = ConsoleColor.Yellow)
         {
-            ConsoleColor color = Console.ForegroundColor;
-            Console.ForegroundColor = foregroundColor;
-            Console.WriteLine(message);
-            Console.ForegroundColor = color;
+            WriteLine(message, foregroundColor);
         }
     }
 }
