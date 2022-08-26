@@ -53,6 +53,7 @@
     <Compile Include="Arrays\StringSplitTask.cs" />
     <Compile Include="Arrays\SummConsoleInputTask.cs" />
     <Compile Include="Collections\ExplanatoryDictionaryTask.cs" />
+    <Compile Include="Collections\QueueTask.cs" />
     <Compile Include="ConditionsAndCycles\ConsoleCommanderTask.cs" />
     <Compile Include="ConditionsAndCycles\CountingNaturalNumbersTask.cs" />
     <Compile Include="ConditionsAndCycles\ExponentCounterTask.cs" />
