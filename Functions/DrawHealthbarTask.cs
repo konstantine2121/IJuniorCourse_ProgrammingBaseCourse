@@ -7,6 +7,16 @@ using System.Threading.Tasks;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 {
+    /// <summary>
+    /// ///<br/>
+    ///Задача<br/>
+    ///<br/>
+    ///Разработайте функцию, которая рисует некий бар (Healthbar, Manabar) в определённой позиции. Она также принимает некий закрашенный процент.<br/>
+    ///<br/>
+    ///При 40% бар выглядит так:<br/>
+    ///<br/>
+    ///[####______]<br/>
+    /// </summary>
     class DrawHealthbarTask : IRunnable
     {
         #region IRunnable Implementation
