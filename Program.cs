@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using IJuniorCourse_ProgrammingBaseCourse.Arrays;
 using IJuniorCourse_ProgrammingBaseCourse.Functions;
+using IJuniorCourse_ProgrammingBaseCourse.Collections;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
@@ -62,12 +63,19 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {5, new ShuffleTask()}
             };
 
+        private static Dictionary<int, IRunnable> collectionsTasks =
+            new Dictionary<int, IRunnable>()
+            {
+                {1, new ExplanatoryDictionaryTask()}
+            };
+
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
             //RunTask(8, arraysTasks);
-            RunTask(5, functionsTasks);
+            //RunTask(5, functionsTasks);
+            RunTask(1, collectionsTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
