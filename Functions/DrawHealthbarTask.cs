@@ -40,8 +40,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
         #endregion IRunnable Implementation
 
-
-
         private class ConsoleRecord
         {         
             public ConsoleRecord(int cursorLeft, int cursorTop)
