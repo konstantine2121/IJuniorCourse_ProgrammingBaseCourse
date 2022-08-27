@@ -23,8 +23,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
         
         public void Run()
         {
-            HealthBar healthBar = new HealthBar(0,1);
-            HealthBar manaBar = new HealthBar(20, 1);
+            BaseBar healthBar = new BaseBar(0,1);
+            BaseBar manaBar = new BaseBar(20, 1);
 
             healthBar.Health = 4;
             manaBar.Health = 8;
@@ -79,7 +79,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             }
         }
 
-        private class HealthBar : ConsoleRecord
+        private class BaseBar : ConsoleRecord
         {
             public const char LeftFrame = '[';
             public const char RightFrame = ']';
@@ -89,7 +89,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
             protected int _health;
 
-            public HealthBar(int cursorLeft, int cursorTop) : 
+            public BaseBar(int cursorLeft, int cursorTop) : 
                 base(cursorLeft,cursorTop)
             {
                 MaxHealth = 10;
