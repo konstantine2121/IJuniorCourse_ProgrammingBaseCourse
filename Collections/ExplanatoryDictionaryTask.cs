@@ -70,17 +70,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
                         break;
 
                     default:
-                        if (dictionary.ContainsKey(input.ToLower()))
-                        {
-                            string formatedWord = input.FirstOrDefault().ToString().ToUpper() + input.Substring(1);
-
-                            ConsoleOutputMethods.Info($"Значение слова '{formatedWord}':");
-                            Console.WriteLine(formatedWord +" - "+ dictionary[input]);
-                        }
-                        else
-                        {
-                            ConsoleOutputMethods.Warning($"Значение слова '{input}' не найдено!");
-                        }
+                        PrintWordExplanatory(input);
                         break;
                         
                 };
@@ -91,6 +81,21 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
         }
 
         #endregion IRunnable Implementation
+
+        private void PrintWordExplanatory(string word)
+        {
+            if (dictionary.ContainsKey(word.ToLower()))
+            {
+                string formatedWord = word.FirstOrDefault().ToString().ToUpper() + word.Substring(1);
+
+                ConsoleOutputMethods.Info($"Значение слова '{formatedWord}':");
+                Console.WriteLine(formatedWord + " - " + dictionary[word]);
+            }
+            else
+            {
+                ConsoleOutputMethods.Warning($"Значение слова '{word}' не найдено!");
+            }
+        }
 
         private void InitDictionary()
         {
