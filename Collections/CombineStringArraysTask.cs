@@ -1,9 +1,6 @@
 ﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.Collections
 {
@@ -47,7 +44,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
                 {
                     result.Add(line);
                 }
-            }
+            }            
 
             foreach (var line in array2)
             {
@@ -55,7 +52,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
                 {
                     result.Add(line);
                 }
-            }
+            }            
 
             result.Sort();
 
