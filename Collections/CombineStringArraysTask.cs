@@ -38,25 +38,23 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
         {
             List<string> result = new List<string>();
 
-            foreach (var line in array1)
-            {
-                if (result.Contains(line) == false)
-                {
-                    result.Add(line);
-                }
-            }            
-
-            foreach (var line in array2)
-            {
-                if (result.Contains(line) == false)
-                {
-                    result.Add(line);
-                }
-            }            
+            AddUniqueValuesToList(result, array1);
+            AddUniqueValuesToList(result, array2);
 
             result.Sort();
 
             return result;
+        }
+
+        private void AddUniqueValuesToList(List<string> list, IEnumerable<string> newValues)
+        {
+            foreach (var line in newValues)
+            {
+                if (list.Contains(line) == false)
+                {
+                    list.Add(line);
+                }
+            }
         }
 
         private void PrintList(List<string> list)
