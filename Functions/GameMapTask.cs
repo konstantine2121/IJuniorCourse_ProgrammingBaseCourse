@@ -80,9 +80,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
                 if (Console.KeyAvailable)
                 {
                     var input = Console.ReadKey(true);
-                    var isWall = CheckWall(input.Key, out Point nextPlayerLocation);
+                    var nextPlayerLocation = GetNextPlayerLocation(input.Key);
 
-                    if (isWall == false)
+                    if (nextPlayerLocation != _playerLocation)
                     {
                         CleanPlayer();
                         _playerLocation = nextPlayerLocation;
@@ -136,7 +136,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
             Console.ForegroundColor = ConsoleColor.Green;
 
-            Console.SetCursorPosition(_exitLocation.x, _exitLocation.y);
+            Console.SetCursorPosition(_exitLocation.X, _exitLocation.Y);
             Console.Write(Exit);
 
             RestoreColors();
@@ -148,16 +148,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-            Console.SetCursorPosition(_playerLocation.x, _playerLocation.y);
+            Console.SetCursorPosition(_playerLocation.X, _playerLocation.Y);
             Console.Write(Player);
-            Console.SetCursorPosition(_playerLocation.x, _playerLocation.y);
+            Console.SetCursorPosition(_playerLocation.X, _playerLocation.Y);
 
             RestoreColors();
         }
 
         private void CleanPlayer()
         {
-            Console.SetCursorPosition(_playerLocation.x, _playerLocation.y);
+            Console.SetCursorPosition(_playerLocation.X, _playerLocation.Y);
             Console.Write(EmptyField);
         }
 
@@ -175,8 +175,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
         #endregion Drawing
 
-        private bool CheckWall(ConsoleKey input, out Point nextPlayerLocation)
+        private Point GetNextPlayerLocation(ConsoleKey input)
         {
+            Point nextPlayerLocation;
             bool wall = true;
 
             Point nextField = _playerLocation;
@@ -185,37 +186,37 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             switch (input)
             {
                 case ConsoleKey.UpArrow:
-                    nextField.y--;
+                    nextField.Y--;
                     break;
 
                 case ConsoleKey.DownArrow:
-                    nextField.y++;
+                    nextField.Y++;
                     break;
 
                 case ConsoleKey.LeftArrow:
-                    nextField.x--;
+                    nextField.X--;
                     break;
 
                 case ConsoleKey.RightArrow:
-                    nextField.x++;
+                    nextField.X++;
                     break;
             }
 
-            if (nextField.x < 0 || nextField.y < 0 
-                || nextField.y >= _map.GetLength(0)
-                || nextField.x >= _map.GetLength(1))
+            if (nextField.X < 0 || nextField.Y < 0 
+                || nextField.Y >= _map.GetLength(0)
+                || nextField.X >= _map.GetLength(1))
             {
-                return true;
+                return nextPlayerLocation;
             }
 
-            wall = _map[nextField.y, nextField.x] == Wall;
+            wall = _map[nextField.Y, nextField.X] == Wall;
 
             if (wall == false)
             {
                 nextPlayerLocation = nextField;
             }
 
-            return wall;
+            return nextPlayerLocation;
         }
 
         #region Map Loading
@@ -262,23 +263,23 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
         private struct Point
         {
-            public int x;
-            public int y;
+            public int X { get; set; }
+            public int Y { get; set; }
 
             public Point(int x,int y)
             {
-                this.x = x;
-                this.y = y;
+                X = x;
+                Y = y;
             }
 
             public static bool operator == (Point a, Point b)
             {
-                return a.x == b.x && a.y == b.y;
+                return a.X == b.X && a.Y == b.Y;
             }
 
             public static bool operator !=(Point a, Point b)
             {
-                return a.x != b.x || a.y != b.y;
+                return a.X != b.X || a.Y != b.Y;
             }
         } 
 
