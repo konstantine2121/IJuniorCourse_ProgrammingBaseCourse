@@ -23,17 +23,24 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
         
         public void Run()
         {
-            BaseBar healthBar = new BaseBar(0,1);
-            BaseBar manaBar = new BaseBar(20, 1);
+            BaseBar healthBar = new BaseBar(0,1,20);
+            BaseBar manaBar = new BaseBar(30, 1,30);
 
-            healthBar.Health = 4;
-            manaBar.Health = 8;
+            healthBar.MaxValue = 400;
+            healthBar.Value = 250;
 
+            manaBar.MaxValue = 200;
+            manaBar.Value = 69;
+            
             healthBar.ForegroundColor = ConsoleColor.Red;
             manaBar.ForegroundColor = ConsoleColor.Blue;
 
             healthBar.Update();
             manaBar.Update();
+
+            Console.SetCursorPosition(0, 2);
+            Console.WriteLine("Здоровье: {0} / {1}", healthBar.Value, healthBar.MaxValue);
+            Console.WriteLine("Мана: {0} / {1}", manaBar.Value, manaBar.MaxValue);
 
             Console.ReadKey();
         }
@@ -85,36 +92,62 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             public const char FilledValue = '#';
             public const char EmptyValue = '_';
 
-            protected int _health;
+            protected int _value;
+            protected int _maxValue;
 
-            public BaseBar(int cursorLeft, int cursorTop) : 
+            protected int _barWidth;
+
+            public BaseBar(int cursorLeft, int cursorTop, int width) : 
                 base(cursorLeft,cursorTop)
             {
-                MaxHealth = 10;
-                Health = MaxHealth;
+                MaxValue = 10;
+                Value = MaxValue;
+                _barWidth = width;
             }
 
-            public int MaxHealth { get; set; }
-
-            public int Health
+            public int MaxValue
             {
                 get
                 {
-                    return _health;
+                    return _maxValue;
                 }
                 set
                 {
-                    if (value > MaxHealth)
+                    if (value < 0)
                     {
-                        _health = MaxHealth;
-                    }
-                    else if (value < 0)
-                    {
-                        _health = 0;
+                        _maxValue = 0;
                     }
                     else
                     {
-                        _health = value;
+                        _maxValue = value;
+                    }
+
+                    if (value < Value)
+                    {
+                        Value = _maxValue;
+                    }
+                }
+            }
+
+            public int Value
+            {
+                get
+                {
+                    return _value;
+                }
+                set
+                {
+                    if (value > MaxValue)
+                    {
+                        _value = MaxValue;
+                    }
+                    else if (value < 0)
+                    {
+                        _value = 0;
+                    }
+                    else
+                    {
+                        _value = value;
                     }
                 }
             }
@@ -129,9 +162,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             {
                 StringBuilder stringBuilder = new StringBuilder();
 
+                int filledCells =(int) Math.Round((double)Value/MaxValue * _barWidth );
+
                 stringBuilder.Append(LeftFrame);
-                stringBuilder.Append(FilledValue, Health); //Это цикл.
-                stringBuilder.Append(EmptyValue, MaxHealth -  Health); //И это тоже цикл.
+                stringBuilder.Append(FilledValue, filledCells); //Это цикл.
+                stringBuilder.Append(EmptyValue, _barWidth - filledCells); //И это тоже цикл.
                 stringBuilder.Append(RightFrame);
 
                 return stringBuilder.ToString();
