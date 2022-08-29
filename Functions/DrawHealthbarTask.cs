@@ -27,10 +27,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             BaseBar manaBar = new BaseBar(30, 1,30);
 
             healthBar.MaxValue = 400;
-            healthBar.Value = 250;
+            healthBar.CurrentValue = 250;
 
             manaBar.MaxValue = 200;
-            manaBar.Value = 69;
+            manaBar.CurrentValue = 69;
             
             healthBar.ForegroundColor = ConsoleColor.Red;
             manaBar.ForegroundColor = ConsoleColor.Blue;
@@ -39,8 +39,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             manaBar.Update();
 
             Console.SetCursorPosition(0, 2);
-            Console.WriteLine("Здоровье: {0} / {1}", healthBar.Value, healthBar.MaxValue);
-            Console.WriteLine("Мана: {0} / {1}", manaBar.Value, manaBar.MaxValue);
+            Console.WriteLine("Здоровье: {0} / {1}", healthBar.CurrentValue, healthBar.MaxValue);
+            Console.WriteLine("Мана: {0} / {1}", manaBar.CurrentValue, manaBar.MaxValue);
 
             Console.ReadKey();
         }
@@ -87,86 +87,84 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
         private class BaseBar : ConsoleRecord
         {
             public const char LeftFrame = '[';
-            public const char RightFrame = ']';
-            
+            public const char RightFrame = ']';            
             public const char FilledValue = '#';
             public const char EmptyValue = '_';
 
-            protected int _value;
-            protected int _maxValue;
-
-            protected int _barWidth;
+            protected int currentValue;
+            protected int maxValue;
+            protected int barWidth;
 
             public BaseBar(int cursorLeft, int cursorTop, int width) : 
                 base(cursorLeft,cursorTop)
             {
                 MaxValue = 10;
-                Value = MaxValue;
-                _barWidth = width;
+                CurrentValue = MaxValue;
+                barWidth = width;
             }
 
             public int MaxValue
             {
                 get
                 {
-                    return _maxValue;
+                    return maxValue;
                 }
                 set
                 {
                     if (value < 0)
                     {
-                        _maxValue = 0;
+                        maxValue = 0;
                     }
                     else
                     {
-                        _maxValue = value;
+                        maxValue = value;
                     }
 
-                    if (value < Value)
+                    if (value < CurrentValue)
                     {
-                        Value = _maxValue;
+                        CurrentValue = maxValue;
                     }
                 }
             }
 
-            public int Value
+            public int CurrentValue
             {
                 get
                 {
-                    return _value;
+                    return currentValue;
                 }
                 set
                 {
                     if (value > MaxValue)
                     {
-                        _value = MaxValue;
+                        currentValue = MaxValue;
                     }
                     else if (value < 0)
                     {
-                        _value = 0;
+                        currentValue = 0;
                     }
                     else
                     {
-                        _value = value;
+                        currentValue = value;
                     }
                 }
             }
 
             public override void Update()
             {
-                Text = GetHealthBarContent();
+                Text = GetBarContent();
                 base.Update();
             }
 
-            private string GetHealthBarContent()
+            private string GetBarContent()
             {
                 StringBuilder stringBuilder = new StringBuilder();
 
-                int filledCells =(int) Math.Round((double)Value/MaxValue * _barWidth );
+                int filledCells =(int) Math.Round((double)CurrentValue/MaxValue * barWidth );
 
                 stringBuilder.Append(LeftFrame);
                 stringBuilder.Append(FilledValue, filledCells); //Это цикл.
-                stringBuilder.Append(EmptyValue, _barWidth - filledCells); //И это тоже цикл.
+                stringBuilder.Append(EmptyValue, barWidth - filledCells); //И это тоже цикл.
                 stringBuilder.Append(RightFrame);
 
                 return stringBuilder.ToString();
