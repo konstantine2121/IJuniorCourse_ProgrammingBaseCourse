@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.Collections
 {
@@ -15,32 +13,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
     /// </summary>
     class ExplanatoryDictionaryTask : IRunnable
     {
-        /// <summary>
-        /// Девизы Империума Человечества Warhammer 40k.
-        /// </summary>
-        string rawFileContent = @"
-Безделье — суть ереси.
-Безжалостность — доброта мудрого.
-Боль — иллюзия чувств.
-Страх - отрицание веры.
-Отчаяние — иллюзия разума.
-Великодушие — признак слабости.
-Жизнь — это валюта Императора, распоряжайся ею разумно.
-Смерть — освобождение.
-Император — это все.
-Незнание — добродетель.
-Молчание — знак согласия.
-Знание — сила, скрой его.
-Надежда — первый шаг на пути к разочарованию.
-Ненависть — наибольший дар Императора человечеству.
-Невежество — вот отличие еретиков от предателей.
-Оправдания — удел слабых.
-Прощение — признак слабости.
-Счастье — самообман слабых.
-Вера — мой щит! 
-Ярость — мой меч!";
-
-        Dictionary<string, string> dictionary;
+        Dictionary<string, string> _dictionary;
 
         #region IRunnable Implementation
 
@@ -71,9 +44,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
 
                     default:
                         PrintWordExplanatory(input);
-                        break;
-                        
-                };
+                        break;                        
+                }
             }
 
             Console.WriteLine("Выход из программы.");
@@ -84,12 +56,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
 
         private void PrintWordExplanatory(string word)
         {
-            if (dictionary.ContainsKey(word.ToLower()))
+            if (_dictionary.ContainsKey(word.ToLower()))
             {
                 string formatedWord = word.FirstOrDefault().ToString().ToUpper() + word.Substring(1);
 
                 ConsoleOutputMethods.Info($"Значение слова '{formatedWord}':");
-                Console.WriteLine(formatedWord + " - " + dictionary[word]);
+                Console.WriteLine(formatedWord + " - " + _dictionary[word]);
             }
             else
             {
@@ -99,7 +71,34 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
 
         private void InitDictionary()
         {
-            dictionary = new Dictionary<string, string>();
+            #region rawFileContent
+
+            //Девизы Империума Человечества Warhammer 40k.
+            string rawFileContent = @"
+Безделье — суть ереси.
+Безжалостность — доброта мудрого.
+Боль — иллюзия чувств.
+Страх - отрицание веры.
+Отчаяние — иллюзия разума.
+Великодушие — признак слабости.
+Жизнь — это валюта Императора, распоряжайся ею разумно.
+Смерть — освобождение.
+Император — это все.
+Незнание — добродетель.
+Молчание — знак согласия.
+Знание — сила, скрой его.
+Надежда — первый шаг на пути к разочарованию.
+Ненависть — наибольший дар Императора человечеству.
+Невежество — вот отличие еретиков от предателей.
+Оправдания — удел слабых.
+Прощение — признак слабости.
+Счастье — самообман слабых.
+Вера — мой щит! 
+Ярость — мой меч!";
+
+            #endregion rawFileContent
+
+            _dictionary = new Dictionary<string, string>();
 
             var lines = rawFileContent.Split(new char[] { '\n','\r' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -112,9 +111,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
                     var word = parts[0].Trim().ToLower();
                     var explanatory = parts[1].Trim();
 
-                    if (dictionary.ContainsKey(word) == false)
+                    if (_dictionary.ContainsKey(word) == false)
                     {
-                        dictionary.Add(word, explanatory);
+                        _dictionary.Add(word, explanatory);
                     }
                 }
             }
@@ -124,7 +123,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Collections
         {
             ConsoleOutputMethods.Info("Список доступных слов:");
 
-            foreach (var key in dictionary.Keys)
+            foreach (var key in _dictionary.Keys)
             {
                 Console.WriteLine(key);
             }
