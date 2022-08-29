@@ -21,37 +21,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
         private const char Player = '@';
         private const char Exit = '$';
 
-        #region Map Content
-
-        private string _mapContent =
-" ███████████████████████████...........\n" +
-" ██         █              ███        .\n" +
-"██    █     █  ████████    ██ ██      .\n" +
-"██    ███      █               █      .\n" +
-" ██   ██████████    █  █       █      .\n" +
-"  ████         █ ███████     ██       .\n" +
-"  █              ██    ████   █       .\n" +
-" ██ █        ██           █████████   .\n" +
-" █ ██        █       ██     █     ██  .\n" +
-" █ ██       ██       █     █████   ██ .\n" +
-"██  ██████  ██      ██     ██  ██   █ .\n" +
-"██ █          ████  ██     █    █   █ .\n" +
-"██ ██       ██       ███  ██   ██   █ .\n" +
-"██ █       ██      █      █   ██   ██ .\n" +
-"██  █████   ███   ██     █████    ██  .\n" +
-" █            ██   ██   ██     ███    .\n" +
-" █ ██      ██       ██  █  █████      .\n" +
-" █  ██     ██    █     ██ ██          .\n" +
-"  █  ████   ███  ██       █           .\n" +
-"   ████████████████████████           .\n" ;
-
-        #endregion Map Content
-
         private Point _playerLocation;
         private Point _exitLocation;
-
         private char[,] _map;
-
         private ConsoleColor _tempForegroundColor;
         private ConsoleColor _tempBackgroundColor;
 
@@ -77,23 +49,20 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
             while (onExit == false)
             {
-                if (Console.KeyAvailable)
+                var input = Console.ReadKey(true);
+                var nextPlayerLocation = GetNextPlayerLocation(input.Key);
+
+                if (nextPlayerLocation != _playerLocation)
                 {
-                    var input = Console.ReadKey(true);
-                    var nextPlayerLocation = GetNextPlayerLocation(input.Key);
-
-                    if (nextPlayerLocation != _playerLocation)
-                    {
-                        CleanPlayer();
-                        _playerLocation = nextPlayerLocation;
-                    }
-
-                    if (_playerLocation == _exitLocation)
-                    {
-                        onExit = true;
-                    }
-                    DrawPlayer();
+                    CleanPlayer();
+                    _playerLocation = nextPlayerLocation;
                 }
+
+                if (_playerLocation == _exitLocation)
+                {
+                    onExit = true;
+                }
+                DrawPlayer();
             }
 
             Console.SetCursorPosition(0, _map.Length + 2);
@@ -116,7 +85,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
         private void DrawMap()
         {
-            if (_map == null) return;
+            if (_map == null)
+            {
+                return;
+            }
 
             Console.SetCursorPosition(0, 0);
 
@@ -223,7 +195,33 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
         private void InitializeMap()
         {
-            _map = GetCharMatrixFromString(_mapContent, 40, 20);
+            #region Map Content
+
+            string mapContent =
+    " ███████████████████████████...........\n" +
+    " ██         █              ███        .\n" +
+    "██    █     █  ████████    ██ ██      .\n" +
+    "██    ███      █               █      .\n" +
+    " ██   ██████████    █  █       █      .\n" +
+    "  ████         █ ███████     ██       .\n" +
+    "  █              ██    ████   █       .\n" +
+    " ██ █        ██           █████████   .\n" +
+    " █ ██        █       ██     █     ██  .\n" +
+    " █ ██       ██       █     █████   ██ .\n" +
+    "██  ██████  ██      ██     ██  ██   █ .\n" +
+    "██ █          ████  ██     █    █   █ .\n" +
+    "██ ██       ██       ███  ██   ██   █ .\n" +
+    "██ █       ██      █      █   ██   ██ .\n" +
+    "██  █████   ███   ██     █████    ██  .\n" +
+    " █            ██   ██   ██     ███    .\n" +
+    " █ ██      ██       ██  █  █████      .\n" +
+    " █  ██     ██    █     ██ ██          .\n" +
+    "  █  ████   ███  ██       █           .\n" +
+    "   ████████████████████████           .\n";
+
+            #endregion Map Content
+
+            _map = GetCharMatrixFromString(mapContent, 40, 20);
         }
 
         private char [,] GetCharMatrixFromString(string mapContent, int mapWidth,int mapHeight)
