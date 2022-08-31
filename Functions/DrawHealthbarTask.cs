@@ -23,20 +23,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
         
         public void Run()
         {
-            BaseBar healthBar = new BaseBar(0,1,20);
-            BaseBar manaBar = new BaseBar(30, 1,30);
-
-            healthBar.MaxValue = 400;
-            healthBar.CurrentValue = 250;
-
-            manaBar.MaxValue = 200;
-            manaBar.CurrentValue = 69;
-            
-            healthBar.ForegroundColor = ConsoleColor.Red;
-            manaBar.ForegroundColor = ConsoleColor.Blue;
-
-            healthBar.Update();
-            manaBar.Update();
+            var healthBar = DrawBar(0, 1, 75, 200, 20, ConsoleColor.Green);
+            var manaBar = DrawBar(30, 1, 250, 400, 40, ConsoleColor.Blue);
 
             Console.SetCursorPosition(0, 2);
             Console.WriteLine("Здоровье: {0} / {1}", healthBar.CurrentValue, healthBar.MaxValue);
@@ -47,22 +35,35 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
 
         #endregion IRunnable Implementation
 
+        private CommonBar DrawBar(int positionX, int positionY, int value, int maxValue, int barWidth, ConsoleColor color)
+        {
+            CommonBar bar = new CommonBar(positionX, positionY, barWidth, maxValue, foregroundColor: color);
+            bar.CurrentValue = value;
+            bar.Update();
+
+            return bar;
+        }
+
         private class ConsoleRecord
-        {         
-            public ConsoleRecord(int cursorLeft, int cursorTop)
+        {
+            public ConsoleRecord(
+                int cursorLeft, 
+                int cursorTop, 
+                ConsoleColor foregroundColor = ConsoleColor.White , 
+                ConsoleColor backgroundColor = ConsoleColor.Black )
             {
                 CursorLeft = cursorLeft;
                 CursorTop = cursorTop;
 
-                ForegroundColor = ConsoleColor.White;
-                BackgroundColor = ConsoleColor.Black;
+                ForegroundColor = foregroundColor;
+                BackgroundColor = backgroundColor;
             }
 
             public string Text { get; set; }
 
-            public ConsoleColor BackgroundColor { get; set; }
+            public ConsoleColor BackgroundColor { get; private set; }
 
-            public ConsoleColor ForegroundColor { get; set; }
+            public ConsoleColor ForegroundColor { get; private set; }
 
             public int CursorLeft { get; private set; }
 
@@ -84,68 +85,55 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             }
         }
 
-        private class BaseBar : ConsoleRecord
+        private class CommonBar : ConsoleRecord
         {
             public const char LeftFrame = '[';
             public const char RightFrame = ']';            
             public const char FilledValue = '#';
             public const char EmptyValue = '_';
 
-            protected int currentValue;
-            protected int maxValue;
-            protected int barWidth;
+            private int _currentValue;
+            private int _barWidth;
 
-            public BaseBar(int cursorLeft, int cursorTop, int width) : 
-                base(cursorLeft,cursorTop)
+            public CommonBar(
+                int cursorLeft, 
+                int cursorTop, 
+                int width=10, 
+                int maxValue = 10,
+                ConsoleColor foregroundColor = ConsoleColor.White,
+                ConsoleColor backgroundColor = ConsoleColor.Black ) 
+                : base(
+                      cursorLeft, 
+                      cursorTop, 
+                      foregroundColor, 
+                      backgroundColor )
             {
-                MaxValue = 10;
+                MaxValue = maxValue;
                 CurrentValue = MaxValue;
-                barWidth = width;
+                _barWidth = width;
             }
 
-            public int MaxValue
-            {
-                get
-                {
-                    return maxValue;
-                }
-                set
-                {
-                    if (value < 0)
-                    {
-                        maxValue = 0;
-                    }
-                    else
-                    {
-                        maxValue = value;
-                    }
-
-                    if (value < CurrentValue)
-                    {
-                        CurrentValue = maxValue;
-                    }
-                }
-            }
+            public int MaxValue { get; private set; }
 
             public int CurrentValue
             {
                 get
                 {
-                    return currentValue;
+                    return _currentValue;
                 }
                 set
                 {
                     if (value > MaxValue)
                     {
-                        currentValue = MaxValue;
+                        _currentValue = MaxValue;
                     }
                     else if (value < 0)
                     {
-                        currentValue = 0;
+                        _currentValue = 0;
                     }
                     else
                     {
-                        currentValue = value;
+                        _currentValue = value;
                     }
                 }
             }
@@ -160,11 +148,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             {
                 StringBuilder stringBuilder = new StringBuilder();
 
-                int filledCells =(int) Math.Round((double)CurrentValue/MaxValue * barWidth );
+                int filledCells =(int) Math.Round((double)CurrentValue/MaxValue * _barWidth );
 
                 stringBuilder.Append(LeftFrame);
                 stringBuilder.Append(FilledValue, filledCells); //Это цикл.
-                stringBuilder.Append(EmptyValue, barWidth - filledCells); //И это тоже цикл.
+                stringBuilder.Append(EmptyValue, _barWidth - filledCells); //И это тоже цикл.
                 stringBuilder.Append(RightFrame);
 
                 return stringBuilder.ToString();

@@ -78,7 +78,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(7, programmingBaseTasks);
             //RunTask(12, conditionsAndCyclesTasks);            
             //RunTask(8, arraysTasks);
-            RunTask(3, functionsTasks);
+            RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
         }
 
