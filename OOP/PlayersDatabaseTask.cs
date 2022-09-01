@@ -155,7 +155,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 }
             }
 
-            public IEnumerable<Player> SelectAllRecords()
+            public IReadOnlyCollection<Player> SelectAllRecords()
             {
                 return _records;
             }
