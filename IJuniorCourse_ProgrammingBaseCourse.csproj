@@ -77,6 +77,7 @@
     <Compile Include="Functions\ResordsStorageTask.cs" />
     <Compile Include="Functions\ShuffleTask.cs" />
     <Compile Include="OOP\WorkingWithClassesTask.cs" />
+    <Compile Include="OOP\WorkingWithPropertiesTask.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgrammingBase\BuySomeCrystals.cs" />
     <Compile Include="ProgrammingBase\ImagesInRow.cs" />

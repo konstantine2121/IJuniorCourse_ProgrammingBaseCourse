@@ -77,7 +77,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static Dictionary<int, IRunnable> oopTasks =
             new Dictionary<int, IRunnable>()
             {
-                {1, new WorkingWithClassesTask() }
+                {1, new WorkingWithClassesTask() },
+                {2, new WorkingWithPropertiesTask() }
             };
 
         private static void Main(string[] args)
@@ -87,7 +88,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(1, oopTasks);
+            RunTask(2, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

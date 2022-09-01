@@ -52,7 +52,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
             const int minBarWidthValue = 1;
 
             int frameWidth = string.Concat(LeftFrame,RightFrame).Length;
-            int maxBarWidthValue = Console.LargestWindowWidth - frameWidth;
+            int maxBarWidthValue = Console.BufferWidth - frameWidth;
 
             if (barWidth < minBarWidthValue || barWidth > maxBarWidthValue)
             {

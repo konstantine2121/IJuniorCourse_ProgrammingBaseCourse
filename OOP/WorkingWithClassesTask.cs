@@ -1,9 +1,5 @@
 ﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 {
@@ -57,6 +53,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 Name = name;
                 Health= health;
             }
+
             public void PrintInfo()
             {
                 Console.WriteLine("Информаци об игроке.");
