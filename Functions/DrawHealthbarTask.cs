@@ -19,144 +19,74 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Functions
     /// </summary>
     class DrawHealthbarTask : IRunnable
     {
-        #region IRunnable Implementation
+        private const char LeftFrame = '[';
+        private const char RightFrame = ']';
+        private const char FilledValue = '#';
+        private const char EmptyValue = '_';
         
+        #region IRunnable Implementation
+
         public void Run()
         {
-            var healthBar = DrawBar(0, 1, 75, 200, 20, ConsoleColor.Green);
-            var manaBar = DrawBar(30, 1, 250, 400, 40, ConsoleColor.Blue);
-
-            Console.SetCursorPosition(0, 2);
-            Console.WriteLine("Здоровье: {0} / {1}", healthBar.CurrentValue, healthBar.MaxValue);
-            Console.WriteLine("Мана: {0} / {1}", manaBar.CurrentValue, manaBar.MaxValue);
-
+            DrawBar(0, 1, 10, 50, ConsoleColor.Green);
+            DrawBar(0, 2, 20, 70, ConsoleColor.Blue);
+         
             Console.ReadKey();
         }
 
         #endregion IRunnable Implementation
 
-        private CommonBar DrawBar(int positionX, int positionY, int value, int maxValue, int barWidth, ConsoleColor color)
+        /// <summary>
+        /// Отрисовывает строку вида [####______], в указанной части консоли.
+        /// </summary>
+        /// <param name="positionX">Координата Х.</param>
+        /// <param name="positionY">Координата Y.</param>
+        /// <param name="barWidth">Ширина содержимого без учета закрывающих скобок.</param>
+        /// <param name="percent">Процент заполнения полоски.</param>
+        /// <param name="color">Цвет текста.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private void DrawBar(int positionX, int positionY, int barWidth, int percent, ConsoleColor color)
         {
-            CommonBar bar = new CommonBar(positionX, positionY, barWidth, maxValue, foregroundColor: color);
-            bar.CurrentValue = value;
-            bar.Update();
+            const int maxPercentValue = 100;
+            const int minPercentValue = 0;
+            const int minBarWidthValue = 1;
 
-            return bar;
+            int frameWidth = string.Concat(LeftFrame,RightFrame).Length;
+            int maxBarWidthValue = Console.LargestWindowWidth - frameWidth;
+
+            if (barWidth < minBarWidthValue || barWidth > maxBarWidthValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(barWidth));
+            }
+
+            if (percent < minPercentValue || percent > maxPercentValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(percent));
+            }
+
+            ConsoleColor tempForegroundColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+
+            Console.SetCursorPosition(positionX, positionY);
+            var barContent = GetBarContent(percent, barWidth);
+            Console.Write(barContent);
+
+            Console.ForegroundColor = tempForegroundColor;
         }
 
-        private class ConsoleRecord
+        private string GetBarContent(int percent, int barWidth)
         {
-            public ConsoleRecord(
-                int cursorLeft, 
-                int cursorTop, 
-                ConsoleColor foregroundColor = ConsoleColor.White , 
-                ConsoleColor backgroundColor = ConsoleColor.Black )
-            {
-                CursorLeft = cursorLeft;
-                CursorTop = cursorTop;
+            int maxPercentValue = 100;
+            StringBuilder stringBuilder = new StringBuilder();
 
-                ForegroundColor = foregroundColor;
-                BackgroundColor = backgroundColor;
-            }
+            int filledCells = (int)Math.Round((double)percent / maxPercentValue * barWidth);
 
-            public string Text { get; set; }
+            stringBuilder.Append(LeftFrame);
+            stringBuilder.Append(FilledValue, filledCells); //Это цикл.
+            stringBuilder.Append(EmptyValue, barWidth - filledCells); //И это тоже цикл.
+            stringBuilder.Append(RightFrame);
 
-            public ConsoleColor BackgroundColor { get; private set; }
-
-            public ConsoleColor ForegroundColor { get; private set; }
-
-            public int CursorLeft { get; private set; }
-
-            public int CursorTop { get; private set; }
-
-            public virtual void Update()
-            {
-                ConsoleColor tempForegroundColor = Console.ForegroundColor;
-                ConsoleColor tempBackgroundColor = Console.BackgroundColor;
-
-                Console.ForegroundColor = ForegroundColor;
-                Console.BackgroundColor = BackgroundColor;
-
-                Console.SetCursorPosition(CursorLeft, CursorTop);
-                Console.Write(Text);
-
-                Console.ForegroundColor = tempForegroundColor;
-                Console.BackgroundColor = tempBackgroundColor;
-            }
-        }
-
-        private class CommonBar : ConsoleRecord
-        {
-            public const char LeftFrame = '[';
-            public const char RightFrame = ']';            
-            public const char FilledValue = '#';
-            public const char EmptyValue = '_';
-
-            private int _currentValue;
-            private int _barWidth;
-
-            public CommonBar(
-                int cursorLeft, 
-                int cursorTop, 
-                int width=10, 
-                int maxValue = 10,
-                ConsoleColor foregroundColor = ConsoleColor.White,
-                ConsoleColor backgroundColor = ConsoleColor.Black ) 
-                : base(
-                      cursorLeft, 
-                      cursorTop, 
-                      foregroundColor, 
-                      backgroundColor )
-            {
-                MaxValue = maxValue;
-                CurrentValue = MaxValue;
-                _barWidth = width;
-            }
-
-            public int MaxValue { get; private set; }
-
-            public int CurrentValue
-            {
-                get
-                {
-                    return _currentValue;
-                }
-                set
-                {
-                    if (value > MaxValue)
-                    {
-                        _currentValue = MaxValue;
-                    }
-                    else if (value < 0)
-                    {
-                        _currentValue = 0;
-                    }
-                    else
-                    {
-                        _currentValue = value;
-                    }
-                }
-            }
-
-            public override void Update()
-            {
-                Text = GetBarContent();
-                base.Update();
-            }
-
-            private string GetBarContent()
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-
-                int filledCells =(int) Math.Round((double)CurrentValue/MaxValue * _barWidth );
-
-                stringBuilder.Append(LeftFrame);
-                stringBuilder.Append(FilledValue, filledCells); //Это цикл.
-                stringBuilder.Append(EmptyValue, _barWidth - filledCells); //И это тоже цикл.
-                stringBuilder.Append(RightFrame);
-
-                return stringBuilder.ToString();
-            }
+            return stringBuilder.ToString();
         }
     }
 }
