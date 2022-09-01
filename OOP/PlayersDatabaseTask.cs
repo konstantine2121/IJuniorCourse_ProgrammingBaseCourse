@@ -53,6 +53,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             PrintDatabaseInfo(database);
 
+            var playersToUnban = database.SelectAllRecords()
+                .Where(player => player.Level > banLevelCondition);
+
+            foreach (var player in playersToBan)
+            {
+                database.Unban(player.Id);
+            }
+
+            PrintDatabaseInfo(database);
+
             Console.ReadKey();
         }
 
