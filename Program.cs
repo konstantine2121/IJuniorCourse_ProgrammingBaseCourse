@@ -78,7 +78,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             new Dictionary<int, IRunnable>()
             {
                 {1, new WorkingWithClassesTask() },
-                {2, new WorkingWithPropertiesTask() }
+                {2, new WorkingWithPropertiesTask() },
+                {3, new PlayersDatabaseTask() }
             };
 
         private static void Main(string[] args)
@@ -88,7 +89,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(2, oopTasks);
+            RunTask(3, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
