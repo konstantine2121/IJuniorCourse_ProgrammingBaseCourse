@@ -81,7 +81,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {-1, new PlayersModuleCreator().Create() },
                 {1, new WorkingWithClassesTask() },
                 {2, new WorkingWithPropertiesTask() },
-                {3, new PlayersDatabaseTask() }
+                {3, new PlayersDatabaseTask() },
+                {5, new BookStorageTask() }
             };
 
         private static void Main(string[] args)
@@ -91,7 +92,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(-1, oopTasks);
+            RunTask(5, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

@@ -76,6 +76,7 @@
     <Compile Include="Functions\ParsingIntegerTask.cs" />
     <Compile Include="Functions\ResordsStorageTask.cs" />
     <Compile Include="Functions\ShuffleTask.cs" />
+    <Compile Include="OOP\BookStorageTask.cs" />
     <Compile Include="OOP\DatabaseGenericExample\Database\DatabaseGeneric.cs" />
     <Compile Include="OOP\DatabaseGenericExample\Database\PlayersDatabase.cs" />
     <Compile Include="OOP\DatabaseGenericExample\Interfaces\IClonable.cs" />
