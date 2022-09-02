@@ -158,19 +158,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 var result = new List<T>();
 
                 result = Records
-                    .Select(record => CloneRecord(record))
+                    .Select(record => record.Clone())
                     .ToList();
-
-                return result;
-            }
-
-            private T CloneRecord(T record)
-            {
-                if (record == null)
-                {
-                    throw new ArgumentNullException(nameof(record));
-                }
-                var result = record.Clone();
 
                 return result;
             }
