@@ -82,6 +82,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {1, new WorkingWithClassesTask() },
                 {2, new WorkingWithPropertiesTask() },
                 {3, new PlayersDatabaseTask() },
+                {4, new PackOfPlayingCardsTask() },
                 {5, new BookStorageTask() }
             };
 
@@ -92,7 +93,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(5, oopTasks);
+            RunTask(4, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

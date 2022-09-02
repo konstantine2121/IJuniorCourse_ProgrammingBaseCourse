@@ -90,6 +90,7 @@
     <Compile Include="OOP\DatabaseGenericExample\Program\Interfaces\IPlayersModuleView.cs" />
     <Compile Include="OOP\DatabaseGenericExample\Program\Views\ConsoleRecord.cs" />
     <Compile Include="OOP\DatabaseGenericExample\Program\Views\PlayersModuleView.cs" />
+    <Compile Include="OOP\PackOfPlayingCardsTask.cs" />
     <Compile Include="OOP\PlayersDatabaseTask.cs" />
     <Compile Include="OOP\WorkingWithClassesTask.cs" />
     <Compile Include="OOP\WorkingWithPropertiesTask.cs" />
