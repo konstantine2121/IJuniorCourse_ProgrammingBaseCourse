@@ -21,21 +21,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.DatabaseGenericExample.Program
             Inititialize();
         }
 
-        private void Inititialize()
-        {
-            _commandsList = new ConsoleRecord(0, 0);//5 строк
-            _listOfBanned = new ConsoleRecord(80, 0);
-
-            _commandResult = new ConsoleRecord(0, 5);
-            _commandResult.ForegroundColor = ConsoleColor.Yellow;
-
-            _inputField = new ConsoleRecord(0, 6);
-
-            _totalRecords = new ConsoleRecord(0, 10);
-            _databaseContent = new ConsoleRecord(0, 11);
-
-        }
-
         public ConsoleRecord TotalRecords { get { return _totalRecords; }  }
 
         public ConsoleRecord ListOfBanned { get { return _listOfBanned; } }
@@ -58,6 +43,20 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.DatabaseGenericExample.Program
             CommandResult.Update();
             CommandsList.Update();
             InputField.Update();
+        }
+
+        private void Inititialize()
+        {
+            _commandsList = new ConsoleRecord(0, 0);//3 строки
+            _listOfBanned = new ConsoleRecord(80, 0);
+
+            _commandResult = new ConsoleRecord(0, 5);
+            _commandResult.ForegroundColor = ConsoleColor.Yellow;
+
+            _inputField = new ConsoleRecord(0, 6);
+
+            _totalRecords = new ConsoleRecord(0, 10);
+            _databaseContent = new ConsoleRecord(0, 11);
         }
     }
 }
