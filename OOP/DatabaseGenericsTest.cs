@@ -126,6 +126,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class Database<T> where T : IClonable<T>, IIdContainer
         {
+            public const int NotFound = -1;
+
             protected readonly List<T> Records = new List<T>();
 
             public void Insert(T record)
@@ -135,11 +137,22 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     throw new ArgumentNullException(nameof(record));
                 }
 
-                string guid = Guid.NewGuid().ToString("N");
+                string guid = Guid.TryParse(record.Id, out Guid parsedGuid) == false
+                    ? Guid.NewGuid().ToString("N")
+                    : record.Id;
 
                 record.Id = guid;
 
-                Records.Add(record);
+                int indexToUpate = Records.FindIndex(element => element.Id == record.Id);
+                
+                if (indexToUpate == NotFound)
+                {
+                    Records.Add(record);
+                }
+                else
+                {
+                    Records[indexToUpate] = record;
+                }
             }
 
             public void Delete(string playerId)
@@ -149,6 +162,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 if (player != null)
                 {
                     Records.Remove(player);
+                }
+            }
+
+            public void Update(T record)
+            {
+                int indexToUpate = Records.FindIndex(element => element.Id == record.Id);
+
+                if (indexToUpate != NotFound)
+                {
+                    Records[indexToUpate] = record;
                 }
             }
 
