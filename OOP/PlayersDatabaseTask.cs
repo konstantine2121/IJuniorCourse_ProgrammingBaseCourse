@@ -189,7 +189,25 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             public IReadOnlyCollection<PlayerDto> SelectAllRecords()
             {
-                return _records;
+                //Представим, что это датасет. Датасет по умолчанию создает копии записей из БД.
+                var result = new List<PlayerDto>();
+
+                result = _records
+                    .Select(record => CloneRecord(record))
+                    .ToList();
+
+                return result;
+            }
+
+            private PlayerDto CloneRecord(PlayerDto record)
+            {
+                if (record == null)
+                {
+                    throw new ArgumentNullException(nameof(record));
+                }
+                var result = new PlayerDto(record.Id,record.Name, record.Level, record.Banned);
+
+                return result;
             }
         }
     }
