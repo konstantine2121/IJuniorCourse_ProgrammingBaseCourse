@@ -19,7 +19,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         public void Run()
         {
             var player = new Player('@', 20, 5);
-            Console.WriteLine("Игрок '{0}' находится на позиции ({1}, {2})", player.Marker, player.X, player.Y);
+            Console.WriteLine("Игрок '{0}' находится на позиции ({1}, {2})", player.Marker, player.LocationX, player.LocationY);
 
             PlayerRenderer.Draw(player);
 
@@ -32,61 +32,61 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             private const int ConsoleMinLeftOrTopValue = 0;
 
-            private int _x;
-            private int _y;
+            private int _locationX;
+            private int _locationY;
 
-            public Player(char playerMarker, int x,int y)
+            public Player(char playerMarker, int locationX,int locationY)
             {
                 Marker = playerMarker;
 
-                X = x;
-                Y = y;
+                LocationX = locationX;
+                LocationY = locationY;
             }
 
             public char Marker{ get; private set; }
 
-            public int X
+            public int LocationX
             {
                 get
                 {
-                    return _x;
+                    return _locationX;
                 }
                 set
                 {
                     if (value < ConsoleMinLeftOrTopValue)
                     {
-                        _x = 0;
+                        _locationX = 0;
                     }
                     if (value >= Console.BufferWidth)
                     {
-                        _x = Console.BufferWidth - 1;
+                        _locationX = Console.BufferWidth - 1;
                     }
                     else
                     {
-                        _x = value;
+                        _locationX = value;
                     }
                 }
             }
 
-            public int Y
+            public int LocationY
             {
                 get
                 {
-                    return _y;
+                    return _locationY;
                 }
                 set
                 {
                     if (value < ConsoleMinLeftOrTopValue)
                     {
-                        _y = 0;
+                        _locationY = 0;
                     }
                     if (value >= Console.BufferHeight)
                     {
-                        _y = Console.BufferHeight - 1;
+                        _locationY = Console.BufferHeight - 1;
                     }
                     else
                     {
-                        _y = value;
+                        _locationY = value;
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             public static void Draw(Player player)
             {
-                Console.SetCursorPosition(player.X, player.Y);
+                Console.SetCursorPosition(player.LocationX, player.LocationY);
                 Console.Write(player.Marker);
             }
         }
