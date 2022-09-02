@@ -120,6 +120,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class PlayersDatabase
         {
+            public const int NotFound = -1;
+
             private readonly List<PlayerDto> _records = new List<PlayerDto>();
 
             public void Insert(PlayerDto player)
@@ -129,11 +131,22 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     throw new ArgumentNullException(nameof(player));
                 }
 
-                string guid = Guid.NewGuid().ToString("N");
+                string guid = Guid.TryParse(player.Id, out Guid parsedGuid) == false
+                   ? Guid.NewGuid().ToString("N")
+                   : player.Id;
 
                 player.Id = guid;
 
-                _records.Add(player);
+                int indexToUpate = _records.FindIndex(element => element.Id == player.Id);
+
+                if (indexToUpate == NotFound)
+                {
+                    _records.Add(player);
+                }
+                else
+                {
+                    _records[indexToUpate] = player;
+                }
             }
 
             public void Insert(string name, int level, bool banned = false)
