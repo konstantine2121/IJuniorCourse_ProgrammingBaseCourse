@@ -21,14 +21,26 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             var player = new Player('@', 20, 5);
             Console.WriteLine("Игрок '{0}' находится на позиции ({1}, {2})", player.Marker, player.LocationX, player.LocationY);
 
-            PlayerRenderer.Draw(player);
+            var renderer = new PlayerRenderer();
+
+            renderer.Draw(player);
 
             Console.ReadKey();
         }
 
         #endregion IRunnable Implementation
 
-        private class Player
+        private interface IReadOnlyPlayer
+        {
+            char Marker { get; }
+
+            int LocationX { get; }
+
+            int LocationY { get; }
+        }
+
+
+        private class Player : IReadOnlyPlayer
         {
             private const int ConsoleMinLeftOrTopValue = 0;
 
@@ -94,7 +106,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class PlayerRenderer
         {
-            public static void Draw(Player player)
+            public void Draw(IReadOnlyPlayer player)
             {
                 Console.SetCursorPosition(player.LocationX, player.LocationY);
                 Console.Write(player.Marker);
