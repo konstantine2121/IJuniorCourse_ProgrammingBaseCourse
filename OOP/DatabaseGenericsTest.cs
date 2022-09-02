@@ -26,7 +26,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             int banLevelCondition = 80;
             string removeNameCondition = "p1";
 
-            var database = new PlayersDatabase ();
+            var database = new PlayersDatabase();
 
             database.Insert(new Player(string.Empty, "p1", 1));
             database.Insert(new Player(string.Empty, "p2", 10));
@@ -97,9 +97,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         #endregion IRunnable Implementation
 
-        /// <summary>
-        /// DTO
-        /// </summary>
         private class Player : IIdContainer, IClonable<Player>
         {
             public Player (string id, string name, int level, bool banned = false)
