@@ -7,6 +7,7 @@ using IJuniorCourse_ProgrammingBaseCourse.Arrays;
 using IJuniorCourse_ProgrammingBaseCourse.Functions;
 using IJuniorCourse_ProgrammingBaseCourse.Collections;
 using IJuniorCourse_ProgrammingBaseCourse.OOP;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.DatabaseGenericExample.Program.Creators;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
@@ -77,7 +78,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static Dictionary<int, IRunnable> oopTasks =
             new Dictionary<int, IRunnable>()
             {
-                {-1, new DatabaseGenericsTest() },
+                {-1, new PlayersModuleCreator().Create() },
                 {1, new WorkingWithClassesTask() },
                 {2, new WorkingWithPropertiesTask() },
                 {3, new PlayersDatabaseTask() }

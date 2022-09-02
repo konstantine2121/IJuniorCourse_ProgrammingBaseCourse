@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IJuniorCourse_ProgrammingBaseCourse.OOP.Interfaces
+namespace IJuniorCourse_ProgrammingBaseCourse.OOP.DatabaseGenericExample.Interfaces
 {
-    interface IIdContainer
+    public interface IIdContainer
     {
         string Id { get; set; }
     }
