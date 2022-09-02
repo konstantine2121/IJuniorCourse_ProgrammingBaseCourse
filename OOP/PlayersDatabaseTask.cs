@@ -27,9 +27,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             var database = new PlayersDatabase();
 
-            database.Insert(new Player(string.Empty, "p1", 1));
-            database.Insert(new Player(string.Empty, "p2", 10));
-            database.Insert(new Player(string.Empty, "p3", 100));
+            database.Insert(new PlayerDto(string.Empty, "p1", 1));
+            database.Insert(new PlayerDto(string.Empty, "p2", 10));
+            database.Insert(new PlayerDto(string.Empty, "p3", 100));
+            database.Insert("p4", 120, false);
 
             PrintDatabaseInfo(database);
 
@@ -81,7 +82,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             Console.WriteLine();
         }
 
-        private void PrintPlayerInfo(Player player)
+        private void PrintPlayerInfo(PlayerDto player)
         {   
             if (player == null)
             {
@@ -98,9 +99,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         /// <summary>
         /// DTO
         /// </summary>
-        private class Player
+        private class PlayerDto
         {
-            public Player (string id, string name, int level, bool banned = false)
+            public PlayerDto (string id, string name, int level, bool banned = false)
             {
                 Id = id;
                 Name = name;
@@ -119,9 +120,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class PlayersDatabase
         {
-            private readonly List<Player> _records = new List<Player>();
+            private readonly List<PlayerDto> _records = new List<PlayerDto>();
 
-            public void Insert(Player player)
+            public void Insert(PlayerDto player)
             {
                 if (player == null)
                 {
@@ -131,6 +132,27 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 string guid = Guid.NewGuid().ToString("N");
 
                 player.Id = guid;
+
+                _records.Add(player);
+            }
+
+            public void Insert(string name, int level, bool banned = false)
+            {
+                const int minLevel = 1;
+
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new ArgumentNullException(nameof(name));
+                }
+
+                if (level < minLevel)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(level));
+                }
+
+                string guid = Guid.NewGuid().ToString("N");
+
+                PlayerDto player = new PlayerDto(guid, name, level, banned);
 
                 _records.Add(player);
             }
@@ -165,7 +187,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 }
             }
 
-            public IReadOnlyCollection<Player> SelectAllRecords()
+            public IReadOnlyCollection<PlayerDto> SelectAllRecords()
             {
                 return _records;
             }
