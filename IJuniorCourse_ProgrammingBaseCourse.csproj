@@ -93,6 +93,7 @@
     <Compile Include="OOP\PackOfPlayingCardsTask.cs" />
     <Compile Include="OOP\PlayersDatabaseTask.cs" />
     <Compile Include="OOP\ShopTask.cs" />
+    <Compile Include="OOP\TrainConfiguratorTask.cs" />
     <Compile Include="OOP\WorkingWithClassesTask.cs" />
     <Compile Include="OOP\WorkingWithPropertiesTask.cs" />
     <Compile Include="Program.cs" />

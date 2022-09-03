@@ -84,17 +84,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {3, new PlayersDatabaseTask() },
                 {4, new PackOfPlayingCardsTask() },
                 {5, new BookStorageTask() },
-                {6, new ShopTask() }
+                {6, new ShopTask() },
+                {7, new TrainConfiguratorTask() }
             };
 
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            RunTask(12, conditionsAndCyclesTasks);            
+            //RunTask(12, conditionsAndCyclesTasks);            
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            //RunTask(4, oopTasks);
+            RunTask(7, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
