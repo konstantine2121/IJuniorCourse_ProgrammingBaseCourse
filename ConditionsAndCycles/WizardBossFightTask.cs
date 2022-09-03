@@ -125,7 +125,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             _player = new Player(0, 0);
 
             _actionsStatusBar = new ConsoleRecord(0, 9);
-            _actionsStatusBar.ForegroundColor = ConsoleColor.Green;
+            _actionsStatusBar.ForegroundColor = ConsoleColor.White;
 
             Console.CursorVisible = false;
         }
@@ -141,9 +141,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         private void UpdateActionsBar()
         {
+            const string format = "{0, 20}\t{1, 2} \n";
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("Доступные действия: ");
+            stringBuilder.AppendLine("Доступные действия: ");
 
             foreach (var abilityType in _player.Abilities.Keys)
             {
@@ -151,11 +152,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 if (ability.Status == AbilityStatus.Available)
                 {
-                    stringBuilder.AppendFormat("{0} {1, 2}, ", ability.Name, (int)abilityType);
+                    stringBuilder.AppendFormat(format, ability.Name, (int)abilityType);
                 }
             }
 
-            stringBuilder.AppendFormat("Пропустить ход {0}", (int) AbilityType.SkipStep);
+            stringBuilder.AppendFormat(format, "Пропустить ход",(int) AbilityType.SkipStep);
 
             _actionsStatusBar.Text = stringBuilder.ToString();
 
@@ -217,8 +218,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 ConsoleColor tempColor = Console.ForegroundColor;
                 Console.ForegroundColor = ForegroundColor;
 
-                Console.SetCursorPosition(CursorLeft, CursorTop);
-                Console.Write(Text);
+                int positionY = CursorTop;
+
+                var lines = Text.Split(new[] { '\r', '\n' }, StringSplitOptions.None);
+
+                foreach (var line in lines)
+                {
+                    Console.SetCursorPosition(CursorLeft, positionY);
+                    Console.Write(line);
+                    positionY++;
+                }
 
                 Console.ForegroundColor = tempColor;
             }
@@ -371,6 +380,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             public const int HealedHPValue = 250;
 
             private readonly Dictionary<AbilityType, Ability> _abilities = new Dictionary<AbilityType, Ability>();
+            private ConsoleRecord _abilitiesBar;
 
             public Player(int cursorLeft, int cursorTop) : base(cursorLeft, cursorTop)
             {
@@ -379,6 +389,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 HealthBar.ForegroundColor = ConsoleColor.Green;
                 DamageBar.ForegroundColor = ConsoleColor.Red;
+
+                _abilitiesBar = new ConsoleRecord(0, 3);
+                _abilitiesBar.ForegroundColor = ConsoleColor.DarkCyan;
+                _abilitiesBar.Text = "Статус способностей";
 
                 InitStartValues();
                 InitAbilities(cursorLeft, cursorTop);
@@ -389,7 +403,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             {
                 get
                 {
-                    return (IReadOnlyDictionary<AbilityType, IReadOnlyAbility>)_abilities;
+                    return (IReadOnlyDictionary<AbilityType, IReadOnlyAbility>) _abilities;
                 }
             }
 
@@ -490,7 +504,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             public override void Update()
             {
                 base.Update();
-
+                _abilitiesBar.Update();
                 foreach (var ability in _abilities.Values)
                 {
                     ability.StatusBar.Update();
