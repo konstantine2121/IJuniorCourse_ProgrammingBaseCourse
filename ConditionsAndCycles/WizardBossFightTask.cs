@@ -32,15 +32,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             {
                 if (_player.Invincible)
                 {
-                    _player.Invincible = false;
-                    _player.abilities[Player.AbilityType.DemonCall].Status = Player.AbilityStatus.Available;
-                    _player.abilities[Player.AbilityType.DemonAttack].Status = Player.AbilityStatus.Unavailable;
+                    _player.Invincible = false; 
+                    _player.ResetDemonAbility();
                 }
 
                 if (_player.Attacking)
                 {
-                    _player.abilities[Player.AbilityType.DemonCall].Status = Player.AbilityStatus.Available;
-                    _player.abilities[Player.AbilityType.DemonAttack].Status = Player.AbilityStatus.Unavailable;                    
+                    _player.ResetDemonAbility();
                 }
 
                 UpdateScene();
@@ -112,7 +110,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             _player = new Player(horisontalOffset, playerVerticalOffset);
 
             _actionsStatusBar = new ConsoleRecord(horisontalOffset, actionsBarVeticalOffset);
-            _actionsStatusBar.foregroundColor = ConsoleColor.Green;
+            _actionsStatusBar.ForegroundColor = ConsoleColor.Green;
 
             Console.CursorVisible = false;
         }
@@ -135,7 +133,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             foreach (var abilityType in _player.abilities.Keys)
             {
-                var ability = _player.abilities[abilityType];
+                var ability = _player._abilities[abilityType];
 
                 if (ability.Status == Player.AbilityStatus.Available)
                 {
@@ -145,7 +143,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             stringBuilder.AppendFormat("Пропустить ход {0}", (int) Player.AbilityType.SkipStep);
 
-            _actionsStatusBar.text = stringBuilder.ToString();
+            _actionsStatusBar.Text = stringBuilder.ToString();
 
             _actionsStatusBar.Update();
         }
@@ -167,12 +165,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
         private class Player : Boss
         {
             public const int MaxHealth = 700;
-
             public const int HealedHPValue = 250;
 
-            public readonly Dictionary<AbilityType, Ability> abilities = new Dictionary<AbilityType, Ability>();
+            private readonly Dictionary<AbilityType, Ability> _abilities = new Dictionary<AbilityType, Ability>();
             
-
             public enum AbilityStatus
             {
                 Unavailable,                
@@ -190,11 +186,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             public Player(int cursorLeft, int cursorTop) : base(cursorLeft, cursorTop)
             {
-                text = "Player";
-                foregroundColor = ConsoleColor.Cyan;
+                Text = "Player";
+                ForegroundColor = ConsoleColor.Cyan;
 
-                _healthBar.foregroundColor = ConsoleColor.Green;
-                _damageBar.foregroundColor = ConsoleColor.Red;
+                HealthBar.ForegroundColor = ConsoleColor.Green;
+                DamageBar.ForegroundColor = ConsoleColor.Red;
 
                 InitStartValues();
                 InitAbilities();
@@ -202,26 +198,32 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             public bool Attacking
             {
-                get { return abilities[AbilityType.DemonAttack].Status == Player.AbilityStatus.Active; }
+                get { return _abilities[AbilityType.DemonAttack].Status == Player.AbilityStatus.Active; }
             }
 
             public bool Invincible
             {
                 get 
                 { 
-                    return abilities[AbilityType.DimensionalRift].Status == AbilityStatus.Active; 
+                    return _abilities[AbilityType.DimensionalRift].Status == AbilityStatus.Active; 
                 }
                 set
                 {
                     if (value)
                     {
-                        abilities[AbilityType.DimensionalRift].Status = Player.AbilityStatus.Active;                        
+                        _abilities[AbilityType.DimensionalRift].Status = Player.AbilityStatus.Active;                        
                     }
                     else
                     {
-                        abilities[AbilityType.DimensionalRift].Status = Player.AbilityStatus.Available;
+                        _abilities[AbilityType.DimensionalRift].Status = Player.AbilityStatus.Available;
                     }
                 }
+            }
+
+            public void ResetDemonAbility()
+            {
+               _abilities[Player.AbilityType.DemonCall].Status = Player.AbilityStatus.Available;
+               _abilities[Player.AbilityType.DemonAttack].Status = Player.AbilityStatus.Unavailable;
             }
 
             public void PerformAction(AbilityType actionType)
@@ -229,37 +231,37 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 switch (actionType)
                 {
                     case AbilityType.SkipStep:
-                        abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
-                        abilities[AbilityType.DemonAttack].Status = AbilityStatus.Unavailable;
+                        _abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
+                        _abilities[AbilityType.DemonAttack].Status = AbilityStatus.Unavailable;
                         break;
 
                     case AbilityType.DemonCall:
-                        if (abilities[AbilityType.DemonCall].Status == AbilityStatus.Active)
+                        if (_abilities[AbilityType.DemonCall].Status == AbilityStatus.Active)
                         {
-                            abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
-                            abilities[AbilityType.DemonAttack].Status = AbilityStatus.Unavailable;
+                            _abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
+                            _abilities[AbilityType.DemonAttack].Status = AbilityStatus.Unavailable;
                         }
                         else
                         {
-                            abilities[AbilityType.DemonCall].Status = AbilityStatus.Active;
-                            abilities[AbilityType.DemonAttack].Status = AbilityStatus.Available;
+                            _abilities[AbilityType.DemonCall].Status = AbilityStatus.Active;
+                            _abilities[AbilityType.DemonAttack].Status = AbilityStatus.Available;
 
                             health -= damagePerHit;
                         }
                         break;
 
                     case AbilityType.DemonAttack:
-                        if (abilities[AbilityType.DemonCall].Status == AbilityStatus.Active 
-                            && abilities[AbilityType.DemonAttack].Status == AbilityStatus.Available)
+                        if (_abilities[AbilityType.DemonCall].Status == AbilityStatus.Active 
+                            && _abilities[AbilityType.DemonAttack].Status == AbilityStatus.Available)
                         {
-                            abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
-                            abilities[AbilityType.DemonAttack].Status = AbilityStatus.Active;
+                            _abilities[AbilityType.DemonCall].Status = AbilityStatus.Available;
+                            _abilities[AbilityType.DemonAttack].Status = AbilityStatus.Active;
                         }
                         break;
 
                     case AbilityType.DimensionalRift:
-                        abilities[AbilityType.DemonCall].Status = AbilityStatus.Unavailable;
-                        abilities[AbilityType.DemonAttack].Status = AbilityStatus.Unavailable;
+                        _abilities[AbilityType.DemonCall].Status = AbilityStatus.Unavailable;
+                        _abilities[AbilityType.DemonAttack].Status = AbilityStatus.Unavailable;
                         Invincible = true;
                         health += HealedHPValue;
                         if (health > MaxHealth)
@@ -274,9 +276,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             {
                 base.Update();
 
-                foreach (var ability in abilities.Values)
+                foreach (var ability in _abilities.Values)
                 {
-                    ability.statusBar.Update();
+                    ability._statusBar.Update();
                 }
             }
 
@@ -290,29 +292,29 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
                 demonCall.Name = "Рашамон";
                 demonCall.Info = "Призывает демона (Отнимает "+ damagePerHit + " хп игроку)";                
-                demonCall.statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
-                demonCall.statusBar.text = demonCall.Name + ": " + demonCall.Info;
+                demonCall._statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
+                demonCall._statusBar.text = demonCall.Name + ": " + demonCall.Info;
                 demonCall.Status = AbilityStatus.Available;
 
                 verticalOffset++;
 
                 demonAttack.Name = "Хуганзакура";
                 demonAttack.Info = "Демон наносит "+ damagePerHit + " ед. урона врагу и испаряется.";                
-                demonAttack.statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
-                demonAttack.statusBar.text = demonAttack.Name + ": " + demonAttack.Info;
+                demonAttack._statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
+                demonAttack._statusBar.text = demonAttack.Name + ": " + demonAttack.Info;
                 demonAttack.Status = AbilityStatus.Unavailable;
 
                 verticalOffset++;
 
                 dimensionalRift.Name = "Разлом";
                 dimensionalRift.Info = "Позволяет скрыться в разломе и восстановить "+ HealedHPValue + " хп.";
-                dimensionalRift.statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
-                dimensionalRift.statusBar.text = dimensionalRift.Name + ": " + dimensionalRift.Info;
+                dimensionalRift._statusBar = new ConsoleRecord(CursorLeft, CursorTop + verticalOffset);
+                dimensionalRift._statusBar.text = dimensionalRift.Name + ": " + dimensionalRift.Info;
                 dimensionalRift.Status = AbilityStatus.Available;
 
-                abilities.Add(AbilityType.DemonCall, demonCall);
-                abilities.Add(AbilityType.DemonAttack, demonAttack);
-                abilities.Add(AbilityType.DimensionalRift, dimensionalRift);
+                _abilities.Add(AbilityType.DemonCall, demonCall);
+                _abilities.Add(AbilityType.DemonAttack, demonAttack);
+                _abilities.Add(AbilityType.DimensionalRift, dimensionalRift);
             }
 
             private void InitStartValues()
@@ -323,13 +325,28 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             public class Ability
             {
-                public ConsoleRecord statusBar;
-
+                private readonly ConsoleRecord _statusBar;
                 private AbilityStatus _status;
 
-                public string Name { get; set; }
+                public Ability(string name, string info, int cursorLeft, int cursorTop)
+                {
+                    Name = name;
+                    Info = info;
 
-                public string Info { get; set; }
+                    _statusBar = new ConsoleRecord(cursorLeft, cursorTop);
+                }
+
+                public string Name { get; private set; }
+
+                public string Info { get; private set; }
+
+                public ConsoleRecord StatusBar 
+                { 
+                    get 
+                    { 
+                        return _statusBar; 
+                    } 
+                }
 
                 public AbilityStatus Status
                 {
@@ -341,18 +358,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                     {
                         _status = value;
 
-                        if (statusBar != null)
+                        if (_statusBar != null)
                         {
                             switch (value)
                             {
                                 case AbilityStatus.Unavailable:
-                                    statusBar.foregroundColor = ConsoleColor.Red;
+                                    _statusBar.ForegroundColor = ConsoleColor.Red;
                                     break;
                                 case AbilityStatus.Available:
-                                    statusBar.foregroundColor = ConsoleColor.White;
+                                    _statusBar.ForegroundColor = ConsoleColor.White;
                                     break;
                                 case AbilityStatus.Active:
-                                    statusBar.foregroundColor = ConsoleColor.Green;
+                                    _statusBar.ForegroundColor = ConsoleColor.Green;
                                     break;
                             }
                         }
@@ -361,32 +378,31 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             }
         }
 
-        private class Boss : ConsoleRecord
+        private class Boss
         {
             public int health = 1000;            
             public int damagePerHit = 200;
 
-            protected ConsoleRecord _healthBar;
-            protected ConsoleRecord _damageBar;
+            protected ConsoleRecord HealthBar;
+            protected ConsoleRecord DamageBar;
+            protected ConsoleRecord NameBar;
 
-            public Boss(int cursorLeft, int cursorTop) : base (cursorLeft, cursorTop)
+            public Boss(int cursorLeft, int cursorTop)
             {
-                text = "Boss";
-                foregroundColor = ConsoleColor.DarkRed;
+                int verticalOffset = 0;
 
-                var verticalOffset = 1;
-                _healthBar = new ConsoleRecord(
-                    cursorLeft,
-                    cursorTop+verticalOffset);
-                
+                NameBar = new ConsoleRecord(cursorLeft, cursorTop + verticalOffset);
                 verticalOffset++;
 
-                _damageBar = new ConsoleRecord(
-                    cursorLeft, 
-                    cursorTop+verticalOffset);
+                HealthBar = new ConsoleRecord(cursorLeft, cursorTop+verticalOffset);
+                verticalOffset++;
 
-                _healthBar.foregroundColor = ConsoleColor.Green;
-                _damageBar.foregroundColor = ConsoleColor.Red;
+                DamageBar = new ConsoleRecord(cursorLeft, cursorTop+verticalOffset);
+
+                NameBar.Text = "Boss";
+                NameBar.ForegroundColor = ConsoleColor.DarkRed;
+                HealthBar.ForegroundColor = ConsoleColor.Green;
+                DamageBar.ForegroundColor = ConsoleColor.Red;
             }
 
             public bool Dead
@@ -394,29 +410,28 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 get { return health <= 0; }
             }
 
-            public override void Update()
+            public virtual void Update()
             {
-                base.Update();
+                HealthBar.Text = "Health: " + health;
+                DamageBar.Text = "Damage: " + damagePerHit;
 
-                _healthBar.text = "Health: " + health;
-                _damageBar.text = "Damage: " + damagePerHit;
-
-                _healthBar.Update();
-                _damageBar.Update();
+                NameBar.Update();
+                HealthBar.Update();
+                DamageBar.Update();
             }
         }
 
         private class ConsoleRecord
         {
-            public string text;
-
-            public ConsoleColor foregroundColor = ConsoleColor.White;
-
             public ConsoleRecord(int cursorLeft, int cursorTop)
             {
                 CursorLeft = cursorLeft;
                 CursorTop = cursorTop;
             }
+
+            public string Text { get; set; }
+            
+            public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.White;
           
             public int CursorLeft { get; private set; }
 
@@ -425,10 +440,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             public virtual void Update()
             {
                 ConsoleColor tempColor = Console.ForegroundColor;
-                Console.ForegroundColor = foregroundColor;
+                Console.ForegroundColor = ForegroundColor;
 
                 Console.SetCursorPosition(CursorLeft, CursorTop);
-                Console.Write(text);
+                Console.Write(Text);
 
                 Console.ForegroundColor = tempColor;
             }

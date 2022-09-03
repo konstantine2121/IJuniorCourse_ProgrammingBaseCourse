@@ -262,11 +262,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             private bool CheckSolvency(IEnumerable<Item> itemsToBuy, int customerCash)
             {
-                if ( itemsToBuy.Sum(item => item.Price) > customerCash)
-                {
-                    return false;
-                }
-                return true;
+                return itemsToBuy.Sum(item => item.Price) <= customerCash;
             }
 
             private bool CheckAllItemsAvailable(IEnumerable<Item> itemsToBuy)
