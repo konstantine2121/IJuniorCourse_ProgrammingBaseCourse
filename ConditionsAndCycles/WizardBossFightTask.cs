@@ -380,6 +380,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             public const int HealedHPValue = 250;
 
             private readonly Dictionary<AbilityType, Ability> _abilities = new Dictionary<AbilityType, Ability>();
+
+            //Костыль... чтоб его.
+            private readonly Dictionary<AbilityType, IReadOnlyAbility> _readOnlyAbilities = new Dictionary<AbilityType, IReadOnlyAbility>();
             private ConsoleRecord _abilitiesBar;
 
             public Player(int cursorLeft, int cursorTop) : base(cursorLeft, cursorTop)
@@ -402,8 +405,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
             public IReadOnlyDictionary<AbilityType, IReadOnlyAbility> Abilities
             {
                 get
-                {
-                    return (IReadOnlyDictionary<AbilityType, IReadOnlyAbility>) _abilities;
+                {                    
+                    return _readOnlyAbilities;
                 }
             }
 
@@ -442,14 +445,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
             public void UpdateAbilitiesState()
             {
+                if (Attacking || Invincible)
+                {
+                    ResetDemonAbility();
+                }
+
                 if (Invincible)
                 {
                     Invincible = false;
-                }
-
-                if (Attacking)
-                {
-                    ResetDemonAbility();
                 }
             }
 
@@ -549,6 +552,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 _abilities.Add(AbilityType.DemonCall, demonCall);
                 _abilities.Add(AbilityType.DemonAttack, demonAttack);
                 _abilities.Add(AbilityType.DimensionalRift, dimensionalRift);
+
+                _readOnlyAbilities.Add(AbilityType.DemonCall, demonCall);
+                _readOnlyAbilities.Add(AbilityType.DemonAttack, demonAttack);
+                _readOnlyAbilities.Add(AbilityType.DimensionalRift, dimensionalRift);
             }
 
             private void InitStartValues()
