@@ -13,6 +13,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
     /// </summary>
     class PackOfPlayingCardsTask : IRunnable
     {
+        private Player _player;
+        private PlayingCardPack _cardPack;
+        private CardInfoPrinter _cardInfoPrinter;
+
         /// <summary>
         /// French-suited playing cards
         /// </summary>
@@ -57,34 +61,89 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         public void Run()
         {
-            Player player = new Player();
-            PlayingCardPack cardPack = new PlayingCardPack();
-            CardInfoPrinter cardInfoPrinter = new CardInfoPrinter();
+            _player = new Player();
+            _cardPack = new PlayingCardPack(GetFullCardPack());
+            _cardInfoPrinter = new CardInfoPrinter();
 
             Console.WriteLine("Карты игрока:");
-            cardInfoPrinter.PrintCardsInfo(player.ShowAllCards());
+            _cardInfoPrinter.PrintCardsInfo(_player.ShowAllCards());
 
-            Console.WriteLine("Берем одну карту.");
-            player.TakeSingleCard(cardPack.GetSingleCard());
-
-            Console.WriteLine("Карты игрока:");
-            cardInfoPrinter.PrintCardsInfo(player.ShowAllCards());
-
-            int numberToPickUp = 5;
-            Console.WriteLine($"Берем {numberToPickUp} карт.");
-            player.TakeNumberOfCards(cardPack.GetNumberOfCards(numberToPickUp));
-
-            Console.WriteLine("Карты игрока:");
-            cardInfoPrinter.PrintCardsInfo(player.ShowAllCards());
+            PrintCardPicking(1);
+            PrintCardPicking(2);
+            PrintCardPicking(100);
+            PrintCardPicking(5);
+            PrintCardPicking(3);
         }
 
         #endregion IRunnable Implementation
+        
+        private void PrintCardPicking(int numberToPickUp)
+        {
+            List<PlayingCard> cardsToPickUp;
+            PlayingCard card;
+
+            if (numberToPickUp == 1)
+            {
+                Console.WriteLine("Берем одну карту.");
+
+                if (_cardPack.TryGetSingleCard(out card))
+                {
+                    _player.TakeSingleCard(card);
+                    ConsoleOutputMethods.Info("Успешно.");
+                }
+                else
+                {
+                    ConsoleOutputMethods.Warning("Неудача.");
+                }
+            }
+            else
+            {
+                if (numberToPickUp < 5)
+                {
+                    Console.WriteLine($"Берем {numberToPickUp} карты.");
+                }
+                else
+                {
+                    Console.WriteLine($"Берем {numberToPickUp} карт.");
+                }
+                if (_cardPack.TryGetNumberOfCards(numberToPickUp, out cardsToPickUp))
+                {
+                    _player.TakeNumberOfCards(cardsToPickUp);
+                    ConsoleOutputMethods.Info("Успешно.");
+                }
+                else
+                {
+                    ConsoleOutputMethods.Warning("Неудача.");
+                }
+            }
+
+            ConsoleOutputMethods.Info("Карты игрока:");
+            _cardInfoPrinter.PrintCardsInfo(_player.ShowAllCards());
+        }
+
+        private IReadOnlyCollection<PlayingCard> GetFullCardPack()
+        {
+            var suitTypes = Enum.GetValues(typeof(PlayingCardSuitTypes)).Cast<PlayingCardSuitTypes>();
+            var rankTypes = Enum.GetValues(typeof(PlayingCardRankTypes)).Cast<PlayingCardRankTypes>();
+
+            List<PlayingCard> playingCards = new List<PlayingCard>();
+
+            foreach (var suitType in suitTypes)
+            {
+                foreach (var rankType in rankTypes)
+                {
+                    playingCards.Add(new PlayingCard(suitType, rankType));
+                }
+            }
+
+            return playingCards;
+        }
 
         #region Private Classes
 
         private class CardInfoPrinter
         {
-            private readonly PlayingCardDescriptionsContainer descriptions = new PlayingCardDescriptionsContainer();
+            private readonly PlayingCardDescriptionsContainer _descriptions = new PlayingCardDescriptionsContainer();
 
             public void PrintCardsInfo(IEnumerable<PlayingCard> cards)
             {
@@ -99,8 +158,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             {
                 const string format = "\t{0, -9}  {1, -8}";
 
-                string rank = descriptions.GetRankDescription(card.Rank);
-                string suit = descriptions.GetSuitDescription(card.Suit);
+                string rank = _descriptions.GetRankDescription(card.Rank);
+                string suit = _descriptions.GetSuitDescription(card.Suit);
 
                 Console.WriteLine(format, rank, suit);
             }
@@ -108,21 +167,37 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class PlayingCardDescriptionsContainer
         {
-            private readonly Dictionary<PlayingCardRankTypes, string> _rankDictionary = new Dictionary<PlayingCardRankTypes, string>()
-            {
-                { PlayingCardRankTypes.Jack, "Валет" },
-                { PlayingCardRankTypes.Queen, "Королева" },
-                { PlayingCardRankTypes.King, "Король" },
-                { PlayingCardRankTypes.Ace, "Туз" },
-            };
+            private readonly Dictionary<PlayingCardRankTypes, string> _rankDictionary;
 
-            private readonly Dictionary<PlayingCardSuitTypes, string> _suitDictionary = new Dictionary<PlayingCardSuitTypes, string>()
+            private readonly Dictionary<PlayingCardSuitTypes, string> _suitDictionary;
+
+            public PlayingCardDescriptionsContainer()
             {
-                { PlayingCardSuitTypes.Clover, PlayingCard.CloverChar + " (трефы)" },
-                { PlayingCardSuitTypes.Tile, PlayingCard.TileChar + " (бубны)" },
-                { PlayingCardSuitTypes.Heart, PlayingCard.HeartChar + " (червы)" },
-                { PlayingCardSuitTypes.Pike, PlayingCard.PikeChar + " (пики)" },
-            };
+                _rankDictionary = new Dictionary<PlayingCardRankTypes, string>()
+                {
+                    { PlayingCardRankTypes.Number2, " 2" },
+                    { PlayingCardRankTypes.Number3, " 3" },
+                    { PlayingCardRankTypes.Number4, " 4" },
+                    { PlayingCardRankTypes.Number5, " 5" },
+                    { PlayingCardRankTypes.Number6, " 6" },
+                    { PlayingCardRankTypes.Number7, " 7" },
+                    { PlayingCardRankTypes.Number8, " 8" },
+                    { PlayingCardRankTypes.Number9, " 9" },
+                    { PlayingCardRankTypes.Number10, "10" },
+                    { PlayingCardRankTypes.Jack, "Валет" },
+                    { PlayingCardRankTypes.Queen, "Королева" },
+                    { PlayingCardRankTypes.King, "Король" },
+                    { PlayingCardRankTypes.Ace, "Туз" },
+                };
+
+                _suitDictionary = new Dictionary<PlayingCardSuitTypes, string>()
+                {
+                    { PlayingCardSuitTypes.Clover, PlayingCard.CloverChar + " (трефы)" },
+                    { PlayingCardSuitTypes.Tile, PlayingCard.TileChar + " (бубны)" },
+                    { PlayingCardSuitTypes.Heart, PlayingCard.HeartChar + " (червы)" },
+                    { PlayingCardSuitTypes.Pike, PlayingCard.PikeChar + " (пики)" },
+                };
+            }
 
             /// <summary>
             /// Получить описание ранга карты
@@ -137,10 +212,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 if (_rankDictionary.ContainsKey(rankType))
                 {
                     result = _rankDictionary[rankType];
-                }
-                else if (PlayingCardRankTypes.Number2 <= rankType  && rankType <= PlayingCardRankTypes.Number10)
-                {
-                    result = ((int)rankType).ToString();
                 }
                 else
                 {
@@ -205,63 +276,22 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class PlayingCardPack
         {
-            private readonly List<PlayingCard> _pack = new List<PlayingCard>();
+            private readonly List<PlayingCard> _pack;
+            private readonly Random _random;
 
-            private readonly Random random = new Random();
-
-            public PlayingCardPack()
+            public PlayingCardPack(IReadOnlyCollection<PlayingCard> cards)
             {
-                _pack.AddRange(FullCardPack);
-            }
+                _random = new Random();
 
-            public IReadOnlyCollection<PlayingCard> FullCardPack
-            {
-                get
-                {
-                    var suitTypes = Enum.GetValues(typeof(PlayingCardSuitTypes)).Cast<PlayingCardSuitTypes>();
-                    var rankTypes = Enum.GetValues(typeof(PlayingCardRankTypes)).Cast<PlayingCardRankTypes>();
-
-                    List<PlayingCard> playingCards = new List<PlayingCard>();
-
-                    foreach (var suitType in suitTypes)
-                    {
-                        foreach (var rankType in rankTypes)
-                        {
-                            playingCards.Add(new PlayingCard(suitType, rankType));
-                        }
-                    }
-
-                    return playingCards;
-                }
-            }
-
-            /// <summary>
-            /// Взять одну карту из колоды.
-            /// </summary>
-            /// <returns>Игральную карту.</returns>
-            /// <exception cref="InvalidOperationException"></exception>
-            public PlayingCard  GetSingleCard()
-            {
-                if (_pack.Count > 0)
-                {
-                    int index = random.Next(_pack.Count);
-
-                    var card = _pack[index];
-                    _pack.RemoveAt(index);
-
-                    return card;
-                }
-                else
-                {
-                    throw new InvalidOperationException("В колоде недостаточно карт.");
-                }
+                _pack = new List<PlayingCard>();
+                _pack.AddRange(cards);
             }
 
             public bool TryGetSingleCard(out PlayingCard card)
             {
                 if (_pack.Count > 0)
                 {
-                    int index = random.Next(_pack.Count);
+                    int index = _random.Next(_pack.Count);
                     
                     card = _pack[index];
                     _pack.RemoveAt(index);
@@ -279,11 +309,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             /// Взять указанное количество карт.
             /// </summary>
             /// <param name="numberOfCards">Количество карт.</param>
-            /// <returns></returns>
+            /// <returns>Взятые карты</returns>
             /// <exception cref="ArgumentOutOfRangeException"></exception>
-            /// <exception cref="InvalidOperationException"></exception>
-            public IEnumerable<PlayingCard> GetNumberOfCards(int numberOfCards)
+            public bool TryGetNumberOfCards(int numberOfCards, out List<PlayingCard> cards)
             {
+                cards = new List<PlayingCard>();
+
                 if (numberOfCards < 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(numberOfCards));
@@ -291,7 +322,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
                 if (numberOfCards > _pack.Count)
                 {
-                    throw new InvalidOperationException("В колоде недостаточно карт.");
+                    return false;
                 }
 
                 for (int i =0; i< numberOfCards;i++)
@@ -300,13 +331,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
                     if (TryGetSingleCard(out card))
                     {
-                        yield return card;
+                        cards.Add(card);
                     }
                     else
                     {
-                        yield break;
+                        return false;
                     }
                 }
+
+                return true;
             }
         }
 
@@ -331,6 +364,5 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         }
 
         #endregion Private Classes
-
     }
 }
