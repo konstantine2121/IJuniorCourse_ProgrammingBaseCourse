@@ -66,7 +66,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
                 _player.UpdateAbilitiesState();
                 UpdateScene();
 
-                var action = InputNextAction();
+                var action = ReadNextAction();
                 _player.PerformAction(action);
 
                 PerformExchangeOfAttacks();
@@ -80,7 +80,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.ConditionsAndCycles
 
         #endregion IRunnable Implementation
 
-        private AbilityType InputNextAction()
+        private AbilityType ReadNextAction()
         {
             var parsed = false;
             AbilityType actionType = AbilityType.SkipStep;
