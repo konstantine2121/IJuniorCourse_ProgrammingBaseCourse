@@ -8,6 +8,7 @@ using IJuniorCourse_ProgrammingBaseCourse.Functions;
 using IJuniorCourse_ProgrammingBaseCourse.Collections;
 using IJuniorCourse_ProgrammingBaseCourse.OOP;
 using IJuniorCourse_ProgrammingBaseCourse.OOP.DatabaseGenericExample.Program.Creators;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Creators;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
@@ -85,7 +86,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {4, new PackOfPlayingCardsTask() },
                 {5, new BookStorageTask() },
                 {6, new ShopTask() },
-                {7, new TrainConfiguratorTask() }
+                {7, new TrainConfiguratorTask() },
+                {8, new ArenaModuleCreator().Create() }
             };
 
         private static void Main(string[] args)
@@ -95,7 +97,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(7, oopTasks);
+            RunTask(8, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
