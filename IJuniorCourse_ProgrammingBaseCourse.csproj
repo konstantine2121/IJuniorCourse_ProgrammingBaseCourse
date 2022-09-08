@@ -120,6 +120,7 @@
     <Compile Include="OOP\ShopTask.cs" />
     <Compile Include="OOP\SupermarketAdministrationTask.cs" />
     <Compile Include="OOP\TrainConfiguratorTask.cs" />
+    <Compile Include="OOP\WarTask.cs" />
     <Compile Include="OOP\WorkingWithClassesTask.cs" />
     <Compile Include="OOP\WorkingWithPropertiesTask.cs" />
     <Compile Include="Program.cs" />

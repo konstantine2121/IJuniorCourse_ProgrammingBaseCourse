@@ -29,7 +29,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             return CalculateOutgoingDamage();
         }
 
-        public virtual int TakeDamade(int incomingDamage)
+        public virtual int TakeDamage(int incomingDamage)
         {
             if (incomingDamage < 0)
             {

@@ -161,9 +161,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Controller
             {
                 Thread.Sleep(onePunchInterval);
 
-                fighter2.TakeDamade(fighter1.DealDamage());
+                fighter2.TakeDamage(fighter1.DealDamage());
                 
-                fighter1.TakeDamade(fighter2.DealDamage());
+                fighter1.TakeDamage(fighter2.DealDamage());
 
                 fighter1.Regenerate();
                 fighter2.Regenerate();

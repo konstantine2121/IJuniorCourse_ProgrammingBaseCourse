@@ -37,9 +37,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             return damage;
         }
 
-        public override int TakeDamade(int incomingDamage)
+        public override int TakeDamage(int incomingDamage)
         {
-            var damage = base.TakeDamade(incomingDamage);
+            var damage = base.TakeDamage(incomingDamage);
 
             if (Dead == false)
             {

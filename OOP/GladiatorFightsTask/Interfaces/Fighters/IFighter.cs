@@ -20,7 +20,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Interfaces
 
         int DealDamage();
 
-        int TakeDamade(int incomingDamage);
+        int TakeDamage(int incomingDamage);
 
         IReadOnlyList<ColoredText> GetInfo();
 
