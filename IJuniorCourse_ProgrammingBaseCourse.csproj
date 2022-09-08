@@ -57,6 +57,9 @@
     <Compile Include="Collections\ResordsStorageTask.cs" />
     <Compile Include="Collections\SummConsoleInputTask.cs" />
     <Compile Include="Collections\CombineStringArraysTask.cs" />
+    <Compile Include="CommonViews\ColoredText.cs" />
+    <Compile Include="CommonViews\ConsoleRecord.cs" />
+    <Compile Include="CommonViews\ConsoleTable.cs" />
     <Compile Include="ConditionsAndCycles\ConsoleCommanderTask.cs" />
     <Compile Include="ConditionsAndCycles\CountingNaturalNumbersTask.cs" />
     <Compile Include="ConditionsAndCycles\ExponentCounterTask.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="OOP\PackOfPlayingCardsTask.cs" />
     <Compile Include="OOP\PlayersDatabaseTask.cs" />
     <Compile Include="OOP\ShopTask.cs" />
+    <Compile Include="OOP\SupermarketAdministrationTask.cs" />
     <Compile Include="OOP\TrainConfiguratorTask.cs" />
     <Compile Include="OOP\WorkingWithClassesTask.cs" />
     <Compile Include="OOP\WorkingWithPropertiesTask.cs" />

@@ -87,7 +87,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {5, new BookStorageTask() },
                 {6, new ShopTask() },
                 {7, new TrainConfiguratorTask() },
-                {8, new ArenaModuleCreator().Create() }
+                {8, new ArenaModuleCreator().Create() },
+                {9, new SupermarketAdministrationTask() },
             };
 
         private static void Main(string[] args)
@@ -97,7 +98,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(8, oopTasks);
+            RunTask(9, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
