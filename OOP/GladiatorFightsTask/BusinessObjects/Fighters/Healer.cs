@@ -41,7 +41,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
         {
             var damage = base.TakeDamage(incomingDamage);
 
-            if (Dead == false)
+            if (Dead == false && damage != 0)
             {
                 Health += HealRate;
 
