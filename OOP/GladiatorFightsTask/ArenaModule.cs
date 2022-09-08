@@ -1,4 +1,5 @@
 ﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Controllers;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask
 {
@@ -12,15 +13,20 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask
     /// </summary>
     class ArenaModule : IRunnable
     {
-
+        ArenaModuleController _controller;
 
         #region IRunnable Implementation
 
         public void Run()
         {
-
+            _controller.RunGameCycle();
         }
 
         #endregion IRunnable Implementation
+
+        public ArenaModule(ArenaModuleController controller)
+        {
+            _controller = controller;
+        }
     }
 }

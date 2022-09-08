@@ -1,13 +1,13 @@
-﻿using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
 
 
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Views
 {
     class ConsoleTable
     {
-        private readonly List<ColoredText> _rows = new List<ColoredText>();
+        private List<ColoredText> _rows = new List<ColoredText>();
 
         public ConsoleTable(int cursorLeft, int cursorTop)
         {
@@ -28,7 +28,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Views
             {
                 Console.ForegroundColor = line.FontColor;
                 Console.SetCursorPosition(CursorLeft, positionY);
-                Console.Write(line);
+                Console.Write(line.Text);
                 positionY++;
             }
 

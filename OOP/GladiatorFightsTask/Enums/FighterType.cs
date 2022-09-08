@@ -2,7 +2,7 @@
 {
     public enum FighterType
     {
-        Warrior,
+        Warrior = 1,
         Healer,
         Berserk,
         Thief,

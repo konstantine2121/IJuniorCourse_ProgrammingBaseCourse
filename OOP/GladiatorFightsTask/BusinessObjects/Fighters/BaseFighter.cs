@@ -1,9 +1,9 @@
-﻿using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
-using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Interfaces.Fighters;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Interfaces.Fighters;
 
-namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
+namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessObjects.Fighters
 {
     public abstract class BaseFighter : IFighter
     {
@@ -49,12 +49,22 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
 
         public virtual void Regenerate()
         {
+        }
 
+        public void ResetStats()
+        {
+            InitializeStats();
         }
 
         public IReadOnlyList<ColoredText> GetInfo()
         {
             return PrepareInfo();
+        }
+
+        protected string FormatLine(string name, object value)
+        {
+            const string format = "{0, 16}  {1}";
+            return string.Format(format, name, value);
         }
 
         #region Abstract

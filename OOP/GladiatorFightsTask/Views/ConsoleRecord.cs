@@ -1,5 +1,5 @@
-﻿using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
-using System;
+﻿using System;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Views
 {

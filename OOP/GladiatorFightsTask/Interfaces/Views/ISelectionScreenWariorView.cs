@@ -8,15 +8,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Interfaces
 {
     interface ISelectionScreenWariorView
     {
-        IFighterInfo Fighter1 { get; }
+        IFighterInfoBar Fighter1 { get; }
 
-        IFighterInfo Fighter2 { get; }
+        IFighterInfoBar Fighter2 { get; }
 
-        IFighterInfo Fighter3 { get; }
+        IFighterInfoBar Fighter3 { get; }
 
-        IFighterInfo Fighter4 { get; }
+        IFighterInfoBar Fighter4 { get; }
 
-        IFighterInfo Fighter5 { get; }
+        IFighterInfoBar Fighter5 { get; }
 
         void Update();
     }

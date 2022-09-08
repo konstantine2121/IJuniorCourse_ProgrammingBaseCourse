@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
 
-namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
+namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessObjects.Fighters
 {
     /// <summary>
     /// Имеет 30% шанс увернуться от атаки.
@@ -53,11 +53,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
         {
             List<ColoredText> infos = new List<ColoredText>();
 
-            infos.Add(new ColoredText("Имя: " + Name, ConsoleColor.Cyan));
-            infos.Add(new ColoredText("Класс: " + Class, ConsoleColor.DarkMagenta));
-            infos.Add(new ColoredText("Здоровье: " + Health, ConsoleColor.Green));
-            infos.Add(new ColoredText("Уворот %: " + ChanceToAvoidAttack, ConsoleColor.DarkGreen));
-            infos.Add(new ColoredText("Урон: " + Damage, ConsoleColor.Red));
+            infos.Add(new ColoredText(FormatLine("Имя:", Name), ConsoleColor.Cyan));
+            infos.Add(new ColoredText(FormatLine("Класс:", Class), ConsoleColor.DarkMagenta));
+            infos.Add(new ColoredText(FormatLine("Здоровье:", Health), ConsoleColor.Green));
+            infos.Add(new ColoredText(FormatLine("Уворот %:", ChanceToAvoidAttack), ConsoleColor.DarkGreen));
+            infos.Add(new ColoredText(FormatLine("Урон:", Damage), ConsoleColor.Red));
 
             return infos;
         }

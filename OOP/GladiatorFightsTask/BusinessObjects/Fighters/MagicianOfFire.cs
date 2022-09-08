@@ -1,11 +1,8 @@
-﻿using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
 
-namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
+namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessObjects.Fighters
 {
     class MagicianOfFire : BaseFighter
     {
@@ -20,17 +17,17 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
 
         public int ManaRegenerationRate { get; private set; }
 
-        public int ManaSpentOnAttack { get; private set; }
+        public int AttackManaCost { get; private set; }
 
         protected override void InitializeStats()
         {
             Class = "Маг огня";
             Health = 75;
-            Damage = 20;
+            Damage = 25;
             Mana = 100;
             MaxMana = Mana;
-            ManaSpentOnAttack = 40;
-            ManaRegenerationRate = 30;
+            AttackManaCost = 40;
+            ManaRegenerationRate = 15;
         }
 
         protected override int CalculateIncomingDamage(int damage)
@@ -45,9 +42,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
 
         protected override int CalculateOutgoingDamage()
         {
-            if ((Mana - ManaSpentOnAttack) >= 0 )
+            if ((Mana - AttackManaCost) >= 0 )
             {
-                Mana -= ManaSpentOnAttack;
+                Mana -= AttackManaCost;
 
                 return Damage;
             }
@@ -59,18 +56,24 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
         {
             List<ColoredText> infos = new List<ColoredText>();
 
-            infos.Add(new ColoredText("Имя: " + Name, ConsoleColor.Cyan));
-            infos.Add(new ColoredText("Класс: " + Class, ConsoleColor.DarkMagenta));
-            infos.Add(new ColoredText("Здоровье: " + Health, ConsoleColor.Green));
-            infos.Add(new ColoredText("Мана: " + Mana, ConsoleColor.Blue));
-            infos.Add(new ColoredText("Кол-во маны на атаку: " + ManaSpentOnAttack, ConsoleColor.DarkBlue));
-            infos.Add(new ColoredText("Урон от огня: " + Damage, ConsoleColor.Red));
+            infos.Add(new ColoredText(FormatLine("Имя:", Name), ConsoleColor.Cyan));
+            infos.Add(new ColoredText(FormatLine("Класс:", Class), ConsoleColor.DarkMagenta));
+            infos.Add(new ColoredText(FormatLine("Здоровье:", Health), ConsoleColor.Green));
+            infos.Add(new ColoredText(FormatLine("Мана:", Mana), ConsoleColor.Blue));
+            infos.Add(new ColoredText(FormatLine("Реген.маны:", ManaRegenerationRate), ConsoleColor.Blue));
+            infos.Add(new ColoredText(FormatLine("Маны на каст:", AttackManaCost), ConsoleColor.DarkBlue));
+            infos.Add(new ColoredText(FormatLine("Урон от огня:", Damage), ConsoleColor.Red));
 
             return infos;
         }
 
         public override void Regenerate()
         {
+            if (Dead)
+            {
+                return;
+            }
+
             Mana += ManaRegenerationRate;
 
             if (Mana > MaxMana)

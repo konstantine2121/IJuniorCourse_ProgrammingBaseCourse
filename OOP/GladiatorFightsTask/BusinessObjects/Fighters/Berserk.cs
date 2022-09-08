@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
 
-namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
+namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessObjects.Fighters
 {
     /// <summary>
     /// Каждый 3 удар наносит удвоенный урон.
@@ -16,17 +16,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
             Name = name;
         }
 
-        public int DoubleDamageRate { get; private set; }
+        public int CriticalHitRate { get; private set; }
 
-        public int DoubleDamageMultiplier { get; private set; }
+        public int CriticalHitDamageMultiplier { get; private set; }
 
         protected override void InitializeStats()
         {
             Class = "Берсерк";
             Health = 80;
             Damage = 8;
-            DoubleDamageRate = 3;
-            DoubleDamageMultiplier = 2;
+            CriticalHitRate = 3;
+            CriticalHitDamageMultiplier = 2;
+            _attackCounter = 0;
         }
 
         protected override int CalculateIncomingDamage(int damage)
@@ -41,12 +42,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
 
         protected override int CalculateOutgoingDamage()
         {
-            bool dealDoubleDamage = false;
+            bool dealCriticalDamage = false;
             _attackCounter++;
 
-            if (_attackCounter % DoubleDamageRate == 0)
+            if (_attackCounter % CriticalHitRate == 0)
             {
-                dealDoubleDamage = true;
+                dealCriticalDamage = true;
             }
 
             if (_attackCounter >= 3)
@@ -54,9 +55,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
                 _attackCounter = 0;
             }
 
-            if (dealDoubleDamage)
+            if (dealCriticalDamage)
             {
-                return Damage * DoubleDamageMultiplier;
+                return Damage * CriticalHitDamageMultiplier;
             }
 
             return Damage;
@@ -66,12 +67,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Fighters
         {
             List<ColoredText> infos = new List<ColoredText>();
 
-            infos.Add(new ColoredText("Имя: " + Name, ConsoleColor.Cyan));
-            infos.Add(new ColoredText("Класс: " + Class, ConsoleColor.DarkMagenta));
-            infos.Add(new ColoredText("Здоровье: " + Health, ConsoleColor.Green));
-            infos.Add(new ColoredText("Урон: " + Damage, ConsoleColor.Red));
-            infos.Add(new ColoredText("Крит.частота: " + DoubleDamageRate, ConsoleColor.DarkRed));
-            infos.Add(new ColoredText("Крит.множитель: " + DoubleDamageMultiplier, ConsoleColor.DarkRed));
+            infos.Add(new ColoredText(FormatLine("Имя:",Name), ConsoleColor.Cyan));
+            infos.Add(new ColoredText(FormatLine("Класс:", Class), ConsoleColor.DarkMagenta));
+            infos.Add(new ColoredText(FormatLine("Здоровье:", Health), ConsoleColor.Green));
+            infos.Add(new ColoredText(FormatLine("Урон:", Damage), ConsoleColor.Red));
+            infos.Add(new ColoredText(FormatLine("Крит.частота:", CriticalHitRate), ConsoleColor.DarkRed));
+            infos.Add(new ColoredText(FormatLine("Крит.множ-ль:", CriticalHitDamageMultiplier), ConsoleColor.DarkRed));
 
             return infos;
         }
