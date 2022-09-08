@@ -193,6 +193,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                         _targetDesignations[fighter] = null;
                     }
                     var needNewTarget = NeedNewTarget(fighter);
+
                     if (needNewTarget)
                     {
                         int index = Rand.Next(aliveEnemies.Count);
