@@ -82,6 +82,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 ConsoleOutputMethods.Info("Клиентов в очереди не осталось.");
                 Console.ReadKey();
             }
+
             private void ServeOneClient()
             {
                 var client = _clientsQueue.Dequeue();
@@ -112,7 +113,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     }
                 }
             }
-
 
             private bool CheckSolvency(IReadOnlyShoppingCart basket, int customerCash)
             {
@@ -166,7 +166,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             public int Balance { get; private set; }
 
             public IReadOnlyShoppingCart Cart { get { return _cart; } }
-
 
             public bool MakePurchase(Supermarket shop)
             {
