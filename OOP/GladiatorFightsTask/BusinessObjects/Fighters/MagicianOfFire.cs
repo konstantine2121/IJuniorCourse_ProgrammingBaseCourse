@@ -30,16 +30,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             ManaRegenerationRate = 15;
         }
 
-        protected override int CalculateIncomingDamage(int damage)
-        {
-            if (damage < 0)
-            {
-                return 0;
-            }
-            
-            return damage;
-        }
-
         protected override int CalculateOutgoingDamage()
         {
             if ((Mana - AttackManaCost) >= 0 )

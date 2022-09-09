@@ -13,7 +13,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask
     /// </summary>
     class ArenaModule : IRunnable
     {
-        ArenaModuleController _controller;
+        private ArenaModuleController _controller;
+
+        public ArenaModule(ArenaModuleController controller)
+        {
+            _controller = controller;
+        }
 
         #region IRunnable Implementation
 
@@ -23,10 +28,5 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask
         }
 
         #endregion IRunnable Implementation
-
-        public ArenaModule(ArenaModuleController controller)
-        {
-            _controller = controller;
-        }
     }
 }

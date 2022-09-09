@@ -44,11 +44,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             return damage;
         }
 
-        protected override int CalculateOutgoingDamage()
-        {
-            return Damage;
-        }
-
         protected override IReadOnlyList<ColoredText> PrepareInfo()
         {
             List<ColoredText> infos = new List<ColoredText>();

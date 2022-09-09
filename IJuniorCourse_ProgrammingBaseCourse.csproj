@@ -109,7 +109,6 @@
     <Compile Include="OOP\GladiatorFightsTask\Interfaces\Fighters\IFighter.cs" />
     <Compile Include="OOP\GladiatorFightsTask\Interfaces\Views\IBattleView.cs" />
     <Compile Include="OOP\GladiatorFightsTask\Interfaces\Views\IFightersSelectionView.cs" />
-    <Compile Include="OOP\GladiatorFightsTask\Interfaces\Views\ISelectionScreenWariorView.cs" />
     <Compile Include="OOP\GladiatorFightsTask\Interfaces\Views\IFighterInfoBar.cs" />
     <Compile Include="OOP\GladiatorFightsTask\Views\BattleView.cs" />
     <Compile Include="OOP\GladiatorFightsTask\Views\ConsoleRecord.cs" />

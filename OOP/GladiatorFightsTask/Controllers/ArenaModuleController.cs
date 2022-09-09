@@ -78,16 +78,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Controller
 
             ConsoleOutputMethods.Info("Выбираем  первого бойца");
 
-            FighterType fighter1Type = SelectFighterType(fightersTypes);
-            string fighter1Name = ConsoleInputMethods.ReadString("Введите имя бойца: ");
+            FighterType firstFighterType = SelectFighterType(fightersTypes);
+            string firstFighterName = ConsoleInputMethods.ReadString("Введите имя бойца: ");
 
             ConsoleOutputMethods.Info("Выбираем  второго бойца");
 
-            FighterType fighter2Type = SelectFighterType(fightersTypes);
-            string fighter2Name = ConsoleInputMethods.ReadString("Введите имя бойца: ");
+            FighterType secondFighterType = SelectFighterType(fightersTypes);
+            string secondFighterName = ConsoleInputMethods.ReadString("Введите имя бойца: ");
 
-            _loader.CreateFigter1(fighter1Name, fighter1Type);
-            _loader.CreateFigter2(fighter2Name, fighter2Type);
+            _loader.CreateFigter1(firstFighterName, firstFighterType);
+            _loader.CreateFigter2(secondFighterName, secondFighterType);
         }
 
         private void BindSelectionView(IReadOnlyList<IFighter> fightersSelectionList)

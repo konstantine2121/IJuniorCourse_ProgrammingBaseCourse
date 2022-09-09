@@ -30,16 +30,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             _attackCounter = 0;
         }
 
-        protected override int CalculateIncomingDamage(int damage)
-        {
-            if (damage < 0)
-            {
-                return 0;
-            }
-
-            return damage;
-        }
-
         protected override int CalculateOutgoingDamage()
         {
             bool dealCriticalDamage = false;
@@ -48,10 +38,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             if (_attackCounter % CriticalHitRate == 0)
             {
                 dealCriticalDamage = true;
-            }
-
-            if (_attackCounter >= 3)
-            {
                 _attackCounter = 0;
             }
 

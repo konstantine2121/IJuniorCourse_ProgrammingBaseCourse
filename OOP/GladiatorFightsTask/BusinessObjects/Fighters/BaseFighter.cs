@@ -69,11 +69,22 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
 
         #region Abstract
 
-        protected abstract int CalculateIncomingDamage(int damage);
+        protected virtual int CalculateIncomingDamage(int damage)
+        {
+            if (damage < 0)
+            {
+                return 0;
+            }
+
+            return damage;
+        }
+
+        protected virtual int CalculateOutgoingDamage()
+        {
+            return Damage;
+        }
 
         protected abstract void InitializeStats();
-
-        protected abstract int CalculateOutgoingDamage();
 
         protected abstract IReadOnlyList<ColoredText> PrepareInfo();
 

@@ -27,16 +27,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             HealRate = 4;
         }
 
-        protected override int CalculateIncomingDamage(int damage)
-        {
-            if (damage < 0)
-            {
-                return 0;
-            }
-
-            return damage;
-        }
-
         public override int TakeDamage(int incomingDamage)
         {
             var damage = base.TakeDamage(incomingDamage);
@@ -52,11 +42,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.BusinessOb
             }
 
             return damage;
-        }
-
-        protected override int CalculateOutgoingDamage()
-        {
-            return Damage;
         }
 
         protected override IReadOnlyList<ColoredText> PrepareInfo()
