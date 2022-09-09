@@ -1,5 +1,4 @@
 ﻿using System;
-using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.CommonViews
 {

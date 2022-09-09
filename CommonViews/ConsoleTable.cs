@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Dto;
-
 
 namespace IJuniorCourse_ProgrammingBaseCourse.CommonViews
 {
