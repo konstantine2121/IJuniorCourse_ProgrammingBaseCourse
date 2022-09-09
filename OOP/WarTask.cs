@@ -45,6 +45,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             {
                 UpdateTargetDesignations();
                 ExchangeAttacks();
+                Regenerate();
                 UpdateSquadsInfo();
 
                 Thread.Sleep(ThreadSleepInterval);
@@ -82,6 +83,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             _squad1.DealDamage();
             _squad2.DealDamage();
+        }
+
+        private void Regenerate()
+        {
+            _squad1.Regenerate();
+            _squad2.Regenerate();
         }
 
         private void UpdateSquadsInfo()
@@ -179,6 +186,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     {
                         target.TakeDamage(source.DealDamage());
                     }
+                }
+            }
+
+            public void Regenerate()
+            {
+                foreach (var fighter in _fighters)
+                {
+                    fighter.Regenerate();
                 }
             }
 
