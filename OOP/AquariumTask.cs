@@ -5,7 +5,6 @@ using System.Text;
 using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 using IJuniorCourse_ProgrammingBaseCourse.CommonViews;
 
-
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 {
     /// <summary>
@@ -68,7 +67,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                             RemoveFish();
                             break;
                     }
-
                 }
             }
           
@@ -84,14 +82,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             int verticalOffset = 12;
 
             _totalDayPastStatusBar = new ConsoleRecord(40, 0);
-            _totalDayPastStatusBar.ForegroundColor = ConsoleColor.Cyan;
-            
-            _aquariumInfoBar = new ConsoleTable(0, 1);
-            
+            _totalDayPastStatusBar.ForegroundColor = ConsoleColor.Cyan;            
+            _aquariumInfoBar = new ConsoleTable(0, 1);            
             _previousCommandStatusBar = new ConsoleRecord(0, verticalOffset);
             
-            _aquariumInfoPrinter = new AquariumInfoPrinter();
-                        
+            _aquariumInfoPrinter = new AquariumInfoPrinter();                        
             _aquarium = new AquariumCreator().Create();
         }
 
@@ -124,9 +119,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             ConsoleOutputMethods.Info("Что вы желаете сделать?: ");
             Console.WriteLine(stringBuilder.ToString());
 
-            bool parsed = false;
-            ActionOption action = ActionOption.AddNewFish;
             var actionOptionValues = Enum.GetValues(typeof(ActionOption)).Cast<ActionOption>();
+            var action = ActionOption.AddNewFish;
+            bool parsed = false;
 
             while (parsed == false)
             {
@@ -364,7 +359,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         }
 
         #endregion Creators
-
 
         #endregion Private Classes
     }
