@@ -29,8 +29,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         private const int SquadSize = 10;
         private const int ThreadSleepInterval = 1000;
 
-        private ConsoleTable _squad1InfoBar;
-        private ConsoleTable _squad2InfoBar;
+        private ConsoleTable _firstSquadInfoBar;
+        private ConsoleTable _secondSquadInfoBar;
         private SquadInfoPrinter _printer;
         private Squad _squad1;
         private Squad _squad2;
@@ -67,8 +67,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             int horisontalOffset = 50;
 
-            _squad1InfoBar = new ConsoleTable(0, 1);
-            _squad2InfoBar = new ConsoleTable(horisontalOffset, 1);
+            _firstSquadInfoBar = new ConsoleTable(0, 1);
+            _secondSquadInfoBar = new ConsoleTable(horisontalOffset, 1);
 
             _printer = new SquadInfoPrinter();
         }
@@ -95,8 +95,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             Console.Clear();
 
-            _printer.Print(_squad1, _squad1InfoBar);
-            _printer.Print(_squad2, _squad2InfoBar);
+            _printer.Print(_squad1, _firstSquadInfoBar);
+            _printer.Print(_squad2, _secondSquadInfoBar);
         }
 
         private void PrintEndgameInfo()
@@ -182,7 +182,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     var target = pair.Value;
                     var source = pair.Key;
 
-                    if (target != null && target.Dead == false)
+                    if (target != null)
                     {
                         target.TakeDamage(source.DealDamage());
                     }
