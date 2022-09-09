@@ -91,6 +91,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {9, new SupermarketAdministrationTask() },
                 {10, new WarTask() },
                 {11, new AquariumTask() },
+                {12, new ZooTask() },
             };
 
         private static void Main(string[] args)
@@ -100,7 +101,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(11, oopTasks);
+            RunTask(12, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

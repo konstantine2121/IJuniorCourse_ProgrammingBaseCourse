@@ -123,6 +123,7 @@
     <Compile Include="OOP\WarTask.cs" />
     <Compile Include="OOP\WorkingWithClassesTask.cs" />
     <Compile Include="OOP\WorkingWithPropertiesTask.cs" />
+    <Compile Include="OOP\ZooTask.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgrammingBase\BuySomeCrystals.cs" />
     <Compile Include="ProgrammingBase\ImagesInRow.cs" />
