@@ -10,7 +10,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.CommonViews
             CursorTop = cursorTop;
         }
 
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
         public ConsoleColor ForegroundColor { get; set; } = ConsoleColor.White;
 
@@ -41,6 +41,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse.CommonViews
         {
             ForegroundColor = coloredText.FontColor;
             Text = coloredText.Text;
+            Update();
+        }
+
+        public virtual void Update(string text, ConsoleColor color = ConsoleColor.White)
+        {
+            ForegroundColor = color;
+            Text = text;
             Update();
         }
     }

@@ -100,7 +100,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(9, oopTasks);
+            RunTask(11, oopTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
