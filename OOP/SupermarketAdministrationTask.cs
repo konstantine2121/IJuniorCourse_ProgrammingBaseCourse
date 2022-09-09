@@ -32,7 +32,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         #region Private Classes
 
-        private class Supermarket
+        interface ISalePerformer
+        {
+            bool PerformSale(IReadOnlyShoppingCart basket, int customerCash, out int moneyToPay);
+        }
+
+        private class Supermarket : ISalePerformer
         {
             private readonly List<Item> _droppedItems = new List<Item>();
             private readonly Queue<Client> _clientsQueue;
@@ -80,7 +85,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             {
                 while (ClientsQueueLength > 0)
                 {
-                    ServeOneClient();
+                    ServeClient();
                     Console.WriteLine();
 
                     if (ClientsQueueLength > 0)
@@ -93,7 +98,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 Console.ReadKey();
             }
 
-            private void ServeOneClient()
+            private void ServeClient()
             {
                 var client = _clientsQueue.Dequeue();
 
@@ -175,9 +180,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             public int Balance { get; private set; }
 
-            public IReadOnlyShoppingCart Cart { get { return _cart; } }
+            public IReadOnlyShoppingCart Cart => _cart;
 
-            public bool MakePurchase(Supermarket shop)
+            public bool MakePurchase(ISalePerformer shop)
             {
                 int moneyToPay = 0;
 
@@ -224,13 +229,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
 
             //А так он её апоказывает посторонним
-            public IReadOnlyList<Item> ReadOnlyItems
-            {
-                get
-                {
-                    return Items;
-                }
-            }
+            public IReadOnlyList<Item> ReadOnlyItems => Items;
         }
 
         private class Item
