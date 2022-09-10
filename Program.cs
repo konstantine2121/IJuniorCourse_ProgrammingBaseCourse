@@ -92,6 +92,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {10, new WarTask() },
                 {11, new AquariumTask() },
                 {12, new ZooTask() },
+                {13, new СarServiceTask() },
             };
 
         private static void Main(string[] args)

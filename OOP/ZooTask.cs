@@ -24,8 +24,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
     public class ZooTask : IRunnable
     {
         private Zoo _zoo;        
-        private Dictionary<int, Enclosure> _enclosuresDictionary;
-        private int _enclosureIndex;
+
         private VisitorState _state;
         private SoundPlayer _player;
 
@@ -77,7 +76,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             Console.Clear();
             ConsoleOutputMethods.Info("Добро пожаловать в зоопарк!");
             Console.WriteLine(CageFormat, "Клетка", "Описание.");
-            foreach (var pair in _enclosuresDictionary)
+            foreach (var pair in _zoo.EnclosuresDictionary)
             {
                 Console.WriteLine(CageFormat, pair.Key, pair.Value.Description.Content);
             }
@@ -92,10 +91,9 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             {
                 index = ConsoleInputMethods.ReadPositiveInteger("Введите номер клетки: ");
 
-                if (_enclosuresDictionary.ContainsKey(index))
+                if (_zoo.TryChooseEnclosure(index))
                 {
                     correctIndex = true;
-                    _enclosureIndex = index;
                 }
                 else
                 {
@@ -110,7 +108,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {            
             Console.Clear();
 
-            var enclosure = _enclosuresDictionary[_enclosureIndex];
+            var enclosure = _zoo.CurrentEnclosure;
             var numberOfMale = enclosure.Animals.Sum(animal => animal.Gender == GenderType.Male ? 1 : 0);
             var numberOfFemale = enclosure.Animals.Count - numberOfMale;
 
@@ -119,7 +117,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             Console.WriteLine($"Всего особей: {enclosure.Animals.Count}\t\tСамцов: {numberOfMale}\tСамок: {numberOfFemale}");
             Console.WriteLine();
 
-            var commandInfo =$"{(int)EnclosureStateActions.ReturnToMenu} - вернуться в меню, {(int)EnclosureStateActions.PlaySound} - послушать звуки животных:";
+            var commandInfo =$"{(int)EnclosureStateActions.ReturnToMenu} - вернуться в меню, {(int)EnclosureStateActions.PlaySound} - послушать звуки животных: ";
 
             var returnToMenu = false;
 
@@ -147,18 +145,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         private void Initialize()
         {
             _state = VisitorState.LookingAtTheMainMenu;
-            _zoo = new ZooCreator().Create();            
-
-            int cageIndex = 1;
-            _enclosuresDictionary = new Dictionary<int, Enclosure>();
-
-            foreach(var cage in _zoo.Enclosures)
-            {
-                _enclosuresDictionary.Add(cageIndex, cage);
-                cageIndex++;
-            }
-
-            _enclosureIndex = _enclosuresDictionary.Keys.First();
+            _zoo = new ZooCreator().Create();
             _player = new SoundPlayer();
         }
 
@@ -167,14 +154,43 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         private class Zoo
         {
             private readonly List<Enclosure> _enclosures;
+            private readonly Dictionary<int, Enclosure> _enclosuresDictionary;
+            private int _enclosureIndex;
 
             public Zoo(IEnumerable<Enclosure> enclosures)
             {
                 _enclosures = new List<Enclosure>();
                 _enclosures.AddRange(enclosures);
+
+                _enclosuresDictionary = new Dictionary<int, Enclosure>();
+
+                int cageIndex = 1;
+                foreach (var cage in Enclosures)
+                {
+                    _enclosuresDictionary.Add(cageIndex, cage);
+                    cageIndex++;
+                }
+
+                _enclosureIndex = _enclosuresDictionary.Keys.First();
             }
 
             public IReadOnlyList<Enclosure> Enclosures => _enclosures;
+
+            public IReadOnlyDictionary<int, Enclosure> EnclosuresDictionary => _enclosuresDictionary;
+
+            public Enclosure CurrentEnclosure => _enclosuresDictionary[_enclosureIndex];
+
+            public bool TryChooseEnclosure(int index)
+            {
+                var correct = _enclosuresDictionary.ContainsKey(index);
+
+                if (correct)
+                {
+                    _enclosureIndex = index;
+                }
+
+                return correct;
+            }
         }
 
         private class Enclosure
@@ -322,9 +338,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     animals.Add(_creator.Create());
                 }
 
-                _descriptionContainer.Find(typeof(T), out SpeciesDescription description);
-
-                return new Enclosure(animals, description);
+                if (_descriptionContainer.Find(typeof(T), out SpeciesDescription description))
+                {
+                    return new Enclosure(animals, description);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Не найдено описани для данного типа.");
+                }
             }
         }
 
