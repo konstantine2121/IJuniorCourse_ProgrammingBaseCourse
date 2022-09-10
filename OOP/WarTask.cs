@@ -148,7 +148,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        class Squad : RandomСontainer
+        class Squad : RandomContainer
         {            
             private readonly List<IFighter> _fighters;
             private readonly Dictionary<IFighter, IFighter> _targetDesignations;
@@ -241,12 +241,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             T Create();
         }
 
-        private class RandomСontainer
+        private class RandomContainer
         {
             protected readonly Random Rand = new Random();
         }
 
-        private class SquadCreator : RandomСontainer, ICreator<Squad>
+        private class SquadCreator : RandomContainer, ICreator<Squad>
         {
             private FighterCreater _creator = new FighterCreater();
 
@@ -263,7 +263,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class FighterCreater : RandomСontainer , ICreator<IFighter>
+        private class FighterCreater : RandomContainer , ICreator<IFighter>
         {
             public IFighter Create()
             {

@@ -321,12 +321,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             T Create();
         }
 
-        private class RandomСontainer
+        private class RandomContainer
         {
             protected readonly Random Rand = new Random();
         }
 
-        private class FishCreator : RandomСontainer, ICreator<Fish>
+        private class FishCreator : RandomContainer, ICreator<Fish>
         {
             const int MinDurationOfLifeInDays = 5;
             const int MaxDurationOfLifeInDays = MinDurationOfLifeInDays * 10;
@@ -337,7 +337,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class AquariumCreator : RandomСontainer, ICreator<Aquarium>
+        private class AquariumCreator : RandomContainer, ICreator<Aquarium>
         {
             const int MinNumberOfFish = 2;
             const int MaxNumberOfFish = Aquarium.MaxNumberOfFish;

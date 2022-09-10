@@ -249,12 +249,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             T Create();
         }
 
-        private class RandomСontainer
+        private class RandomContainer
         {
             protected readonly Random Rand = new Random();
         }
 
-        private class SupermarketCreator : RandomСontainer, ICreator<Supermarket>
+        private class SupermarketCreator : RandomContainer, ICreator<Supermarket>
         {
             public const int MinQuequeLength = 10;
             public const int MaxQuequeLength = 100;
@@ -276,7 +276,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class ClientCreator : RandomСontainer, ICreator<Client>
+        private class ClientCreator : RandomContainer, ICreator<Client>
         {
             public const int MinBalance = 1;
             public const int MaxBalance = 2500;
@@ -289,7 +289,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class ShoppingCartCreator : RandomСontainer, ICreator<ShoppingCart>
+        private class ShoppingCartCreator : RandomContainer, ICreator<ShoppingCart>
         {
             public const int MinItems = 1;
             public const int MaxItems = 40;
@@ -310,7 +310,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class ItemCreator : RandomСontainer, ICreator<Item>
+        private class ItemCreator : RandomContainer, ICreator<Item>
         {
             public const int MinPrice = 1;
             public const int MaxPrice = 300;

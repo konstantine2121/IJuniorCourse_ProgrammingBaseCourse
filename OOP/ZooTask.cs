@@ -292,12 +292,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             T Create();
         }
 
-        private class RandomСontainer
+        private class RandomContainer
         {
             protected readonly Random Rand = new Random();
         }
 
-        private class ZooCreator : RandomСontainer, ICreator<Zoo>
+        private class ZooCreator : RandomContainer, ICreator<Zoo>
         {
             private readonly SpeciesDescriptionContainer _descriptionContainer = new SpeciesDescriptionContainer();
 
@@ -319,7 +319,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class EnclosureCreator<T> : RandomСontainer, ICreator<Enclosure>
+        private class EnclosureCreator<T> : RandomContainer, ICreator<Enclosure>
             where T : Animal
         {
             private const int MinNumberOfAnimals = 1;
@@ -354,7 +354,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class AnimalCreator<T> : RandomСontainer, ICreator<T>
+        private class AnimalCreator<T> : RandomContainer, ICreator<T>
             where T : Animal
         {
             public T Create()
