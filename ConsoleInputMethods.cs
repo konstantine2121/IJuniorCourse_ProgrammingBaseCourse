@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
@@ -11,6 +7,39 @@ namespace IJuniorCourse_ProgrammingBaseCourse
     /// </summary>
     public static class ConsoleInputMethods
     {
+
+        /// <summary>
+        /// Получить ответ на вопрос.
+        /// </summary>
+        /// <param name="question">Вопрос.</param>
+        /// <returns>Yes/No</returns>
+        public static DialogResult GetDialogResult(string question)
+        {
+            var infoCommands = DialogResult.Yes + " - " + (int)DialogResult.Yes + ", " + DialogResult.No + " - " + (int)DialogResult.No;
+            var result = DialogResult.No;
+
+            var correct = false;
+
+            while (correct == false)
+            {
+                var input = (DialogResult)ConsoleInputMethods.ReadPositiveInteger(question + $"({infoCommands}):");
+                switch (input)
+                {
+                    case DialogResult.Yes:
+                    case DialogResult.No:
+                        result = input;
+                        correct = true;
+                        break;
+
+                    default:
+                        ConsoleOutputMethods.Warning("Такой опции нет в списке!");
+                        break;
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Считывает с консоли положительное значение натурального числа.
         /// </summary>

@@ -26,18 +26,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
     /// </summary>
     class СarServiceTask : IRunnable
     {
-
-        private ConsoleRecord _welcomeBar;
-        private ConsoleRecord _balanceInfoBar;
-
         private CarService _carService;
-
-        private enum DialogResult
-        {
-            Yes=1,
-            No
-        }
-
+        private Queue<Client> _clients;
         #region IRunnable Implementation
 
         public void Run()
@@ -45,17 +35,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             Initialize();
 
             var carServiceWorking = true;
-            var clientsQueque = new Queue<Client>();
-
-            clientsQueque.Enqueue(new Client(new Detail(1, "главная", 10)));
-
 
             while (carServiceWorking
                 && _carService.IsEmpty == false 
                 && _carService.IsBankrupt == false
-                && clientsQueque.Count > 0)
+                && _clients.Count > 0)
             {
-
+                var client = _clients.Dequeue();
+                _carService.ServeClient(client);
             }
         }
 
@@ -63,8 +50,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private void Initialize()
         {
-            //_carService = new СarService()
+            _carService = new CarServiceCreator().Create();
+            _clients = new ClientsQuequeCreator().Create();
+
+
         }
+
+       
 
         #region Private Classes
 
@@ -80,8 +72,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class CarService
         {            
-            private readonly Warehouse _warehouse;
-            private readonly PriceList _priceList;
+            private readonly DetailsRecordsContainer _warehouse;
+
+            private ConsoleRecord _welcomeBar;
+            private ConsoleRecord _balanceInfoBar;
 
             /// <summary>
             /// 
@@ -90,7 +84,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             /// <param name="priceList"></param>
             /// <param name="warehouse"></param>
             /// <exception cref="ArgumentOutOfRangeException"></exception>
-            public CarService(int balance, PriceList priceList, Warehouse warehouse)
+            public CarService(int balance, DetailsRecordsContainer warehouse)
             {
                 if (balance <= 0)
                 {
@@ -98,11 +92,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 }
 
                 Balance = balance;
-                _priceList = priceList;
                 _warehouse = warehouse;
 
                 PenaltyNotFound = 10;
                 PenaltyWrongDetail = 50;
+
+                InitializeViews();
             }
 
             public int Balance { get; private set; }
@@ -129,10 +124,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             {
                 var detailToChange = client.BrokenDetail;
 
-                //Show client detail.
+                //Показать деталь клиента.
                 //Проверить прайс, что в нем есть такая услуга.
-                //Если нету, то либо назначить новую цену за такую услугу и внести её в прайс лист, либо отказаться от сделки.
-
+                //Проверить записи со склада, что там есть информация о цене.
+                //Вывести информацию о стоимости предстоящей работы (деталь+услуга).
 
                 //Принять решение менять или пойти в отказ.
                 //Если менять
@@ -140,19 +135,38 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 //Взять её со склада.
                 //Присобачить ее на место.
                 //Проверить, ту ли я деталь присобачил.
+                UpdateViews();
             }
 
+            #region UI
 
+            private void InitializeViews()
+            {
+                _welcomeBar = new ConsoleRecord(20, 0);
+                _welcomeBar.ForegroundColor = ConsoleColor.Green;
+                _welcomeBar.Text = "Добро пожаловать в автомастерскую.";
 
+                _balanceInfoBar = new ConsoleRecord(0, 1);
+                _balanceInfoBar.ForegroundColor = ConsoleColor.Cyan;
+                _balanceInfoBar.Text = "Баланс: "+ Balance;
+            }
+            
+            private void UpdateViews()
+            {
+                _welcomeBar.Update();
+                _balanceInfoBar.Update();
+            }
+
+            #endregion UI
         }
 
-        private class Warehouse
+        private class DetailsRecordsContainer
         {
             private const int NotFound = -1;
 
             private List<DetailRecord> _detailRecords;
 
-            public Warehouse(List<DetailRecord> detailRecords)
+            public DetailsRecordsContainer(List<DetailRecord> detailRecords)
             {
                 _detailRecords = new List<DetailRecord>();
                 _detailRecords.AddRange(detailRecords);
@@ -193,7 +207,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             /// <exception cref="ArgumentNullException"></exception>
             /// <exception cref="ArgumentOutOfRangeException"></exception>
             /// 
-            public DetailRecord(Detail detail, int number)
+            public DetailRecord(Detail detail, int number, int detailPrice, int repairPrice)
             {
                 if (detail == null)
                 {
@@ -203,16 +217,29 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 {
                     throw new ArgumentOutOfRangeException(nameof(number));
                 }
+                if (detailPrice < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(detailPrice));
+                }
+                if (repairPrice < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(repairPrice));
+                }
 
                 Detail = detail;
                 Counter = number;
+                DetailPrice = detailPrice;
+                RepairPrice = repairPrice;
             }
 
             public Detail Detail{get; private set;}
 
             public int DetailType => Detail.TypeId;
-
             public int Counter { get; private set; }
+
+            public int DetailPrice { get; private set; }
+
+            public int RepairPrice { get; private set; }
 
             public bool OutOfStock => Counter <= 0;
 
@@ -228,28 +255,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
         }
 
-        private class PriceList
-        {
-            private Dictionary<int, int> _prices;
-
-            public PriceList(Dictionary<int, int> prices)
-            {
-                _prices = new Dictionary<int, int>(prices);
-            }
-
-            public IReadOnlyDictionary<int, int> Records => _prices;
-
-            public bool CheckIfExists(int detailTypeId)
-            {
-                return _prices.ContainsKey(detailTypeId);
-            }
-
-            public void AddNewService(int detailTypeId, int price)
-            {
-                _prices.Add(detailTypeId, price);
-            }
-        }
-
         private class Detail
         {
             /// <summary>
@@ -257,20 +262,14 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             /// </summary>
             /// <param name="typeId">Идентификатор типа.</param>
             /// <param name="name">Название детали.</param>
-            /// <param name="price">Цена.</param>
             /// <exception cref="ArgumentOutOfRangeException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
             /// <exception cref="ArgumentException"></exception>
-            public Detail(int typeId, string name, int price)
+            public Detail(int typeId, string name)
             {
                 if (typeId < 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(typeId));
-                }
-
-                if (price < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(price));
                 }
 
                 if (name == null)
@@ -284,15 +283,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 }
 
                 TypeId = typeId;
-                Name = name;
-                Price = price;
+                Name = name;                
             }
 
             public int TypeId { get; private set; }
 
             public string Name { get; private set; }
-
-            public int Price { get; private set; }
         }
 
         #region Creators
@@ -312,22 +308,47 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             //Не совпадает с CarServiceCreator.MaxDetailsTypes - так и задумано.
             private const int DetailsTypes = 10;
 
+            private const int MinNumberOfClients = 10;
+            private const int MaxNumberOfClients = 100;
+
             private readonly List<Detail> _uniqueDetails;
+            private readonly UniqueDetailsListCreator _detailsListCreator;
+
+            public ClientsQuequeCreator()
+            {
+                _detailsListCreator = new UniqueDetailsListCreator(DetailsTypes);
+                _uniqueDetails = _detailsListCreator.Create();
+            }
 
             public Queue<Client> Create()
             {
-                return null;
+                var numberOfClients = Rand.Next(MinNumberOfClients, MaxNumberOfClients);
+                var clients = new Queue<Client>();
+
+                for (int i =0; i< numberOfClients; i++)
+                {
+                    clients.Enqueue(CreateClient());
+                }
+
+                return clients;
+            }
+
+            private Client CreateClient()
+            {
+                var index = Rand.Next(_uniqueDetails.Count);
+
+                return new Client(_uniqueDetails[index]);
             }
         }
 
         private class CarServiceCreator : RandomContainer, ICreator<CarService>
         {
+            //Цена за деталь
+            private const int MinDetailPrice = 100;
+            private const int MaxDetailPrice = 2000;
             //Число типов деталей
             private const int MinDetailsTypes = 3;
             private const int MaxDetailsTypes = 8;
-            //Цена за деталь
-            private const int MinDetailPrice= 100;
-            private const int MaxDetailPrice= 2000;
             //Число деталей
             private const int MinNumberOfDetails = 5;
             private const int MaxNumberOfDetails = 25;
@@ -338,56 +359,82 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             private const int MinBalance = 200;
             private const int MaxBalance = 1000;
 
-            private readonly List<Detail> _uniqueDetails;
+            private readonly UniqueDetailsListCreator _detailsListCreator;
 
             public CarServiceCreator()
             {
-                _uniqueDetails = new List<Detail>();
-                FillUniqueDetails();
+                _detailsListCreator = new UniqueDetailsListCreator(MinDetailsTypes);
             }
 
             public CarService Create()
             {
-                var detailList = new List<DetailRecord>();
-                var priceDictionary = new Dictionary<int, int>();
+                _detailsListCreator.NumberOfTypes = Rand.Next(MinDetailsTypes, MaxDetailsTypes);
 
-                _uniqueDetails.ForEach(
+                var uniqueDetails = _detailsListCreator.Create();
+                var detailList = new List<DetailRecord>();
+
+                uniqueDetails.ForEach(
                     detail =>
                     {
                         var numberOfDetails = Rand.Next(MinNumberOfDetails, MaxNumberOfDetails);
                         var servicePrice = Rand.Next(MinServicePrice, MaxServicePrice);
+                        var price = Rand.Next(MinDetailPrice, MaxDetailPrice);
 
-                        detailList.Add(new DetailRecord(detail, numberOfDetails));
-                        priceDictionary.Add(detail.TypeId, servicePrice);
+                        detailList.Add(new DetailRecord(detail, numberOfDetails, price, servicePrice));
                     });
 
-                var warehouse = new Warehouse(detailList);
-                var priceList = new PriceList(priceDictionary);
+                var warehouse = new DetailsRecordsContainer(detailList);                
                 var balance = Rand.Next(MinBalance, MaxBalance);
 
-                return new CarService(balance, priceList, warehouse);
-            }
-
-            private void FillUniqueDetails()
-            {
-                var defaultDetailName = "Деталь";
-                var numberOfTypes = Rand.Next(MinDetailsTypes, MaxDetailsTypes);
-
-                _uniqueDetails.Clear();
-                
-                for(int i=0; i< numberOfTypes; i++)
-                {
-                    var typeId = i + 1;
-                    var price = Rand.Next(MinDetailPrice, MaxDetailPrice);
-
-                    _uniqueDetails.Add(new Detail(typeId, defaultDetailName+" "+ typeId, price));
-                }
+                return new CarService(balance, warehouse);
             }
         }
 
-        private class UniqueDetailsListCreator : RandomContainer
+        private class UniqueDetailsListCreator : RandomContainer, ICreator<List<Detail>>
         {
-            
+
+            private const string DefaultDetailName = "Деталь";
+
+            private List<Detail> _uniqueDetails;
+            private int _numberOfTypes;
+
+            public UniqueDetailsListCreator(int numberOfTypes)
+            {
+                NumberOfTypes = numberOfTypes;
+            }
+
+            public int NumberOfTypes
+            {
+                get
+                {
+                    return _numberOfTypes;
+                }
+                set
+                {
+                    if (value >= 1)
+                    {
+                        _numberOfTypes = value;
+                    }
+                    else
+                    {
+                        _numberOfTypes = 1;
+                    }
+                }
+            }
+
+            public List<Detail> Create()
+            {
+                _uniqueDetails = new List<Detail>();
+
+
+                for (int i = 0; i < NumberOfTypes; i++)
+                {
+                    var typeId = i + 1;
+                    _uniqueDetails.Add(new Detail(typeId, DefaultDetailName + " " + typeId));
+                }
+
+                return _uniqueDetails;
+            }
         }
 
 

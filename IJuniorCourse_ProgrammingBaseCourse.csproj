@@ -75,6 +75,7 @@
     <Compile Include="ConditionsAndCycles\SumOfMultiplicityNumbers.cs" />
     <Compile Include="ConditionsAndCycles\СurrencyConverter.cs" />
     <Compile Include="ConsoleInputMethods.cs" />
+    <Compile Include="DialogResult.cs" />
     <Compile Include="Functions\DrawHealthbarTask.cs" />
     <Compile Include="Functions\GameMapTask.cs" />
     <Compile Include="Functions\ParsingIntegerTask.cs" />
