@@ -200,6 +200,11 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             public Enclosure(IEnumerable<Animal> animals, SpeciesDescription speciesDescription)
             {
+                if (speciesDescription == null)
+                {
+                    throw new ArgumentNullException(nameof(speciesDescription));
+                }
+
                 _animals = new List<Animal>();
                 _animals.AddRange(animals);
 
@@ -344,7 +349,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 }
                 else
                 {
-                    throw new InvalidOperationException("Не найдено описани для данного типа.");
+                    throw new InvalidOperationException("Не найдено описания для данного типа.");
                 }
             }
         }
