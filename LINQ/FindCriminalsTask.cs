@@ -18,7 +18,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.LINQ
     /// </summary>
     class FindCriminalsTask : IRunnable
     {
-        CriminalsInfoContainer _infoContainer;
+        private CriminalsInfoContainer _infoContainer;
 
         #region IRunnable Implementation
 
