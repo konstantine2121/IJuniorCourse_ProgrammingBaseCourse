@@ -9,6 +9,7 @@ using IJuniorCourse_ProgrammingBaseCourse.Collections;
 using IJuniorCourse_ProgrammingBaseCourse.OOP;
 using IJuniorCourse_ProgrammingBaseCourse.OOP.DatabaseGenericExample.Program.Creators;
 using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Creators;
+using IJuniorCourse_ProgrammingBaseCourse.LINQ;
 
 namespace IJuniorCourse_ProgrammingBaseCourse
 {
@@ -95,6 +96,12 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {13, new СarServiceTask() },
             };
 
+        private static Dictionary<int, IRunnable> linqTasks =
+            new Dictionary<int, IRunnable>()
+            {
+                {1, new FindCriminalsTask() }
+            };
+
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
@@ -102,7 +109,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(13, oopTasks);
+            //RunTask(13, oopTasks);
+            RunTask(1, linqTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
