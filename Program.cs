@@ -99,7 +99,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static Dictionary<int, IRunnable> linqTasks =
             new Dictionary<int, IRunnable>()
             {
-                {1, new FindCriminalsTask() }
+                {1, new FindCriminalsTask() },
+                {2, new AmnestyTask() },
             };
 
         private static void Main(string[] args)
@@ -110,7 +111,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
             //RunTask(13, oopTasks);
-            RunTask(1, linqTasks);
+            RunTask(2, linqTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

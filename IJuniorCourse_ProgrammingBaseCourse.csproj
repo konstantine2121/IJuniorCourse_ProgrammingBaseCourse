@@ -81,6 +81,7 @@
     <Compile Include="Functions\ParsingIntegerTask.cs" />
     <Compile Include="Functions\ResordsStorageTask.cs" />
     <Compile Include="Functions\ShuffleTask.cs" />
+    <Compile Include="LINQ\AmnestyTask.cs" />
     <Compile Include="LINQ\FindCriminalsTask.cs" />
     <Compile Include="OOP\AquariumTask.cs" />
     <Compile Include="OOP\BookStorageTask.cs" />
