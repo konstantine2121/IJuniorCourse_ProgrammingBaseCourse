@@ -4,7 +4,7 @@ using IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask.Controllers;
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP.GladiatorFightsTask
 {
     /// <summary>
-    /// ///Задача<br/>
+    /// Задача<br/>
     ///<br/>
     ///Создать 5 бойцов, пользователь выбирает 2 бойцов и они сражаются друг с другом до смерти. У каждого бойца могут быть свои статы.<br/>
     ///Каждый игрок должен иметь особую способность для атаки, которая свойственна только его классу!<br/>

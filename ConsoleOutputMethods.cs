@@ -8,7 +8,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
 {
     class ConsoleOutputMethods
     {
-        public static void WriteLine(string message, ConsoleColor foregroundColor)
+        public static void WriteLine(string message, ConsoleColor foregroundColor = ConsoleColor.White)
         {
             ConsoleColor color = Console.ForegroundColor;
             Console.ForegroundColor = foregroundColor;

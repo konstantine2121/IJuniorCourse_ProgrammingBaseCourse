@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 using IJuniorCourse_ProgrammingBaseCourse.CommonViews;
 
@@ -26,37 +25,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
     /// </summary>
     class СarServiceTask : IRunnable
     {
-        private CarService _carService;
-        private Queue<Client> _clients;
         #region IRunnable Implementation
 
         public void Run()
         {
-            Initialize();
+            var clients = new ClientsQuequeCreator().Create();
+            var carService = new CarServiceCreator().Create();
 
-            var carServiceWorking = true;
-
-            while (carServiceWorking
-                && _carService.IsEmpty == false 
-                && _carService.IsBankrupt == false
-                && _clients.Count > 0)
-            {
-                var client = _clients.Dequeue();
-                _carService.ServeClient(client);
-            }
+            carService.ServeClients(clients);
+            Console.ReadKey();
         }
 
         #endregion IRunnable Implementation
-
-        private void Initialize()
-        {
-            _carService = new CarServiceCreator().Create();
-            _clients = new ClientsQuequeCreator().Create();
-
-
-        }
-
-       
 
         #region Private Classes
 
@@ -71,14 +51,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         }
 
         private class CarService
-        {            
-            private readonly DetailsRecordsContainer _warehouse;
+        {
+            private const string RecordFormat = "{0, 4}  {1, 20}  {2, 12}  {3, 12}  {4, 6}";
+
+            private readonly DetailsRecordsContainer _warehouse;            
 
             private ConsoleRecord _welcomeBar;
+            private ConsoleRecord _clientsInfoBar;
             private ConsoleRecord _balanceInfoBar;
+            private ConsoleTable _warehouseContentBar;
 
             /// <summary>
-            /// 
+            /// Автосервис.
             /// </summary>
             /// <param name="balance"></param>
             /// <param name="priceList"></param>
@@ -94,15 +78,15 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 Balance = balance;
                 _warehouse = warehouse;
 
-                PenaltyNotFound = 10;
-                PenaltyWrongDetail = 50;
+                PenaltyRefuseService = 50;
+                PenaltyWrongDetail = 200;
 
                 InitializeViews();
             }
 
             public int Balance { get; private set; }
 
-            public int PenaltyNotFound{ get; private set; }
+            public int PenaltyRefuseService{ get; private set; }
 
             public int PenaltyWrongDetail{ get; private set; }
 
@@ -110,51 +94,197 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             public bool IsEmpty => _warehouse.IsEmpty;
 
-            public bool CanRepair(int detailTypeId)
-            {
-                return _warehouse.CheckCanTakeDetail(detailTypeId);
-            }
+            #region Perform Serve
 
-            public bool TryRepair(int detailTypeId)
+            public void ServeClients(Queue<Client> clients)
             {
-                return false;
-            }
+                while (IsEmpty == false && IsBankrupt == false && clients.Count > 0)
+                {
+                    var client = clients.Dequeue();
+                    _clientsInfoBar.Text = "Клиентов в очереди: " + clients.Count;
+                    ServeClient(client);
+                }
 
-            public void ServeClient(Client client)
+                if (IsEmpty && clients.Count > 0)
+                {
+                    ConsoleOutputMethods.Info("Склад опустел. Вы были вынуждены закрыться пораньше.");
+                }
+
+                if (IsBankrupt)
+                {
+                    ConsoleOutputMethods.Warning("Вы банкрот. Очень жаль.", ConsoleColor.Red);
+                }
+
+                if (clients.Count == 0 && IsBankrupt == false)
+                {
+                    ConsoleOutputMethods.Info("Вы успешно обслужили всех клиентов.");
+                }
+            }
+            
+            private void ServeClient(Client client)
             {
                 var detailToChange = client.BrokenDetail;
-
-                //Показать деталь клиента.
-                //Проверить прайс, что в нем есть такая услуга.
-                //Проверить записи со склада, что там есть информация о цене.
-                //Вывести информацию о стоимости предстоящей работы (деталь+услуга).
-
-                //Принять решение менять или пойти в отказ.
-                //Если менять
-                //Выбрать деталь для замены
-                //Взять её со склада.
-                //Присобачить ее на место.
-                //Проверить, ту ли я деталь присобачил.
+                
                 UpdateViews();
+                ShowClientsDetail(detailToChange);
+                TryGetServicePrice(detailToChange, out int servicePrice);
+
+                var dialogResult = ConsoleInputMethods.GetDialogResult("Вы желаете взяться за ремонт?(Пути назад нет.)");
+
+                if (dialogResult == DialogResult.No)
+                {
+                    PayPenaltyRefuseService();
+                    EndClientService();
+                    return;
+                }
+                else
+                {
+                    var detail = TakeDetail();                    
+                    var checkRepairIsCorrect = detail.TypeId == detailToChange.TypeId;
+
+                    if (checkRepairIsCorrect)
+                    {
+                        TakeMoney(servicePrice);
+                    }
+                    else
+                    {
+                        PayPenaltyWrongDetail();
+                    }
+                }
+                EndClientService();
             }
+
+            private void ShowClientsDetail(Detail detail)
+            {
+                const string detailFormat = "{0, 4}  {1, 20}";
+
+                ConsoleOutputMethods.Info("\n\nДеталь клиента для починки.");
+                ConsoleOutputMethods.WriteLine(string.Format(detailFormat, "Тип", "Название"), ConsoleColor.DarkGreen);
+                ConsoleOutputMethods.WriteLine(string.Format(detailFormat, detail.TypeId, detail.Name));
+                Console.WriteLine();
+            }
+
+            private bool TryGetServicePrice(Detail detail, out int price)
+            {
+                Console.WriteLine("Вычисление стоимости ремонта.");
+                var hasInfo = _warehouse.TryGetServePrice(detail, out price);
+
+                if (hasInfo)
+                {
+                    ConsoleOutputMethods.Info("Стоимость ремонта: "+price);
+                }
+                else
+                {
+                    ConsoleOutputMethods.Warning("Нет данных для рассчета стоимоти ремонта!");
+                }
+
+                return hasInfo;
+            }
+
+            private void PayPenaltyRefuseService()
+            {
+                ConsoleOutputMethods.Warning($"Выплачен штраф({PenaltyRefuseService}) за отказ от ремонта машины.");
+                Balance -= PenaltyRefuseService;
+            }
+
+            private void PayPenaltyWrongDetail()
+            {
+                ConsoleOutputMethods.Warning($"Выплачен штраф({PenaltyWrongDetail}) за попытку поставить не ту деталь.");
+                Balance -= PenaltyWrongDetail;
+            }
+
+            private Detail TakeDetail()
+            {
+                Detail result = null;
+
+                var correct = false;
+
+                while (correct == false)
+                {
+                    var input = ConsoleInputMethods.ReadPositiveInteger("Введите тип детали для ремонта: ");
+                    var canTake  = _warehouse.CheckCanTakeDetail(input);
+
+                    if(canTake)
+                    {
+                        correct = true;
+                        result = _warehouse.TakeDetail(input);
+                    }
+                    else
+                    {
+                        ConsoleOutputMethods.Warning("Такой детали на складе нет.");
+                    }
+                }
+
+                return result;
+            }
+
+            private void TakeMoney(int fullServicePrice)
+            {
+                ConsoleOutputMethods.Info($"Вы заработали {fullServicePrice} за ремонт");
+                Balance += fullServicePrice;
+            }
+
+            private void EndClientService()
+            {
+                Console.WriteLine("Нажмите Enter, чтобы закончить обслуживание клиента.");
+                Console.ReadLine();
+            }
+
+            #endregion Perform Serve
 
             #region UI
 
             private void InitializeViews()
             {
                 _welcomeBar = new ConsoleRecord(20, 0);
+                _clientsInfoBar = new ConsoleRecord(0, 1);
+                _balanceInfoBar = new ConsoleRecord(0, 2);
+                _warehouseContentBar = new ConsoleTable(0, 3);
+
                 _welcomeBar.ForegroundColor = ConsoleColor.Green;
                 _welcomeBar.Text = "Добро пожаловать в автомастерскую.";
 
-                _balanceInfoBar = new ConsoleRecord(0, 1);
                 _balanceInfoBar.ForegroundColor = ConsoleColor.Cyan;
-                _balanceInfoBar.Text = "Баланс: "+ Balance;
             }
             
             private void UpdateViews()
             {
+                Console.Clear();
+
                 _welcomeBar.Update();
+                _clientsInfoBar.Update();
+                _balanceInfoBar.Text = "Баланс: "+ Balance;
                 _balanceInfoBar.Update();
+
+                ShowWirehouseContent();
+            }
+
+            private void ShowWirehouseContent()
+            {
+                var lines = new List<ColoredText>();
+
+                lines.Add(new ColoredText("Содержимое хранилища", ConsoleColor.Green));
+
+                var headersText = string.Format(RecordFormat, "Тип", "Название", "Цена детали", "Цена услуги", "Количество на складе");
+                lines.Add(new ColoredText(headersText, ConsoleColor.DarkGreen));
+
+                var content = _warehouse.Records.Select(record => new ColoredText(GetDetailRecordInfo(record)));
+
+                lines.AddRange(content);
+
+                _warehouseContentBar.Update(lines);
+            }
+
+            private string GetDetailRecordInfo(DetailRecord record)
+            {
+                var text = string.Format(RecordFormat, 
+                    record.DetailType, 
+                    record.Detail.Name, 
+                    record.DetailPrice, 
+                    record.RepairPrice, 
+                    record.Counter);
+
+                return text;
             }
 
             #endregion UI
@@ -176,11 +306,16 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             public bool IsEmpty => _detailRecords.All(record => record.OutOfStock);
 
-            public bool TakeDetail(int detailTypeId)
+            public Detail TakeDetail(int detailTypeId)
             {                
                 var index = GetIndexOfRecord(detailTypeId);
+                
+                if (index != NotFound && _detailRecords[index].TakeDetail())
+                {
+                    return _detailRecords[index].Detail;
+                }
 
-                return index == NotFound ? false : _detailRecords[index].TakeDetail();
+                return null;
             }
 
             public bool CheckCanTakeDetail(int detailTypeId)
@@ -191,13 +326,29 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     : _detailRecords[index].OutOfStock == false;
             }
 
+            public bool TryGetServePrice(Detail detail, out int price)
+            {
+                price = 0;
+
+                var index = _detailRecords.FindIndex(record => record.DetailType == detail.TypeId);
+                var hasInfo = index != NotFound;
+
+                if (hasInfo)
+                {
+                    var record = _detailRecords[index];
+                    price = record.DetailPrice + record.RepairPrice;
+                }
+
+                return hasInfo;
+            }
+
             private int GetIndexOfRecord(int detailTypeId)
             {
                 return _detailRecords.FindIndex(element => element.DetailType == detailTypeId);
             }
         }
 
-        private struct DetailRecord
+        private class DetailRecord
         {
             /// <summary>
             /// Создать запись о детали.
@@ -235,6 +386,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             public Detail Detail{get; private set;}
 
             public int DetailType => Detail.TypeId;
+
             public int Counter { get; private set; }
 
             public int DetailPrice { get; private set; }
@@ -309,7 +461,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             private const int DetailsTypes = 10;
 
             private const int MinNumberOfClients = 10;
-            private const int MaxNumberOfClients = 100;
+            private const int MaxNumberOfClients = 50;
 
             private readonly List<Detail> _uniqueDetails;
             private readonly UniqueDetailsListCreator _detailsListCreator;
@@ -347,7 +499,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             private const int MinDetailPrice = 100;
             private const int MaxDetailPrice = 2000;
             //Число типов деталей
-            private const int MinDetailsTypes = 3;
+            private const int MinDetailsTypes = 5;
             private const int MaxDetailsTypes = 8;
             //Число деталей
             private const int MinNumberOfDetails = 5;
@@ -392,7 +544,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class UniqueDetailsListCreator : RandomContainer, ICreator<List<Detail>>
         {
-
             private const string DefaultDetailName = "Деталь";
 
             private List<Detail> _uniqueDetails;
@@ -426,7 +577,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             {
                 _uniqueDetails = new List<Detail>();
 
-
                 for (int i = 0; i < NumberOfTypes; i++)
                 {
                     var typeId = i + 1;
@@ -436,7 +586,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 return _uniqueDetails;
             }
         }
-
 
         #endregion Creators
 

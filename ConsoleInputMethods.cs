@@ -7,7 +7,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse
     /// </summary>
     public static class ConsoleInputMethods
     {
-
         /// <summary>
         /// Получить ответ на вопрос.
         /// </summary>
@@ -22,7 +21,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
 
             while (correct == false)
             {
-                var input = (DialogResult)ConsoleInputMethods.ReadPositiveInteger(question + $"({infoCommands}):");
+                var input = (DialogResult)ConsoleInputMethods.ReadPositiveInteger(question + $"({infoCommands}): ");
                 switch (input)
                 {
                     case DialogResult.Yes:
