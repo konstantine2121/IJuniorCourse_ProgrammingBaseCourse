@@ -84,6 +84,7 @@
     <Compile Include="LINQ\AmnestyTask.cs" />
     <Compile Include="LINQ\FindCriminalsTask.cs" />
     <Compile Include="LINQ\PatientsSortTask.cs" />
+    <Compile Include="LINQ\PlayersSortTask.cs" />
     <Compile Include="OOP\AquariumTask.cs" />
     <Compile Include="OOP\BookStorageTask.cs" />
     <Compile Include="OOP\DatabaseGenericExample\Database\DatabaseGeneric.cs" />

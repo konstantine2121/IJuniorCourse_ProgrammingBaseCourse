@@ -102,6 +102,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {1, new FindCriminalsTask() },
                 {2, new AmnestyTask() },
                 {3, new PatientsSortTask() },
+                {4, new PlayersSortTask() },
             };
 
         private static void Main(string[] args)
@@ -112,7 +113,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
             //RunTask(13, oopTasks);
-            RunTask(3, linqTasks);
+            RunTask(4, linqTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)
