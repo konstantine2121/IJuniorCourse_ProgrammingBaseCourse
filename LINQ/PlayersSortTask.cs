@@ -2,11 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.LINQ
 {
+    /// <summary>
+    /// Задача<br/>
+    /// <br/>
+    ///У нас есть список всех игроков(минимум 10). У каждого игрока есть поля: имя, уровень, сила. <br/>
+    ///Требуется написать запрос для определения топ 3 игроков по уровню и топ 3 игроков по силе, после чего вывести каждый топ.<br/>
+    ///2 запроса получится. 
+    /// </summary>
     class PlayersSortTask : IRunnable
     {
         private List<PlayerRecord> _players;
