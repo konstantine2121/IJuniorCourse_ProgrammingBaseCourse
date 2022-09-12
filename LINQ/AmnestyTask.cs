@@ -26,8 +26,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.LINQ
             ConsoleOutputMethods.WriteLine("Перечень до амнистии.", ConsoleColor.Cyan);
             PrintCriminals(criminals);
 
-            var freeedomList = criminals.Where(record => record.ArrestReason.Equals(CriminalRecordListCreator.AntigovernmentReason, StringComparison.OrdinalIgnoreCase));
-            criminals.RemoveAll(record => freeedomList.Contains(record));
+            criminals = criminals.Where(record => record.ArrestReason.Equals(CriminalRecordListCreator.AntigovernmentReason, StringComparison.OrdinalIgnoreCase) == false).ToList();
 
             ConsoleOutputMethods.WriteLine("Перечень после амнистии.", ConsoleColor.Cyan);
             PrintCriminals(criminals);
