@@ -37,9 +37,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.LINQ
         }
 
         #endregion IRunnable Implementation
-
         
-
         #region PrivateClasses
 
         private class SoldierRecord
