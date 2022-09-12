@@ -104,6 +104,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
                 {3, new PatientsSortTask() },
                 {4, new PlayersSortTask() },
                 {5, new FindExpiredFoodTask() },
+                {6, new SoldierInfoTask() },
                 {7, new TransferToSquadTask() },
             };
 
@@ -115,7 +116,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
             //RunTask(13, oopTasks);
-            RunTask(7, linqTasks);
+            RunTask(6, linqTasks);
         }
 
         private static void RunTask(int taskNumber, Dictionary<int, IRunnable> tasks)

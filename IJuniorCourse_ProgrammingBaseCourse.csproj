@@ -86,6 +86,7 @@
     <Compile Include="LINQ\FindExpiredFoodTask.cs" />
     <Compile Include="LINQ\PatientsSortTask.cs" />
     <Compile Include="LINQ\PlayersSortTask.cs" />
+    <Compile Include="LINQ\SoldierInfoTask.cs" />
     <Compile Include="LINQ\TransferToSquadTask.cs" />
     <Compile Include="OOP\AquariumTask.cs" />
     <Compile Include="OOP\BookStorageTask.cs" />
