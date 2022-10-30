@@ -34,6 +34,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             PrintDatabaseInfo(database);
 
+            ConsoleOutputMethods.Info("Баним всех, у кого уровень выше "+ banLevelCondition);
+
             var playersToBan = database.SelectAllRecords()
                 .Where(player => player.Level > banLevelCondition);
 
@@ -44,6 +46,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             PrintDatabaseInfo(database);
 
+            ConsoleOutputMethods.Info("Удаляем игрока с именем: "+ removeNameCondition);
+
             var playersToRemove = database.SelectAllRecords()
                 .Where(player => player.Name == removeNameCondition).ToList();
 
@@ -53,6 +57,8 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             }
 
             PrintDatabaseInfo(database);
+
+            ConsoleOutputMethods.Info("Разбанить всех, у кого уровень выше "+ banLevelCondition);
 
             var playersToUnban = database.SelectAllRecords()
                 .Where(player => player.Level > banLevelCondition);
