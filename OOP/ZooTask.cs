@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
-using IJuniorCourse_ProgrammingBaseCourse.CommonViews;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 {
@@ -303,19 +302,28 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
             public Zoo Create()
             {
-                var lionCageCreator = new EnclosureCreator<Lion>(_descriptionContainer);
-                var macaqueCageCreator = new EnclosureCreator<Macaque>(_descriptionContainer);
-                var elephantCageCreator = new EnclosureCreator<Elephant>(_descriptionContainer);
-                var whiteOwlCageCreator = new EnclosureCreator<WhiteOwl>(_descriptionContainer);
-
                 var cages = new List<Enclosure>();
 
-                cages.Add(lionCageCreator.Create());
-                cages.Add(macaqueCageCreator.Create());
-                cages.Add(elephantCageCreator.Create());
-                cages.Add(whiteOwlCageCreator.Create());
+                foreach (var creator in GetCageCreators())
+                {
+                    cages.Add(creator.Create());
+                }
 
                 return new Zoo(cages);
+            }
+
+            private IEnumerable<ICreator<Enclosure>> GetCageCreators()
+            {
+                yield return GetCageCreator<Lion>();
+                yield return GetCageCreator<Macaque>();
+                yield return GetCageCreator<Elephant>();
+                yield return GetCageCreator<WhiteOwl>();
+            }
+
+            private ICreator<Enclosure> GetCageCreator<T>() 
+                where T : Animal
+            {
+                return new EnclosureCreator<T>(_descriptionContainer);
             }
         }
 
@@ -338,6 +346,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                 var animals = new List<T>();
 
                 int numberOfAnimals = Rand.Next(MinNumberOfAnimals, MaxNumberOfAnimals);
+
                 for(int i =0; i< numberOfAnimals; i++)
                 {
                     animals.Add(_creator.Create());

@@ -115,7 +115,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse
             //RunTask(8, arraysTasks);
             //RunTask(2, functionsTasks);
             //RunTask(5, collectionsTasks);
-            RunTask(3, oopTasks);
+            RunTask(12, oopTasks);
             //RunTask(6, linqTasks);
         }
 
