@@ -71,13 +71,13 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private void PerformMenuState()
         {
-            const string CageFormat = "{0,6}  {1}";
+            const string cageFormat = "{0,6}  {1}";
             Console.Clear();
             ConsoleOutputMethods.Info("Добро пожаловать в зоопарк!");
-            Console.WriteLine(CageFormat, "Клетка", "Описание.");
+            Console.WriteLine(cageFormat, "Клетка", "Описание.");
             foreach (var pair in _zoo.EnclosuresDictionary)
             {
-                Console.WriteLine(CageFormat, pair.Key, pair.Value.Description.Content);
+                Console.WriteLine(cageFormat, pair.Key, pair.Value.Description.Content);
             }
 
             Console.WriteLine();
@@ -194,7 +194,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
 
         private class Enclosure
         {
-
             private readonly List<Animal> _animals;
 
             public Enclosure(IEnumerable<Animal> animals, SpeciesDescription speciesDescription)
@@ -407,7 +406,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             public Lion(GenderType gender) : base(gender)
             {
-
             }
         }
 
@@ -415,7 +413,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             public Macaque(GenderType gender) : base(gender)
             {
-
             }
         }
 
@@ -423,7 +420,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             public Elephant(GenderType gender) : base(gender)
             {
-
             }
         }
 
@@ -431,7 +427,6 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
         {
             public WhiteOwl(GenderType gender) : base(gender)
             {
-
             }
         }
 
