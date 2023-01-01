@@ -75,6 +75,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
             Console.Clear();
             ConsoleOutputMethods.Info("Добро пожаловать в зоопарк!");
             Console.WriteLine(cageFormat, "Клетка", "Описание.");
+
             foreach (var pair in _zoo.EnclosuresDictionary)
             {
                 Console.WriteLine(cageFormat, pair.Key, pair.Value.Description.Content);
