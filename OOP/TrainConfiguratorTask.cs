@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.OOP

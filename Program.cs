@@ -111,10 +111,10 @@ namespace IJuniorCourse_ProgrammingBaseCourse
         private static void Main(string[] args)
         {
             //RunTask(7, programmingBaseTasks);
-            //RunTask(12, conditionsAndCyclesTasks);            
-            //RunTask(8, arraysTasks);
-            //RunTask(2, functionsTasks);
-            //RunTask(5, collectionsTasks);
+           //RunTask(12, conditionsAndCyclesTasks);
+            //RunTask(6, arraysTasks);
+            //RunTask(4, functionsTasks);
+           // RunTask(1, collectionsTasks);
             RunTask(12, oopTasks);
             //RunTask(6, linqTasks);
         }

@@ -190,6 +190,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.OOP
                     { PlayingCardRankTypes.Ace, "Туз" },
                 };
 
+
                 _suitDictionary = new Dictionary<PlayingCardSuitTypes, string>()
                 {
                     { PlayingCardSuitTypes.Clover, PlayingCard.CloverChar + " (трефы)" },

@@ -37,17 +37,29 @@ namespace IJuniorCourse_ProgrammingBaseCourse.CommonViews
             Console.ForegroundColor = tempColor;
         }
 
+        public virtual void Update(string text)
+        {
+            Text = text;
+            Update();
+        }
+
+        public virtual void Update(string text, ConsoleColor color)
+        {
+            ForegroundColor = color;
+            Text = text;
+            Update();
+        }
+
+        public virtual void Update(ConsoleColor color)
+        {
+            ForegroundColor = color;
+            Update();
+        }
+
         public virtual void Update(ColoredText coloredText)
         {
             ForegroundColor = coloredText.FontColor;
             Text = coloredText.Text;
-            Update();
-        }
-
-        public virtual void Update(string text, ConsoleColor color = ConsoleColor.White)
-        {
-            ForegroundColor = color;
-            Text = text;
             Update();
         }
     }
