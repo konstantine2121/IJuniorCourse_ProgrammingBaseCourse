@@ -1,9 +1,5 @@
-﻿using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using IJuniorCourse_ProgrammingBaseCourse.CommonInterfaces;
 
 namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 {
@@ -23,18 +19,18 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
         public void Run()
         {
-            int arrayLength =66;
+            int arrayLength = 66;
 
             int shift = 100;
 
-            int[] array = new int [arrayLength];
+            int[] array = new int[arrayLength];
 
             InitArrayWithIncreasingValues(array);
 
             ConsoleOutputMethods.Info("Исходный массив.");
             PrintArray(array);
-            Console.WriteLine("Сдвинуть влево на "+shift);
-            
+            Console.WriteLine("Сдвинуть влево на " + shift);
+
             ShiftArrayToLeft(array, shift);
             ConsoleOutputMethods.Info("Сдвинутый массив.");
             PrintArray(array);
@@ -56,7 +52,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
 
             for (int i = 0; i < array.Length; i++)
             {
-                if (i !=0 && currentIndex == startIndex)
+                if (i != 0 && currentIndex == startIndex)
                 {
                     currentIndex++;
 
@@ -75,7 +71,7 @@ namespace IJuniorCourse_ProgrammingBaseCourse.Arrays
                 temp = array[nextIndex];
                 array[nextIndex] = valueToInsert;
                 currentIndex = nextIndex;
-                
+
             }
         }
 
